@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Activity name -->
+    <string name="app_name">ProjetBalle</string>
+    <string name="title_activity_scores">ScoresActivity</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- Settings -->
+    <string name="action_settings">Options</string>
+    <string name="action_scores">Scores</string>
+
+    <!-- Button -->
+    <string name="button_start">Commencer !</string>
+</resources>
