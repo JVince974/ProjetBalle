@@ -1,7 +1,12 @@
 package com.example.vincent.projetballe;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,18 +16,24 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // demander acces a la localisation au demarrage
+        checkPermissions();
     }
 
 
-    /************************
-     * GESTION DE L'OPTION
-     ************************/
+    /******************************
+     *      MENU ITEMS
+     ******************************/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -33,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-// options
+        // options
         if (id == R.id.action_settings) {
             Toast.makeText(this, "Settings", Toast.LENGTH_LONG).show();
             return true;
         }
-// score
-        else if (id == R.id.action_scores) {
+        // scores
+        if (id == R.id.action_scores) {
             Intent intent = new Intent(this, ScoresActivity.class);
             startActivity(intent);
             return true;
@@ -48,12 +59,35 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /******************************
+     *      PERMISSION GPS
+     ******************************/
+    public void checkPermissions() {
+        // demander la localisation
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
 
-    /************************
-     * LANCER LE JEU
-     ************************/
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION:
+                // Si l'utilisateur refuse, fermer l'application
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    Toast.makeText(this, getResources().getString(R.string.request_location), Toast.LENGTH_LONG).show();
+                    this.finish();
+                }
+                break;
+        }
+    }
+
+    /******************************
+     *      LANCER LE JEU
+     ******************************/
     public void startGame(View view) {
-        // GameActivity
+        // Lancer
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
     }

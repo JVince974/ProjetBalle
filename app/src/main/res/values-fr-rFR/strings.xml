@@ -11,4 +11,7 @@
 
     <!-- Button -->
     <string name="button_start">Commencer !</string>
+
+
+    <string name="request_location">Autoriser la localisation pour pouvoir continuer</string>
 </resources>
