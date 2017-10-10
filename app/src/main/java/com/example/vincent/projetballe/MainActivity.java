@@ -33,10 +33,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+// options
         if (id == R.id.action_settings) {
-            Toast.makeText(this, "Settings", Toast.LENGTH_LONG);
+            Toast.makeText(this, "Settings", Toast.LENGTH_LONG).show();
             return true;
-        } else if (id == R.id.action_scores) {
+        }
+// score
+        else if (id == R.id.action_scores) {
             Intent intent = new Intent(this, ScoresActivity.class);
             startActivity(intent);
             return true;
