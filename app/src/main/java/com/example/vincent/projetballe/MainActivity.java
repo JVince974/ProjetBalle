@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 // Si l'utilisateur refuse, fermer l'application
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                     Toast.makeText(this, getResources().getString(R.string.request_location), Toast.LENGTH_LONG).show();
-                    this.finish();
+                    finish();
                 }
                 break;
         }
@@ -90,6 +90,6 @@ public class MainActivity extends AppCompatActivity {
         // Lancer GameActivity
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
-        this.finish();
+        finish();
     }
 }
