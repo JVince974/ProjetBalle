@@ -35,14 +35,16 @@ public class GameView extends View {
         Log.v("Width", "X=" + getWidth()); // Longueur max
         Log.v("Height", "Y=" + getHeight()); // Hauteur Max
 
-        paint = new Paint();
-
-
-        int radius = 100; // rayon de la balle
+        int radius = 50; // rayon de la balle
         int strokeWidth = 5; // epaisseur du trait
 
 
-        canvas.drawOval(10, 10, 10, 10, paint);
+        paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(strokeWidth);
+
+        canvas.drawCircle(getWidth()/2, getHeight()/2, radius, paint);
+
 
     }
 }
