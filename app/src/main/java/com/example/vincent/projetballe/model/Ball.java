@@ -9,11 +9,14 @@ public class Ball {
 
     // contient toutes les balles
     public static ArrayList<Ball> lesBalles = new ArrayList<>();
+    public static ArrayList<Ball> IABalles = new ArrayList<>();
 
-    private int color;
+
+    private int x, y;
     private int radius;
-    private int x;
-    private int y;
+    private int color;
+    private int speed;
+
 
     public Ball(int x, int y, int radius, int color) {
         this.x = x;

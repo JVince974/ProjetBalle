@@ -3,15 +3,10 @@ package com.example.vincent.projetballe.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.View;
 
-import com.example.vincent.projetballe.controller.GameActivity;
 import com.example.vincent.projetballe.model.Ball;
 
-/**
- * Created by Vincent on 11/10/2017.
- */
 
 public class GameView extends View {
 
@@ -32,7 +27,8 @@ public class GameView extends View {
 
     public GameView(Context context) {
         super(context);
-        init();
+        mPaint = new Paint();
+        mPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -40,16 +36,13 @@ public class GameView extends View {
         super.onDraw(canvas);
 
         // dessiner chaque balle
-        for (Ball uneBalle : GameActivity.lesBalles) {
-            Log.v("uneBalle", "" + uneBalle.toString());
+        for (Ball uneBalle : Ball.lesBalles) {
+            mPaint.setColor(uneBalle.getColor());
             canvas.drawCircle(uneBalle.getX(), uneBalle.getY(), uneBalle.getRadius(), mPaint);
         }
 
-        invalidate(); // redessiner tout le temps
+        invalidate(); // rafraichir en permanence
     }
 
-    private void init() {
-        mPaint = new Paint();
-        mPaint.setStyle(Paint.Style.FILL);
-    }
+
 }
