@@ -1,4 +1,4 @@
-package com.example.vincent.projetballe;
+package com.example.vincent.projetballe.controller;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -9,14 +9,14 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.vincent.projetballe.game.Ball;
-import com.example.vincent.projetballe.game.GameView;
+import com.example.vincent.projetballe.R;
+import com.example.vincent.projetballe.model.Ball;
 
 import java.util.ArrayList;
 
 public class GameActivity extends Activity implements SensorEventListener {
 
-    // canvas du jeu
+    // Vue du jeu
     private View gameView;
 
     // Accelerometre
@@ -24,22 +24,30 @@ public class GameActivity extends Activity implements SensorEventListener {
     private Sensor mAccelerometer;
 
     // Liste des balls
-    public static ArrayList<Ball> lesBalles = new ArrayList<>();
-
+    public static ArrayList<Ball> lesBalles;
     private Ball myBall;
+
+
+    public static int windowsWidth;
+    public static int windowsHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+//        setContentView(R.layout.activity_game);
         gameView = findViewById(R.id.GameView); // map le game
 
         // recuperer l'accelerometre
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        myBall = new Ball(GameView.windowsWidth / 2, GameView.windowsHeight / 2, (int) (GameView.windowsHeight * 4.63 / 100), Color.RED);
+        // récupérer la taille de l'écran
+        windowsWidth = gameView.getWidth();
+        windowsHeight = gameView.getHeight();
 
+        // add new ball
+        myBall = new Ball(windowsWidth / 2, windowsHeight / 2, (int) (windowsWidth * 4.63 / 100), Color.RED);
+        lesBalles = new ArrayList<>();
         lesBalles.add(myBall);
     }
 

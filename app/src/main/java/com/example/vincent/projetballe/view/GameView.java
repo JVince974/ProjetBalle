@@ -1,4 +1,4 @@
-package com.example.vincent.projetballe.game;
+package com.example.vincent.projetballe.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,7 +8,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.example.vincent.projetballe.GameActivity;
+import com.example.vincent.projetballe.controller.GameActivity;
+import com.example.vincent.projetballe.model.Ball;
 
 /**
  * Created by Vincent on 11/10/2017.
@@ -18,8 +19,6 @@ public class GameView extends View {
 
     public static int windowsWidth;
     public static int windowsHeight;
-
-    private int radius;
 
     private Paint paint;
     private int[] colors;
@@ -57,6 +56,7 @@ public class GameView extends View {
 
         // dessiner chaque balle
         for (Ball uneBalle : GameActivity.lesBalles) {
+            Log.v("uneBalle", "" + uneBalle.toString());
             canvas.drawCircle(uneBalle.getX(), uneBalle.getY(), uneBalle.getRadius(), paint);
         }
 

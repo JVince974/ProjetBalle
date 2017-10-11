@@ -1,4 +1,4 @@
-package com.example.vincent.projetballe;
+package com.example.vincent.projetballe.controller;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -6,6 +6,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import com.example.vincent.projetballe.R;
 
 public class ScoresActivity extends AppCompatActivity {
 

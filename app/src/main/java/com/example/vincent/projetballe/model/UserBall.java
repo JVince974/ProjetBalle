@@ -1,4 +1,4 @@
-package com.example.vincent.projetballe.game;
+package com.example.vincent.projetballe.model;
 
 /**
  * Created by Vincent on 11/10/2017.

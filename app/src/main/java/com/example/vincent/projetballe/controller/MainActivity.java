@@ -1,4 +1,4 @@
-package com.example.vincent.projetballe;
+package com.example.vincent.projetballe.controller;
 
 import android.Manifest;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.example.vincent.projetballe.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,6 +1,7 @@
-package com.example.vincent.projetballe.game;
+package com.example.vincent.projetballe.model;
 
 import android.graphics.Color;
+import android.util.Log;
 
 public class Ball {
 
@@ -16,7 +17,7 @@ public class Ball {
         this.y = y;
         this.radius = radius;
         this.color = color;
-
+        Log.v("NewBalle", toString());
     }
 
 

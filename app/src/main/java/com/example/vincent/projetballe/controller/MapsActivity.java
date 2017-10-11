@@ -1,8 +1,9 @@
-package com.example.vincent.projetballe;
+package com.example.vincent.projetballe.controller;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.example.vincent.projetballe.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
