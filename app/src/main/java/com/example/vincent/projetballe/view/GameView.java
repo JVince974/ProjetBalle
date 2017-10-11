@@ -7,7 +7,9 @@ import android.view.View;
 
 import com.example.vincent.projetballe.model.Ball;
 
-
+/**
+ * Cette classe dessine toutes les balles
+ */
 public class GameView extends View {
 
     private Paint mPaint;
@@ -41,7 +43,7 @@ public class GameView extends View {
             canvas.drawCircle(uneBalle.getX(), uneBalle.getY(), uneBalle.getRadius(), mPaint);
         }
 
-        invalidate(); // rafraichir en permanence
+        invalidate(); // redessiner en permanence
     }
 
 
