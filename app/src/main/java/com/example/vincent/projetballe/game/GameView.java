@@ -43,7 +43,7 @@ public class GameView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(strokeWidth);
 
-        canvas.drawCircle(getWidth()/2, getHeight()/2, radius, paint);
+        canvas.drawCircle(getWidth() / 2, getHeight() / 2, radius, paint);
 
 
     }
