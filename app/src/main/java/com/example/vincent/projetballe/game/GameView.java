@@ -14,7 +14,12 @@ import android.view.View;
 
 public class GameView extends View {
 
-    private Paint paint;
+    private int windowsWidth;
+    private int windowsHeight;
+
+    private int radius;
+
+    private Paint paint = new Paint();
     private int[] colors;
 
 //    colors[0] = Color.BLACK;
@@ -31,32 +36,35 @@ public class GameView extends View {
 
     public GameView(Context context) {
         super(context);
+        init();
     }
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public GameView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.v("Width", "X=" + getWidth()); // Longueur max
-        Log.v("Height", "Y=" + getHeight()); // Hauteur Max
 
-        int radius = (int) (getWidth() * 4.63 / 100); // rayon de la balle
-        Log.v("radius", "" + radius);
-        int strokeWidth = 5; // epaisseur du trait
-
-
-        paint = new Paint();
+        // rayon de la balle varie selon la taille de l'écran
+        radius = (int) (windowsWidth * 4.63 / 100);
         paint.setStyle(Paint.Style.FILL);
-
         canvas.drawCircle(getWidth() / 2, getHeight() / 2, radius, paint);
 
+    }
 
+    private void init() {
+        // récupérer la taille de l'écran
+        windowsWidth = getWidth();
+        windowsHeight = getHeight();
+        Log.v("WindowsSize", "Width=" + windowsWidth); // Longueur max
+        Log.v("WindowsSize", "Height=" + windowsHeight); // Hauteur Max
     }
 }
