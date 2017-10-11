@@ -17,6 +17,18 @@ public class GameView extends View {
     private Paint paint;
     private int[] colors;
 
+//    colors[0] = Color.BLACK;
+//    colors[1] = Color.BLUE;
+//    colors[2] = Color.CYAN;
+//    colors[3] = Color.DKGRAY;
+//    colors[4] = Color.GREEN;
+//    colors[5] = Color.GRAY;
+//    colors[6] = Color.LTGRAY;
+//    colors[7] = Color.MAGENTA;
+//    colors[8] = Color.RED;
+//    colors[9] = Color.YELLOW;
+//    colors[10] = Color.WHITE;
+
     public GameView(Context context) {
         super(context);
     }
@@ -40,8 +52,7 @@ public class GameView extends View {
 
 
         paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(strokeWidth);
+        paint.setStyle(Paint.Style.FILL);
 
         canvas.drawCircle(getWidth() / 2, getHeight() / 2, radius, paint);
 
