@@ -5,4 +5,7 @@ package com.example.vincent.projetballe.game;
  */
 
 public class UserBall extends Ball {
+    public UserBall(int x, int y, int radius, int color) {
+        super(x, y, radius, color);
+    }
 }

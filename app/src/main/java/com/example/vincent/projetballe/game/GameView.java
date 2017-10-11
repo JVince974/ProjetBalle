@@ -8,18 +8,20 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import com.example.vincent.projetballe.GameActivity;
+
 /**
  * Created by Vincent on 11/10/2017.
  */
 
 public class GameView extends View {
 
-    private int windowsWidth;
-    private int windowsHeight;
+    public static int windowsWidth;
+    public static int windowsHeight;
 
     private int radius;
 
-    private Paint paint = new Paint();
+    private Paint paint;
     private int[] colors;
 
 //    colors[0] = Color.BLACK;
@@ -53,17 +55,20 @@ public class GameView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // rayon de la balle varie selon la taille de l'écran
-        radius = (int) (windowsWidth * 4.63 / 100);
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, radius, paint);
+        // dessiner chaque balle
+        for (Ball uneBalle : GameActivity.lesBalles) {
+            canvas.drawCircle(uneBalle.getX(), uneBalle.getY(), uneBalle.getRadius(), paint);
+        }
 
+        invalidate(); // redessiner tout le temps
     }
 
     private void init() {
         // récupérer la taille de l'écran
         windowsWidth = getWidth();
         windowsHeight = getHeight();
+        paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
         Log.v("WindowsSize", "Width=" + windowsWidth); // Longueur max
         Log.v("WindowsSize", "Height=" + windowsHeight); // Hauteur Max
     }
