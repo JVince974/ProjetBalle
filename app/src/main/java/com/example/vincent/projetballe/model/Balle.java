@@ -4,12 +4,12 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-public class Ball {
+public class Balle {
 
 
     // contient toutes les balles
-    public static ArrayList<Ball> lesBalles = new ArrayList<>();
-    public static ArrayList<Ball> IABalles = new ArrayList<>();
+    public static ArrayList<Balle> lesBalles = new ArrayList<>();
+    public static ArrayList<Balle> IABalles = new ArrayList<>();
 
 
     private int x, y;
@@ -18,7 +18,7 @@ public class Ball {
     private int speed;
 
 
-    public Ball(int x, int y, int radius, int color) {
+    public Balle(int x, int y, int radius, int color) {
         this.x = x;
         this.y = y;
         this.radius = radius;

@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
 
-import com.example.vincent.projetballe.model.Ball;
+import com.example.vincent.projetballe.model.Balle;
 
 /**
  * Cette classe dessine toutes les balles
@@ -38,7 +38,7 @@ public class GameView extends View {
         super.onDraw(canvas);
 
         // dessiner chaque balle
-        for (Ball uneBalle : Ball.lesBalles) {
+        for (Balle uneBalle : Balle.lesBalles) {
             mPaint.setColor(uneBalle.getColor());
             canvas.drawCircle(uneBalle.getX(), uneBalle.getY(), uneBalle.getRadius(), mPaint);
         }

@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.vincent.projetballe.model.Ball;
-import com.example.vincent.projetballe.model.BallClasses.UserBall;
+import com.example.vincent.projetballe.model.BallesClasses.UserBalle;
+import com.example.vincent.projetballe.model.Balle;
 import com.example.vincent.projetballe.view.GameView;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     // Accelerometre
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
-    private Ball userBall;
+    private Balle userBalle;
 
 
     @Override
@@ -78,9 +78,9 @@ public class GameActivity extends Activity implements SensorEventListener {
      * Gere la création des balles
      */
     private void createBalls() {
-        if (userBall == null) {
-            userBall = new UserBall(mGameView);
-            Ball.lesBalles.add(userBall);
+        if (userBalle == null) {
+            userBalle = new UserBalle(mGameView);
+            Balle.lesBalles.add(userBalle);
         }
     }
 
@@ -89,30 +89,30 @@ public class GameActivity extends Activity implements SensorEventListener {
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
-//        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER && userBall != null) {
-        if (userBall != null) {
-            int x = userBall.getX() - (int) event.values[0];
-            int y = userBall.getY() + (int) event.values[1];
+//        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER && userBalle != null) {
+        if (userBalle != null) {
+            int x = userBalle.getX() - (int) event.values[0];
+            int y = userBalle.getY() + (int) event.values[1];
             //Make sure we do not draw outside the bounds of the view.
             //So the max values we can draw to are the bounds + the size of the circle
             // ne doit pas depasser le rebord gauche
-            if (x <= userBall.getRadius()) {
-                x = userBall.getRadius();
+            if (x <= userBalle.getRadius()) {
+                x = userBalle.getRadius();
             }
             // ne doit pas depasser le rebord droit
-            if (x >= viewWidth - userBall.getRadius()) {
-                x = viewWidth - userBall.getRadius();
+            if (x >= viewWidth - userBalle.getRadius()) {
+                x = viewWidth - userBalle.getRadius();
             }
             // ne doit pas depasser le rebord haut
-            if (y <= userBall.getRadius()) {
-                y = userBall.getRadius();
+            if (y <= userBalle.getRadius()) {
+                y = userBalle.getRadius();
             }
             // ne doit pas depasser le rebord bas
-            if (y >= viewHeight - userBall.getRadius()) {
-                y = viewHeight - userBall.getRadius();
+            if (y >= viewHeight - userBalle.getRadius()) {
+                y = viewHeight - userBalle.getRadius();
             }
-            userBall.setX(x);
-            userBall.setY(y);
+            userBalle.setX(x);
+            userBalle.setY(y);
         }
     }
 
