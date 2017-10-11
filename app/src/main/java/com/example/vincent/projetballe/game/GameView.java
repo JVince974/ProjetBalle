@@ -48,7 +48,7 @@ public class GameView extends View {
         Log.v("Height", "Y=" + getHeight()); // Hauteur Max
 
         int radius = (int) (getWidth() * 4.63 / 100); // rayon de la balle
-        Log.v("radius", "" +  radius);
+        Log.v("radius", "" + radius);
         int strokeWidth = 5; // epaisseur du trait
 
 
