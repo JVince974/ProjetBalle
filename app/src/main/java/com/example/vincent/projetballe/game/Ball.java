@@ -16,6 +16,15 @@ public class Ball {
         this.y = y;
         this.radius = radius;
         this.color = color;
+
+    }
+
+
+    public String toString() {
+        return "[x=" + x + "; " +
+                "y=" + y + "; " +
+                "radius=" + radius + "; " +
+                "color=" + color + ";";
     }
 
     /*******************

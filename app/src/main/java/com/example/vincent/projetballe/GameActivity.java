@@ -26,6 +26,8 @@ public class GameActivity extends Activity implements SensorEventListener {
     // Liste des balls
     public static ArrayList<Ball> lesBalles = new ArrayList<>();
 
+    private Ball myBall;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +38,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        Ball myBall = new Ball(Color.RED, GameView.windowsWidth / 2, GameView.windowsHeight / 2, Color.RED);
+        myBall = new Ball(GameView.windowsWidth / 2, GameView.windowsHeight / 2, (int) (GameView.windowsHeight * 4.63 / 100), Color.RED);
 
         lesBalles.add(myBall);
     }
@@ -47,7 +49,22 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            
+//          myBall.se x - (int) event.values[0];
+//            y = y + (int) event.values[1];
+//            //Make sure we do not draw outside the bounds of the view.
+//            //So the max values we can draw to are the bounds + the size of the circle
+//            if (x <= 0 + CIRCLE_RADIUS) {
+//                x = 0 + CIRCLE_RADIUS;
+//            }
+//            if (x >= viewWidth - CIRCLE_RADIUS) {
+//                x = viewWidth - CIRCLE_RADIUS;
+//            }
+//            if (y <= 0 + CIRCLE_RADIUS) {
+//                y = 0 + CIRCLE_RADIUS;
+//            }
+//            if (y >= viewHeight - CIRCLE_RADIUS) {
+//                y = viewHeight - CIRCLE_RADIUS;
+//            }
         }
     }
 
