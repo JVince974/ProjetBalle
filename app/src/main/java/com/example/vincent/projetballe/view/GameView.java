@@ -3,8 +3,6 @@ package com.example.vincent.projetballe.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
@@ -17,12 +15,9 @@ import com.example.vincent.projetballe.model.Ball;
 
 public class GameView extends View {
 
-    public static int windowsWidth;
-    public static int windowsHeight;
+    private Paint mPaint;
 
-    private Paint paint;
-    private int[] colors;
-
+//    private int[] colors;
 //    colors[0] = Color.BLACK;
 //    colors[1] = Color.BLUE;
 //    colors[2] = Color.CYAN;
@@ -40,16 +35,6 @@ public class GameView extends View {
         init();
     }
 
-    public GameView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public GameView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -57,19 +42,14 @@ public class GameView extends View {
         // dessiner chaque balle
         for (Ball uneBalle : GameActivity.lesBalles) {
             Log.v("uneBalle", "" + uneBalle.toString());
-            canvas.drawCircle(uneBalle.getX(), uneBalle.getY(), uneBalle.getRadius(), paint);
+            canvas.drawCircle(uneBalle.getX(), uneBalle.getY(), uneBalle.getRadius(), mPaint);
         }
 
         invalidate(); // redessiner tout le temps
     }
 
     private void init() {
-        // récupérer la taille de l'écran
-        windowsWidth = getWidth();
-        windowsHeight = getHeight();
-        paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        Log.v("WindowsSize", "Width=" + windowsWidth); // Longueur max
-        Log.v("WindowsSize", "Height=" + windowsHeight); // Hauteur Max
+        mPaint = new Paint();
+        mPaint.setStyle(Paint.Style.FILL);
     }
 }

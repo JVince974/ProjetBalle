@@ -7,48 +7,39 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
-import com.example.vincent.projetballe.R;
 import com.example.vincent.projetballe.model.Ball;
+import com.example.vincent.projetballe.view.GameView;
 
 import java.util.ArrayList;
 
 public class GameActivity extends Activity implements SensorEventListener {
 
-    // Vue du jeu
-    private View gameView;
+    // Liste des balls
+    public static ArrayList<Ball> lesBalles;
+    public static int windowsWidth;
+    public static int windowsHeight;
 
+    // Vue du jeu
+    private View mGameView;
     // Accelerometre
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
-
-    // Liste des balls
-    public static ArrayList<Ball> lesBalles;
-    private Ball myBall;
-
-
-    public static int windowsWidth;
-    public static int windowsHeight;
+    private Ball userBall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_game);
-        gameView = findViewById(R.id.GameView); // map le game
+        // setContentView(R.layout.activity_game); // useless
+        // mGameView = findViewById(R.id.GameView); // map le game
+        mGameView = new GameView(this);
+        setContentView(mGameView);
 
         // recuperer l'accelerometre
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        // récupérer la taille de l'écran
-        windowsWidth = gameView.getWidth();
-        windowsHeight = gameView.getHeight();
-
-        // add new ball
-        myBall = new Ball(windowsWidth / 2, windowsHeight / 2, (int) (windowsWidth * 4.63 / 100), Color.RED);
-        lesBalles = new ArrayList<>();
-        lesBalles.add(myBall);
     }
 
     /**
@@ -57,7 +48,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-//          myBall.se x - (int) event.values[0];
+//          userBall.se x - (int) event.values[0];
 //            y = y + (int) event.values[1];
 //            //Make sure we do not draw outside the bounds of the view.
 //            //So the max values we can draw to are the bounds + the size of the circle
@@ -84,6 +75,15 @@ public class GameActivity extends Activity implements SensorEventListener {
     protected void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME); // reprendre l'accelerometre
+
+        windowsWidth = mGameView.getWidth();
+        windowsHeight = mGameView.getHeight();
+        Log.v("WindowsSize", "Width=" + mGameView.getWidth()); // Longueur max
+        Log.v("WindowsSize", "Height=" + mGameView.getHeight()); // Hauteur Max
+        // add new ball
+        userBall = new Ball(windowsWidth / 2, windowsHeight / 2, (int) (windowsWidth * 4.63 / 100), Color.RED);
+        lesBalles = new ArrayList<>();
+        lesBalles.add(userBall);
     }
 
     @Override

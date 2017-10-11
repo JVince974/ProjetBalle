@@ -1,14 +1,17 @@
 package com.example.vincent.projetballe.model;
 
-import android.graphics.Color;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 public class Ball {
 
 
-    private int color = Color.RED;
-    private int radius;
+    // contient toutes les balles
+    public static ArrayList<Ball> lesBalles = new ArrayList<>();
 
+    private int color;
+    private int radius;
     private int x;
     private int y;
 
