@@ -30,7 +30,7 @@ abstract public class GameModel {
      */
     public static void createIABalles(int nbBalles) {
         while (listIABalles.size() < nbBalles) {
-            listIABalles.add(new IABalle(userBalle, userBalle.getRadius()));
+            listIABalles.add(IABalle.createIABalle(userBalle, userBalle.getRadius()));
         }
     }
 }
