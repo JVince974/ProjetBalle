@@ -21,6 +21,9 @@ abstract public class GameModel {
 
     // détruire le plateau pour la partie suivante
     public static void onDestroy() {
+        for (IABalle uneBalle : listIABalles) {
+
+        }
         userBalle = null;
         listIABalles = null;
     }

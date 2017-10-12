@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.vincent.projetballe.model.GameModel;
+import com.example.vincent.projetballe.model.LesBalles.IABalle;
 import com.example.vincent.projetballe.model.LesBalles.UserBalle;
 import com.example.vincent.projetballe.view.GameView;
 
@@ -104,7 +105,8 @@ public class GameActivity extends Activity implements SensorEventListener {
      * ex : collision avec une autre balle, récupération d'un bonus
      */
     private void onUserBalleMoved() {
-
+        for (IABalle uneBalle : GameModel.listIABalles) {
+        }
     }
 
     /**

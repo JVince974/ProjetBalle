@@ -32,7 +32,11 @@ public class IABalle extends Balle implements Runnable {
     private IABalle(int x, int y, int radius) {
         super(x, y, radius);
         this.color = COLOR;
-        this.direction = (int) (Math.random() * 4); // choisir une direction aléatoire
+        Random r = new Random();
+        // choisir une vitesse de déplacement aléatoire
+        this.speedX = 3 + r.nextInt(5 - 3);
+        this.speedY = 3 + r.nextInt(5 - 3);
+        this.direction = r.nextInt(4); // choisir une direction aléatoire
         this.thread = new Thread(this);  // attaché son thread
     }
 
@@ -49,11 +53,6 @@ public class IABalle extends Balle implements Runnable {
     @Override
     public void run() {
         while (true) {
-//            Random r = new Random();
-//            int x = radius + r.nextInt((GameView.viewWidth - radius) - radius);
-//            int y = radius + r.nextInt((GameView.viewHeight + radius) - radius);
-//            this.posX = x;
-//            this.posY = y;
             switch (this.direction) {
                 case NORTH_EAST:
                     this.posX += speedX;
@@ -108,7 +107,7 @@ public class IABalle extends Balle implements Runnable {
 
             // réduire le taux de rafraichissment
             try {
-                Thread.sleep(100);  // milliseconds
+                Thread.sleep(30);  // milliseconds
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -119,5 +118,15 @@ public class IABalle extends Balle implements Runnable {
     public void start() {
         this.thread.start();
     }
+
+    // mettre le thread en pause
+    public void pause() {
+        try {
+            this.thread.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
