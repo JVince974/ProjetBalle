@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.vincent.projetballe.model.BallesClasses.UserBalle;
 import com.example.vincent.projetballe.model.Balle;
+import com.example.vincent.projetballe.model.BallesClasses.UserBalle;
 import com.example.vincent.projetballe.view.GameView;
 
 import java.util.List;
@@ -61,7 +61,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     protected void onPause() {
         super.onPause();
-        mSensorManager.unregisterListener(this); // arreter l'ecoute pour economiser la batterie
+        mSensorManager.unregisterListener(this); // arreter l'accelerometre
     }
 
     @Override
