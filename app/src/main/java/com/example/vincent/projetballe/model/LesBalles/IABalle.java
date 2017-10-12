@@ -14,25 +14,30 @@ import java.util.Random;
 public class IABalle extends Balle implements Runnable {
 
     // ia color = black
-    private final static int color = Color.BLACK;
+    private final static int COLOR = Color.BLACK;
 
+    // variable de direction de la balle
     private final static int NORTH_WEST = 0;
     private final static int NORTH_EAST = 1;
     private final static int SUD_EAST = 2;
     private final static int SUD_WEST = 3;
 
-    private int direction;
+    private int direction; // la balle se dirige dans une direction au hasard
+    private Thread t; // le thread associé à la balle
 
     private IABalle(int x, int y, int radius) {
-        super(x, y, radius, color);
-        direction = (int) (Math.random() * 4); // choisir une direction aléatoire
+        super(x, y, radius);
+        this.color = COLOR;
+        this.direction = (int) (Math.random() * 4); // choisir une direction aléatoire
+        this.t = new Thread(this);  // attaché son thread
     }
 
     // les balles ia apparaissent aléatoire en fonction de la position de l'user balle
-    public static IABalle createIABalle(UserBalle userBalle, int radius) {
+    public static IABalle randomIABalle(UserBalle userBalle, int radius) {
+        // générer des coordonées aléatoire pour la balle
         Random r = new Random();
-        int x = (int) radius + r.nextInt((GameView.viewWidth - radius) - radius);
-        int y = (int) radius + r.nextInt((GameView.viewHeight + radius) - radius);
+        int x = radius + r.nextInt((GameView.viewWidth - radius) - radius);
+        int y = radius + r.nextInt((GameView.viewHeight + radius) - radius);
         return new IABalle(x, y, radius);
     }
 
@@ -41,12 +46,18 @@ public class IABalle extends Balle implements Runnable {
 //        while (true) {
 
 //            Random r = new Random();
-//            int x = (int) radius + r.nextInt((GameView.viewWidth - radius) - radius);
-//            int y = (int) radius + r.nextInt((GameView.viewHeight + radius) - radius);
-//            this.x = x;
-//            this.y = y;
+//            int posX = (int) radius + r.nextInt((GameView.viewWidth - radius) - radius);
+//            int posY = (int) radius + r.nextInt((GameView.viewHeight + radius) - radius);
+//            this.posX = posX;
+//            this.posY = posY;
 
 
 //        }
     }
+
+    // lancer le thread
+    public void start() {
+        this.t.start();
+    }
+
 }

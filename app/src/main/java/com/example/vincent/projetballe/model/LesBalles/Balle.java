@@ -2,28 +2,60 @@ package com.example.vincent.projetballe.model.LesBalles;
 
 import android.util.Log;
 
-public class Balle {
+abstract public class Balle {
 
-    protected int x, y;
-    protected int radius;
-    protected int color;
-    protected int speed = 5;
 
-    public Balle(int x, int y, int radius, int color) {
-        this.x = x;
-        this.y = y;
+    //    private int[] colors;
+//    colors[0] = Color.BLACK;
+//    colors[1] = Color.BLUE;
+//    colors[2] = Color.CYAN;
+//    colors[3] = Color.DKGRAY;
+//    colors[4] = Color.GREEN;
+//    colors[5] = Color.GRAY;
+//    colors[6] = Color.LTGRAY;
+//    colors[7] = Color.MAGENTA;
+//    colors[8] = Color.RED;
+//    colors[9] = Color.YELLOW;
+//    colors[10] = Color.WHITE;
+
+    protected int posX, posY; // coordonnées de la balle
+    protected int radius;    // rayon de la balle
+    protected int color;     // couleur de la balle
+    protected int speed = 5; // vitesse de déplacement
+
+    /**
+     * @param x
+     * @param y
+     * @param radius
+     */
+    public Balle(int x, int y, int radius) {
+        this.posX = x;
+        this.posY = y;
         this.radius = radius;
-        this.color = color;
         Log.v("NewBalle", toString());
     }
 
-
-    public String toString() {
-        return "[x=" + x + "; " +
-                "y=" + y + "; " +
-                "radius=" + radius + "; " +
-                "color=" + color + ";";
+    /**
+     * Déplacer la balle a des coordonées
+     *
+     * @param x
+     * @param y
+     */
+    public void move(int x, int y) {
+        this.posX = x;
+        this.posY = y;
     }
+
+    /**
+     * Affiche la balle pour le log
+     */
+    public String toString() {
+        return "[posX=" + posX + "; "
+                + "posY=" + posY + "; "
+                + "radius=" + radius + "; "
+                + "color=" + color + ";";
+    }
+
 
     /*******************
      * GETTER AND SETTER
@@ -44,20 +76,20 @@ public class Balle {
         this.radius = radius;
     }
 
-    public int getX() {
-        return x;
+    public int getPosX() {
+        return posX;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setPosX(int x) {
+        this.posX = x;
     }
 
-    public int getY() {
-        return y;
+    public int getPosY() {
+        return posY;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setPosY(int y) {
+        this.posY = y;
     }
 
 }

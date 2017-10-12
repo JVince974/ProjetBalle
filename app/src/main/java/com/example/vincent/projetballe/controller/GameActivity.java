@@ -106,8 +106,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (GameModel.userBalle != null) {
-            GameModel.userBalle.setX((int) event.values[0]);
-            GameModel.userBalle.setY((int) event.values[1]);
+            GameModel.userBalle.move((int) event.values[0], (int) event.values[1]);
         }
     }
 
