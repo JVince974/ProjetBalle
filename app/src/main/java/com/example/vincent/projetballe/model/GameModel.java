@@ -14,12 +14,12 @@ abstract public class GameModel {
     public static UserBalle userBalle; // balle de l'utilisateur
     public static ArrayList<IABalle> listIABalles; // balles adverses
 
-    // créer le plateau
+    // créer les tableaux pour sauvegarder les balles
     public static void onCreate() {
         listIABalles = new ArrayList<>();
     }
 
-    // détruire le plateau pour éviter des nouveaux affichages
+    // détruire le plateau pour la partie suivante
     public static void onDestroy() {
         userBalle = null;
         listIABalles = null;

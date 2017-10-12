@@ -22,55 +22,52 @@ import com.example.vincent.projetballe.view.GameView;
  */
 public class GameActivity extends Activity implements SensorEventListener {
 
-    /***************
-     * ATTRIBUTS
-     ****************/
-    public static int viewWidth;
-    public static int viewHeight;
-
-    private View mGameView; // Vue du jeu
-
-    // Accelerometre
+    // Vue
+    private View mGameView;
+    // Accéléromètre
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
 
-
-    /***************
-     * METHODES
-     ****************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // get the view
+        // récupérer la vue
         mGameView = new GameView(this);
         setContentView(mGameView);
 
-        // créer les composants
+        // créer les tableaux pour sauvegarder les balles
         GameModel.onCreate();
 
-        // recuperer l'accelerometre
+        // récupérer l'accéléromètre
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        // lister tous les sensors
+        // lister tous les sensors du téléphone
 //        List<Sensor> sensorsList = mSensorManager.getSensorList(Sensor.TYPE_ALL);
 //        for (Sensor s : sensorsList) {
 //            Log.v("SensorAvailable", "" + s.toString());
 //        }
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME); // lancer l'accelerometre
+        // lancer l'accéléromètre
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
+
 
     @Override
     protected void onPause() {
         super.onPause();
-        mSensorManager.unregisterListener(this); // arreter l'accelerometre
+        // arreter l'accéléromètre
+        mSensorManager.unregisterListener(this);
     }
 
+    /**
+     * Détruire le jeu pour la partie suivante
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -79,6 +76,9 @@ public class GameActivity extends Activity implements SensorEventListener {
         startActivity(intent);
     }
 
+    /**
+     * Récupérer la taille de la view et générer les balles ensuite
+     */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -90,23 +90,31 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
 
     /**
-     * Gere la création des balles
+     * Créer toutes les balles
      */
     private void createBalles() {
         // créer la balle de l'utilisateur
-        if (GameModel.userBalle == null) {
-            GameModel.userBalle = new UserBalle(mGameView);
-        }
+        if (GameModel.userBalle == null) GameModel.userBalle = new UserBalle(mGameView);
+        // créer des balles IA
         GameModel.createIABalles(5);
     }
 
     /**
-     * Gestion des mouvements de la balle
+     * Analyse chaque interaction de la balle avec l'environnement
+     * ex : collision avec une autre balle, récupération d'un bonus
+     */
+    private void onUserBalleMoved() {
+
+    }
+
+    /**
+     * Bouger la balle avec l'accéléromètre
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (GameModel.userBalle != null) {
             GameModel.userBalle.move((int) event.values[0], (int) event.values[1]);
+            onUserBalleMoved(); // gérer les évènements de la balle avec l'environnement
         }
     }
 

@@ -25,12 +25,16 @@ public class IABalle extends Balle implements Runnable {
     private int direction; // la balle se dirige dans une direction au hasard
     private Thread t; // le thread associé à la balle
 
+    /**
+     * Méthode privé, utiliser randomIABalle pour obtenir une balle
+     */
     private IABalle(int x, int y, int radius) {
         super(x, y, radius);
         this.color = COLOR;
         this.direction = (int) (Math.random() * 4); // choisir une direction aléatoire
         this.t = new Thread(this);  // attaché son thread
     }
+
 
     // les balles ia apparaissent aléatoire en fonction de la position de l'user balle
     public static IABalle randomIABalle(UserBalle userBalle, int radius) {
