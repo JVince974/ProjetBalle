@@ -13,7 +13,7 @@ import com.example.vincent.projetballe.model.LesBalles.Balle;
  */
 public class GameView extends View {
 
-    // taille de l'écran
+    // taille de la vue
     public static int viewWidth;
     public static int viewHeight;
 

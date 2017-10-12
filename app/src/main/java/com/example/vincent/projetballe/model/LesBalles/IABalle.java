@@ -2,7 +2,6 @@ package com.example.vincent.projetballe.model.LesBalles;
 
 
 import android.graphics.Color;
-import android.view.View;
 
 /**
  * Balle adverse a esquiver qui se déplace automatiquement
@@ -13,8 +12,8 @@ public class IABalle extends Balle implements Runnable {
     // ia color = black
     protected static int color = Color.BLACK;
 
-    public IABalle(UserBalle userBalle, View view, int radius) {
-        super(1, 1, radius, color);
+    public IABalle(UserBalle userBalle, int radius) {
+        super(userBalle.getX() + 75, userBalle.getY() + 865, radius, color);
     }
 
     @Override
