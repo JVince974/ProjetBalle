@@ -1,6 +1,4 @@
-package com.example.vincent.projetballe.model.BallesClasses;
-
-import com.example.vincent.projetballe.model.Balle;
+package com.example.vincent.projetballe.model.LesBalles;
 
 
 /**

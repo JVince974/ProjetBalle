@@ -1,9 +1,7 @@
-package com.example.vincent.projetballe.model.BallesClasses;
+package com.example.vincent.projetballe.model.LesBalles;
 
 import android.graphics.Color;
 import android.view.View;
-
-import com.example.vincent.projetballe.model.Balle;
 
 /**
  * Balle de l'utilisateur, elle se place par défaut au milieu du jeu

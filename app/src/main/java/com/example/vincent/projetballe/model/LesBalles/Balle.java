@@ -1,22 +1,13 @@
-package com.example.vincent.projetballe.model;
+package com.example.vincent.projetballe.model.LesBalles;
 
 import android.util.Log;
 
-import java.util.ArrayList;
-
 public class Balle {
-
-
-    // contient toutes les balles
-    public static ArrayList<Balle> lesBalles = new ArrayList<>();
-    public static ArrayList<Balle> IABalles = new ArrayList<>();
-
 
     private int x, y;
     private int radius;
     private int color;
     private int speed;
-
 
     public Balle(int x, int y, int radius, int color) {
         this.x = x;

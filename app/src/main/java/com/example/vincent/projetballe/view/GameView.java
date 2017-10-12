@@ -5,7 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
 
-import com.example.vincent.projetballe.model.Balle;
+import com.example.vincent.projetballe.model.GameModel;
+import com.example.vincent.projetballe.model.LesBalles.Balle;
+import com.example.vincent.projetballe.model.LesBalles.IABalle;
+import com.example.vincent.projetballe.model.LesBalles.UserBalle;
+
+import java.util.ArrayList;
 
 /**
  * Cette classe dessine toutes les balles
@@ -36,14 +41,21 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        UserBalle userBalle = GameModel.getUserBalle();
+        ArrayList<IABalle> listIABalles = GameModel.getIABalles();
 
+
+        if (userBalle != null) {
+            mPaint.setColor(userBalle.getColor());
+            canvas.drawCircle(userBalle.getX(), userBalle.getY(), userBalle.getRadius(), mPaint);
+        }
         // dessiner chaque balle
-        for (Balle uneBalle : Balle.lesBalles) {
+        for (Balle uneBalle : listIABalles) {
             mPaint.setColor(uneBalle.getColor());
             canvas.drawCircle(uneBalle.getX(), uneBalle.getY(), uneBalle.getRadius(), mPaint);
         }
-
-        invalidate(); // redessiner en permanence
+        // redessiner en permanence
+        invalidate();
     }
 
 
