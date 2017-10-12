@@ -38,7 +38,7 @@ public class IABalle extends Balle implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+//        while (true) {
 
 //            Random r = new Random();
 //            int x = (int) radius + r.nextInt((GameView.viewWidth - radius) - radius);
@@ -47,6 +47,6 @@ public class IABalle extends Balle implements Runnable {
 //            this.y = y;
 
 
-        }
+//        }
     }
 }
