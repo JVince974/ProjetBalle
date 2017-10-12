@@ -24,20 +24,20 @@ public class UserBalle extends Balle {
         int newY = this.posY + y * this.speedY;
 
         // empêcher de dépasser le rebord gauche
-        if (newX <= radius)
-            newX = radius;
+        if (newX <= this.radius)
+            newX = this.radius;
 
         // empêcher de dépasser le rebord droit
-        if (newX >= GameView.viewWidth - radius)
-            newX = GameView.viewWidth - radius;
+        if (newX >= GameView.viewWidth - this.radius)
+            newX = GameView.viewWidth - this.radius;
 
         // empêcher de dépasser le rebord haut
-        if (newY <= radius)
-            newY = radius;
+        if (newY <= this.radius)
+            newY = this.radius;
 
         // empêcher de dépasser le rebord bas
-        if (newY >= GameView.viewHeight - radius)
-            newY = GameView.viewHeight - radius;
+        if (newY >= GameView.viewHeight - this.radius)
+            newY = GameView.viewHeight - this.radius;
 
         this.posX = newX;
         this.posY = newY;

@@ -58,19 +58,50 @@ public class IABalle extends Balle implements Runnable {
                 case NORTH_EAST:
                     this.posX += speedX;
                     this.posY -= speedY;
-//                    if ()
+                    // cogne contre le rebord droit => rediriger vers la gauche
+                    if (this.posX >= GameView.viewWidth - this.radius) {
+                        this.direction = NORTH_WEST;
+                    }
+                    // cogne contre le le rebord haut => rediriger vers le bas
+                    if (this.posY <= this.radius) {
+                        this.direction = SOUTH_EAST;
+                    }
                     break;
                 case NORTH_WEST:
                     this.posX -= speedX;
                     this.posY -= speedY;
+                    // cogne contre le rebord gauche => rediriger vers la droite
+                    if (this.posX <= this.radius) {
+                        this.direction = NORTH_EAST;
+                    }
+                    // cogne contre le le rebord haut => rediriger vers le bas
+                    if (this.posY <= this.radius) {
+                        this.direction = SOUTH_WEST;
+                    }
                     break;
                 case SOUTH_EAST:
                     this.posX += speedX;
                     this.posY += speedY;
+                    // cogne contre le rebord droit => rediriger vers la gauche
+                    if (this.posX >= GameView.viewWidth - this.radius) {
+                        this.direction = SOUTH_WEST;
+                    }
+                    // cogne contre le rebord bas => rediriger vers le haut
+                    if (this.posY >= GameView.viewHeight - this.radius) {
+                        this.direction = NORTH_EAST;
+                    }
                     break;
                 case SOUTH_WEST:
                     this.posX -= speedX;
                     this.posY += speedY;
+                    // cogne contre le rebord gauche => rediriger vers la droite
+                    if (this.posX <= this.radius) {
+                        this.direction = SOUTH_EAST;
+                    }
+                    // cogne contre le rebord bas => rediriger vers le haut
+                    if (this.posY >= GameView.viewHeight - this.radius) {
+                        this.direction = NORTH_WEST;
+                    }
                     break;
             }
 
