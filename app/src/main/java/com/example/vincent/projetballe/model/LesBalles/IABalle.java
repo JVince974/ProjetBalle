@@ -22,21 +22,23 @@ public class IABalle extends Balle implements Runnable {
     private final static int SOUTH_WEST = 3;
 
     private int direction; // la balle se dirige dans une direction au hasard
-    private Thread t; // le thread associé à la balle
+    private Thread thread; // le thread associé à la balle
 
     /**
-     * Méthode privé, utiliser randomIABalle pour obtenir une balle
+     * Méthode privé, utiliser newIABalle pour obtenir une balle
+     *
+     * @see #newIABalle(UserBalle, int)
      */
     private IABalle(int x, int y, int radius) {
         super(x, y, radius);
         this.color = COLOR;
         this.direction = (int) (Math.random() * 4); // choisir une direction aléatoire
-        this.t = new Thread(this);  // attaché son thread
+        this.thread = new Thread(this);  // attaché son thread
     }
 
 
     // les balles ia apparaissent aléatoire en fonction de la position de l'user balle
-    public static IABalle randomIABalle(UserBalle userBalle, int radius) {
+    public static IABalle newIABalle(UserBalle userBalle, int radius) {
         // générer des coordonées aléatoire pour la balle
         Random r = new Random();
         int x = radius + r.nextInt((GameView.viewWidth - radius) - radius);
@@ -46,21 +48,25 @@ public class IABalle extends Balle implements Runnable {
 
     @Override
     public void run() {
-//        while (true) {
+        while (true) {
+            Random r = new Random();
+            int x = radius + r.nextInt((GameView.viewWidth - radius) - radius);
+            int y = radius + r.nextInt((GameView.viewHeight + radius) - radius);
+            this.posX = x;
+            this.posY = y;
 
-//            Random r = new Random();
-//            int posX = (int) radius + r.nextInt((GameView.viewWidth - radius) - radius);
-//            int posY = (int) radius + r.nextInt((GameView.viewHeight + radius) - radius);
-//            this.posX = posX;
-//            this.posY = posY;
-
-
-//        }
+            // réduire le taux de rafraichissment
+            try {
+                Thread.sleep(100);  // milliseconds
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // lancer le thread
     public void start() {
-        this.t.start();
+        this.thread.start();
     }
 
 }

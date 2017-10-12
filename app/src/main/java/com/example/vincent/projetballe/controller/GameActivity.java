@@ -96,7 +96,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         // créer la balle de l'utilisateur
         if (GameModel.userBalle == null) GameModel.userBalle = new UserBalle(mGameView);
         // créer des balles IA
-        GameModel.createIABalles(5);
+        GameModel.randomIABalles(5);
     }
 
     /**

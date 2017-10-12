@@ -30,15 +30,13 @@ abstract public class GameModel {
      *
      * @param nbBalles nombre de balles IA à instancier
      */
-    public static void createIABalles(int nbBalles) {
-//        while (listIABalles.size() < nbBalles) {
-//            listIABalles.add(IABalle.randomIABalle(userBalle, userBalle.getRadius()));
-//        }
-//        // lancer les balles
-//        for (IABalle uneBalle : listIABalles) {
-//            Thread t = new Thread(uneBalle);
-//            listThread.add(new Thread(uneBalle));
-//            t.start();
-//        }
+    public static void randomIABalles(int nbBalles) {
+        while (listIABalles.size() < nbBalles) {
+            listIABalles.add(IABalle.newIABalle(userBalle, userBalle.getRadius()));
+        }
+        // lancer les balles
+        for (IABalle uneBalle : listIABalles) {
+            uneBalle.start();
+        }
     }
 }
