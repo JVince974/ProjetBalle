@@ -34,8 +34,8 @@ public class IABalle extends Balle implements Runnable {
         this.color = COLOR;
         Random r = new Random();
         // choisir une vitesse de déplacement aléatoire
-        this.speedX = 3 + r.nextInt(5 - 3);
-        this.speedY = 3 + r.nextInt(5 - 3);
+        this.speedX = 1 + r.nextInt(5 - 1);
+        this.speedY = 1 + r.nextInt(5 - 1);
         this.direction = r.nextInt(4); // choisir une direction aléatoire
         this.thread = new Thread(this);  // attaché son thread
     }
