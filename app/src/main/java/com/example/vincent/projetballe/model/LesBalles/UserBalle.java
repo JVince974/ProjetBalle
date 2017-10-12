@@ -18,7 +18,7 @@ public class UserBalle extends Balle {
     }
 
     public void setX(int x) {
-        int newX = this.x - x;
+        int newX = this.x - x * speed;
         // ne doit pas depasser le rebord gauche
         if (newX <= radius) {
             newX = radius;
@@ -31,7 +31,7 @@ public class UserBalle extends Balle {
     }
 
     public void setY(int y) {
-        int newY = this.y + y;
+        int newY = this.y + y * speed;
         // ne doit pas depasser le rebord haut
         if (newY <= radius) {
             newY = radius;

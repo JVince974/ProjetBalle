@@ -7,7 +7,7 @@ public class Balle {
     protected int x, y;
     protected int radius;
     protected int color;
-    protected int speed;
+    protected int speed = 5;
 
     public Balle(int x, int y, int radius, int color) {
         this.x = x;
