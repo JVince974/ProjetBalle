@@ -24,12 +24,19 @@ public class IABalle extends Balle implements Runnable {
     public static IABalle createIABalle(UserBalle userBalle, int radius) {
         Random r = new Random();
         int x = (int) radius + r.nextInt((GameView.viewWidth - radius) - radius);
-        int y = (int) radius + r.nextInt((GameView.viewWidth + radius) - radius);
+        int y = (int) radius + r.nextInt((GameView.viewHeight + radius) - radius);
         return new IABalle(x, y, radius);
     }
 
     @Override
     public void run() {
+        while (true) {
+            Random r = new Random();
+            int x = (int) radius + r.nextInt((GameView.viewWidth - radius) - radius);
+            int y = (int) radius + r.nextInt((GameView.viewHeight + radius) - radius);
+            this.x = x;
+            this.y = y;
 
+        }
     }
 }

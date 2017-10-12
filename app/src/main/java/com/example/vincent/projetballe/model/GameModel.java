@@ -13,14 +13,17 @@ abstract public class GameModel {
     // les balles
     public static UserBalle userBalle;
     public static ArrayList<IABalle> listIABalles;
+    public static ArrayList<Thread> listThread;
 
     public static void onCreate() {
         listIABalles = new ArrayList<>();
+        listThread = new ArrayList<>();
     }
 
     public static void onDestroy() {
         userBalle = null;
         listIABalles = null;
+        listThread = null;
     }
 
     /**
@@ -31,6 +34,12 @@ abstract public class GameModel {
     public static void createIABalles(int nbBalles) {
         while (listIABalles.size() < nbBalles) {
             listIABalles.add(IABalle.createIABalle(userBalle, userBalle.getRadius()));
+        }
+        // lancer les balles
+        for (IABalle uneBalle : listIABalles) {
+            Thread t = new Thread(uneBalle);
+            listThread.add(new Thread(uneBalle));
+            t.start();
         }
     }
 }
