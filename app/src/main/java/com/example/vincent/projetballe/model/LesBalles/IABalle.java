@@ -9,18 +9,17 @@ import java.util.Random;
 
 /**
  * Balle adverse a esquiver qui se déplace automatiquement
- * Elle change elle même ses coordonées
+ * Elle change elle même ses propres coordonées grace à un thread
  */
 public class IABalle extends Balle implements Runnable {
 
-    // ia color = black
-    private final static int COLOR = Color.BLACK;
+    private final static int COLOR = Color.BLACK; // couleur de la balle
 
-    // variable de direction de la balle
+    // variables de direction de la balle
     private final static int NORTH_WEST = 0;
     private final static int NORTH_EAST = 1;
-    private final static int SUD_EAST = 2;
-    private final static int SUD_WEST = 3;
+    private final static int SOUTH_EAST = 2;
+    private final static int SOUTH_WEST = 3;
 
     private int direction; // la balle se dirige dans une direction au hasard
     private Thread t; // le thread associé à la balle

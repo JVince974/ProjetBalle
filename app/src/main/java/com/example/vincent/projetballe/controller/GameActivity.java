@@ -17,7 +17,7 @@ import com.example.vincent.projetballe.view.GameView;
 /**
  * Cette classe gère le déplacement de la balle de l'utilisateur à l'aide de l'accéléromètre
  * Elle instancie toutes les balles
- * Elle gére toutes les interaction de la balle avec les autres objets
+ * Elle gére toutes les interaction de la balle avec les autres objets et l'environnement
  * ex : collision avec une autre balle, prendre un bonus, etc.
  */
 public class GameActivity extends Activity implements SensorEventListener {
