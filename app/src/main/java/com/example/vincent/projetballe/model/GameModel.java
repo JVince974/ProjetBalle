@@ -10,13 +10,9 @@ import java.util.ArrayList;
  */
 abstract public class GameModel {
 
-    // taille de l'écran
-    private static int viewWidth;
-    private static int viewHeight;
-
     // les balles
-    private static UserBalle userBalle;
-    private static ArrayList<IABalle> listIABalles;
+    public static UserBalle userBalle;
+    public static ArrayList<IABalle> listIABalles;
 
     public static void onCreate() {
         listIABalles = new ArrayList<>();
@@ -27,13 +23,13 @@ abstract public class GameModel {
         listIABalles = null;
     }
 
-    public static void setUserBalle(UserBalle userBalle) {
-        GameModel.userBalle = userBalle;
-    }
+//    public static void setUserBalle(UserBalle userBalle) {
+//        GameModel.userBalle = userBalle;
+//    }
 
-    public static UserBalle getUserBalle() {
-        return userBalle;
-    }
+//    public static UserBalle getUserBalle() {
+//        return userBalle;
+//    }
 
     public static void addIABalle(IABalle balle) {
         listIABalles.add(balle);
@@ -43,4 +39,15 @@ abstract public class GameModel {
         return listIABalles;
     }
 
+
+    /**
+     * Méthode qui va créer des balles IA jusqu'à atteindre le nombre demandé
+     *
+     * @param nbBalles nombre de balles IA à instancier
+     */
+    public static void createIABalles(int nbBalles) {
+//        while (listIABalles.size() < nbBalles) {
+//            listIABalles.add(new IABalle());
+//        }
+    }
 }

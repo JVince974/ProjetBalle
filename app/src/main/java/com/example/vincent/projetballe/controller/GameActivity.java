@@ -22,6 +22,9 @@ import com.example.vincent.projetballe.view.GameView;
  */
 public class GameActivity extends Activity implements SensorEventListener {
 
+    /***************
+     * ATTRIBUTS
+     ****************/
     public static int viewWidth;
     public static int viewHeight;
 
@@ -32,6 +35,9 @@ public class GameActivity extends Activity implements SensorEventListener {
     private Sensor mAccelerometer;
 
 
+    /***************
+     * METHODES
+     ****************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,19 +82,20 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        viewWidth = mGameView.getWidth();
-        viewHeight = mGameView.getHeight();
-        Log.v("WindowsSize", "Width=" + mGameView.getWidth()); // Longueur max
-        Log.v("WindowsSize", "Height=" + mGameView.getHeight()); // Hauteur Max
-        createBalls();
+        GameView.viewWidth = mGameView.getWidth();
+        GameView.viewHeight = mGameView.getHeight();
+        Log.v("WindowsSize", "Width=" + GameView.viewWidth); // Longueur max
+        Log.v("WindowsSize", "Height=" + GameView.viewHeight); // Hauteur Max
+        createBalles();
     }
 
     /**
      * Gere la création des balles
      */
-    private void createBalls() {
-        if (GameModel.getUserBalle() == null) {
-            GameModel.setUserBalle(new UserBalle(mGameView));
+    private void createBalles() {
+        // créer la balle de l'utilisateur
+        if (GameModel.userBalle == null) {
+            GameModel.userBalle = new UserBalle(mGameView);
         }
     }
 
@@ -97,31 +104,9 @@ public class GameActivity extends Activity implements SensorEventListener {
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
-//        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER && userBalle != null) {
-        UserBalle userBalle = GameModel.getUserBalle();
-        if (userBalle != null) {
-            int x = userBalle.getX() - (int) event.values[0];
-            int y = userBalle.getY() + (int) event.values[1];
-            //Make sure we do not draw outside the bounds of the view.
-            //So the max values we can draw to are the bounds + the size of the circle
-            // ne doit pas depasser le rebord gauche
-            if (x <= userBalle.getRadius()) {
-                x = userBalle.getRadius();
-            }
-            // ne doit pas depasser le rebord droit
-            if (x >= viewWidth - userBalle.getRadius()) {
-                x = viewWidth - userBalle.getRadius();
-            }
-            // ne doit pas depasser le rebord haut
-            if (y <= userBalle.getRadius()) {
-                y = userBalle.getRadius();
-            }
-            // ne doit pas depasser le rebord bas
-            if (y >= viewHeight - userBalle.getRadius()) {
-                y = viewHeight - userBalle.getRadius();
-            }
-            GameModel.getUserBalle().setX(x);
-            GameModel.getUserBalle().setY(y);
+        if (GameModel.userBalle != null) {
+            GameModel.userBalle.setX((int) event.values[0]);
+            GameModel.userBalle.setY((int) event.values[1]);
         }
     }
 

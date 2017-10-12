@@ -4,10 +4,10 @@ import android.util.Log;
 
 public class Balle {
 
-    private int x, y;
-    private int radius;
-    private int color;
-    private int speed;
+    protected int x, y;
+    protected int radius;
+    protected int color;
+    protected int speed;
 
     public Balle(int x, int y, int radius, int color) {
         this.x = x;
