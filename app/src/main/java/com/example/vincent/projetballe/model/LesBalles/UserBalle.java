@@ -8,9 +8,10 @@ import android.view.View;
  */
 public class UserBalle extends Balle {
 
-    public UserBalle(View v) {
-        // positionne la balle au milieu de l'écran
-        super(v.getWidth() / 2, v.getHeight() / 2, (int) (v.getWidth() * 4.63 / 100), Color.RED);
+    // positionne la balle au milieu de l'écran
+    public UserBalle(View view) {
+        super(view.getWidth() / 2, view.getHeight() / 2, (int) (view.getWidth() * 4.63 / 100), Color.RED);
     }
 
+    
 }

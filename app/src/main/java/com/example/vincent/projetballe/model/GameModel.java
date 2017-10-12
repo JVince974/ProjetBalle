@@ -10,10 +10,11 @@ import java.util.ArrayList;
  */
 abstract public class GameModel {
 
+    // taille de l'écran
     private static int viewWidth;
     private static int viewHeight;
 
-
+    // les balles
     private static UserBalle userBalle;
     private static ArrayList<IABalle> listIABalles;
 
