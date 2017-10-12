@@ -20,8 +20,8 @@ public class UserBalle extends Balle {
 
     @Override
     public void move(int x, int y) {
-        int newX = this.posX - x * this.speed;
-        int newY = this.posY + y * this.speed;
+        int newX = this.posX - x * this.speedX;
+        int newY = this.posY + y * this.speedY;
 
         // empêcher de dépasser le rebord gauche
         if (newX <= radius)

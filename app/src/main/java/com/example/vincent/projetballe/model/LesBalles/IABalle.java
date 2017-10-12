@@ -49,11 +49,31 @@ public class IABalle extends Balle implements Runnable {
     @Override
     public void run() {
         while (true) {
-            Random r = new Random();
-            int x = radius + r.nextInt((GameView.viewWidth - radius) - radius);
-            int y = radius + r.nextInt((GameView.viewHeight + radius) - radius);
-            this.posX = x;
-            this.posY = y;
+//            Random r = new Random();
+//            int x = radius + r.nextInt((GameView.viewWidth - radius) - radius);
+//            int y = radius + r.nextInt((GameView.viewHeight + radius) - radius);
+//            this.posX = x;
+//            this.posY = y;
+            switch (this.direction) {
+                case NORTH_EAST:
+                    this.posX += speedX;
+                    this.posY -= speedY;
+//                    if ()
+                    break;
+                case NORTH_WEST:
+                    this.posX -= speedX;
+                    this.posY -= speedY;
+                    break;
+                case SOUTH_EAST:
+                    this.posX += speedX;
+                    this.posY += speedY;
+                    break;
+                case SOUTH_WEST:
+                    this.posX -= speedX;
+                    this.posY += speedY;
+                    break;
+            }
+
 
             // réduire le taux de rafraichissment
             try {

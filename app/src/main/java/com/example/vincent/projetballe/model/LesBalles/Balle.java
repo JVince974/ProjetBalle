@@ -21,7 +21,8 @@ abstract public class Balle {
     protected int posX, posY; // coordonnées de la balle
     protected int radius;    // rayon de la balle
     protected int color;     // couleur de la balle
-    protected int speed = 5; // vitesse de déplacement
+    protected int speedX = 5; // vitesse de déplacement en X
+    protected int speedY = 5; // vitesse de déplacement en Y
 
     /**
      * @param x
