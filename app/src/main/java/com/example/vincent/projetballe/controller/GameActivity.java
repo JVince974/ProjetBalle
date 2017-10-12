@@ -87,7 +87,6 @@ public class GameActivity extends Activity implements SensorEventListener {
         Log.v("WindowsSize", "Width=" + GameView.viewWidth); // Longueur max
         Log.v("WindowsSize", "Height=" + GameView.viewHeight); // Hauteur Max
         createBalles();
-
     }
 
     /**
