@@ -1,5 +1,6 @@
 package com.example.vincent.projetballe.model;
 
+import com.example.vincent.projetballe.model.LesBalles.CatchBall;
 import com.example.vincent.projetballe.model.LesBalles.IABalle;
 import com.example.vincent.projetballe.model.LesBalles.UserBalle;
 
@@ -12,6 +13,7 @@ abstract public class GameModel {
 
     // les balles
     public static UserBalle userBalle; // balle de l'utilisateur
+    public static CatchBall catchBall; // balle a attraper
     public static ArrayList<IABalle> listIABalles; // balles adverses
 
     // créer les tableaux pour sauvegarder les balles
@@ -25,6 +27,7 @@ abstract public class GameModel {
 
         }
         userBalle = null;
+        catchBall = null;
         listIABalles = null;
     }
 

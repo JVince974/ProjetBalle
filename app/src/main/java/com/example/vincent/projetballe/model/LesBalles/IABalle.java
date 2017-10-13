@@ -25,11 +25,11 @@ public class IABalle extends Balle implements Runnable {
     private Thread thread; // le thread associé à la balle
 
     /**
-     * Méthode privé, utiliser newIABalle pour obtenir une balle
+     * Méthode protégé, utiliser newIABalle pour obtenir une balle
      *
      * @see #newIABalle(UserBalle, int)
      */
-    private IABalle(int x, int y, int radius) {
+    protected IABalle(int x, int y, int radius) {
         super(x, y, radius);
         this.color = COLOR;
         Random r = new Random();
