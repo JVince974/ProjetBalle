@@ -12,7 +12,7 @@ import java.util.ArrayList;
 abstract public class GameModel {
 
     // les balles
-    public static UserBalle userBalle; // balle de l'utilisateur
+//    public static UserBalle userBalle; // balle de l'utilisateur
     public static CatchBall catchBall; // balle a attraper
     public static ArrayList<IABalle> listIABalles; // balles adverses
 
@@ -26,7 +26,7 @@ abstract public class GameModel {
         for (IABalle uneBalle : listIABalles) {
 
         }
-        userBalle = null;
+//        userBalle = null;
         catchBall = null;
         listIABalles = null;
     }
@@ -38,7 +38,7 @@ abstract public class GameModel {
      */
     public static void randomIABalles(int nbBalles) {
         while (listIABalles.size() < nbBalles) {
-            listIABalles.add(IABalle.newIABalle(userBalle, userBalle.getRadius()));
+            listIABalles.add(IABalle.newIABalle(UserBalle.getInstance(), UserBalle.getInstance().getRadius()));
         }
         // lancer les balles
         for (IABalle uneBalle : listIABalles) {

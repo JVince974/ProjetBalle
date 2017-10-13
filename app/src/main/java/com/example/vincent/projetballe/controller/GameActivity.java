@@ -95,7 +95,7 @@ public class GameActivity extends Activity implements SensorEventListener {
      */
     private void createBalles() {
         // créer la balle de l'utilisateur
-        if (GameModel.userBalle == null) GameModel.userBalle = new UserBalle(mGameView);
+        if (UserBalle.getInstance() == null) UserBalle.setIntance(mGameView);
         // créer des balles IA
         GameModel.randomIABalles(5);
     }
@@ -114,8 +114,8 @@ public class GameActivity extends Activity implements SensorEventListener {
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (GameModel.userBalle != null) {
-            GameModel.userBalle.move((int) event.values[0], (int) event.values[1]);
+        if (UserBalle.getInstance() != null) {
+            UserBalle.getInstance().move((int) event.values[0], (int) event.values[1]);
             onUserBalleMoved(); // gérer les évènements de la balle avec l'environnement
         }
     }

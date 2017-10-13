@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.example.vincent.projetballe.model.GameModel;
 import com.example.vincent.projetballe.model.LesBalles.Balle;
+import com.example.vincent.projetballe.model.LesBalles.UserBalle;
 
 /**
  * Cette classe dessine toutes les balles
@@ -30,9 +31,9 @@ public class GameView extends View {
         super.onDraw(canvas);
 
         // dessiner la balle de l'utilisateur
-        if (GameModel.userBalle != null) {
-            mPaint.setColor(GameModel.userBalle.getColor());
-            canvas.drawCircle(GameModel.userBalle.getPosX(), GameModel.userBalle.getPosY(), GameModel.userBalle.getRadius(), mPaint);
+        if (UserBalle.getInstance() != null) {
+            mPaint.setColor(UserBalle.getInstance().getColor());
+            canvas.drawCircle(UserBalle.getInstance().getPosX(), UserBalle.getInstance().getPosY(), UserBalle.getInstance().getRadius(), mPaint);
         }
         // dessiner chaque balle ia
         for (Balle uneBalle : GameModel.listIABalles) {

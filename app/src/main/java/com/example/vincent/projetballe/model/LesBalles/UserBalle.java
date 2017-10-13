@@ -7,21 +7,37 @@ import com.example.vincent.projetballe.view.GameView;
 
 /**
  * Balle de l'utilisateur, elle se place par défaut au milieu du jeu
+ * Classe Singleton, il n'y a qu'une seule balle utilisateur
  */
 public class UserBalle extends Balle {
 
     private static int COLOR = Color.RED;
+    private static UserBalle instance;
 
-    public UserBalle(View view) {
+    private int step = 5; // pas de la balle
+
+    // constructeur privé
+    private UserBalle(View view) {
         // positionne la balle au milieu de l'écran à l'instance
         super(view.getWidth() / 2, view.getHeight() / 2, (int) (view.getWidth() * 4.63 / 100));
         this.color = COLOR;
     }
 
-    @Override
+
+    public static void setIntance(View view) {
+        instance = new UserBalle(view);
+    }
+
+    public static UserBalle getInstance() {
+        return instance;
+    }
+
+    /**
+     * Déplacer la balle
+     */
     public void move(int x, int y) {
-        int newX = this.posX - x * this.speedX;
-        int newY = this.posY + y * this.speedY;
+        int newX = this.posX - x * this.step;
+        int newY = this.posY + y * this.step;
 
         // empêcher de dépasser le rebord gauche
         if (newX <= this.radius)

@@ -4,7 +4,6 @@ import android.util.Log;
 
 abstract public class Balle {
 
-
     //    private int[] colors;
 //    colors[0] = Color.BLACK;
 //    colors[1] = Color.BLUE;
@@ -21,14 +20,7 @@ abstract public class Balle {
     protected int posX, posY; // coordonnées de la balle
     protected int radius;    // rayon de la balle
     protected int color;     // couleur de la balle
-    protected int speedX = 5; // vitesse de déplacement en X
-    protected int speedY = 5; // vitesse de déplacement en Y
 
-    /**
-     * @param x
-     * @param y
-     * @param radius
-     */
     public Balle(int x, int y, int radius) {
         this.posX = x;
         this.posY = y;
@@ -36,16 +28,6 @@ abstract public class Balle {
         Log.v("NewBalle", toString());
     }
 
-    /**
-     * Déplacer la balle a des coordonées
-     *
-     * @param x
-     * @param y
-     */
-    public void move(int x, int y) {
-        this.posX = x;
-        this.posY = y;
-    }
 
     /**
      * Affiche la balle pour le log
