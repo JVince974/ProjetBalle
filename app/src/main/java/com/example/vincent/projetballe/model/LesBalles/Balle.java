@@ -17,13 +17,15 @@ abstract public class Balle {
 //    colors[9] = Color.YELLOW;
 //    colors[10] = Color.WHITE;
 
-    protected int posX, posY; // coordonnées de la balle
-    protected int radius;    // rayon de la balle
-    protected int color;     // couleur de la balle
+    // coordonnées de la balle
+    protected int posX;
+    protected int posY;
+    protected int radius; // rayon de la balle
+    protected int color;  // couleur de la balle
 
-    public Balle(int x, int y, int radius) {
-        this.posX = x;
-        this.posY = y;
+    public Balle(int posX, int posY, int radius) {
+        this.posX = posX;
+        this.posY = posY;
         this.radius = radius;
         Log.v("NewBalle", toString());
     }

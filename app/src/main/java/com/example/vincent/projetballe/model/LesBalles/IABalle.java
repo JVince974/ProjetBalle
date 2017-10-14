@@ -3,7 +3,7 @@ package com.example.vincent.projetballe.model.LesBalles;
 
 import android.graphics.Color;
 
-import com.example.vincent.projetballe.view.GameView;
+import com.example.vincent.projetballe.model.GameData;
 
 import java.util.Random;
 
@@ -12,48 +12,57 @@ import java.util.Random;
  * Elle change elle même ses propres coordonées grace à un thread
  */
 public class IABalle extends Balle implements Runnable {
+    private final static int COLOR = Color.BLACK; // couleur
 
-    private final static int COLOR = Color.BLACK; // couleur de la balle
+    // vitesse de toutes les balles
+    public static int speed = 2;
 
-    public static int speed = 2; // vitesse de toutes les balles
-
-    private int stepX, stepY; // le pas de la balle
-    private int directionX, directionY; // la direction de la balle
-    private Thread thread; // le thread associé à la balle
+    protected int directionX, directionY; // la direction de la balle
+    protected int stepX, stepY; // le pas de la balle
+    protected Thread thread; // le thread associé à la balle
 
 
-    /**
-     * Méthode protégé, utiliser newIABalle pour obtenir une balle
-     *
-     * @see #newIABalle(UserBalle, int)
-     */
-    protected IABalle(int x, int y, int radius) {
-        super(x, y, radius);
+    public IABalle(int posX, int posY, int radius, int directionX, int directionY, int stepX, int stepY) {
+        super(posX, posY, radius);
         this.color = COLOR;
-        Random r = new Random();
-        int[] randomDirection = new int[]{-1, 1};
-        int[] randomStep = new int[]{1, 2, 3, 4, 5};
-        // choisir une direction au hasard
-        // si x est négatif la balle se déplace a gauche, sinon droite
-        // si y est négatif la balle se déplace en haut, sinon bas
-        this.directionX = randomDirection[r.nextInt(randomDirection.length)];
-        this.directionY = randomDirection[r.nextInt(randomDirection.length)];
-        // choisir un pas au hasard
-        this.stepX = randomStep[r.nextInt(randomStep.length)];
-        this.stepY = randomStep[r.nextInt(randomStep.length)];
-        // associé son processus pour le déplacement
+        this.directionX = directionX;
+        this.directionY = directionY;
+        this.stepX = stepX;
+        this.stepY = stepY;
         this.thread = new Thread(this);
     }
 
-    // les balles ia apparaissent aléatoire en fonction de la position de l'user balle
-    public static IABalle newIABalle(UserBalle userBalle, int radius) {
-        // générer des coordonées aléatoire pour la balle
+    /**
+     * Génére une balle avec une vitesse et position aléatoire
+     *
+     * @param radius le rayon de la balle
+     * @return
+     */
+    public static IABalle RandomBalle(int radius) {
         Random r = new Random();
-        int x = radius + r.nextInt((GameView.viewWidth - radius) - radius);
-        int y = radius + r.nextInt((GameView.viewHeight + radius) - radius);
-        return new IABalle(x, y, radius);
+        int[] randomDirection = new int[]{-1, 1};
+        int[] randomStep = new int[]{1, 2, 3, 4, 5};
+
+        // générer des coordonées aléatoire pour la balle
+        // ne doit pas dépasser la taille de l'écran
+        int posX = radius + r.nextInt((GameData.viewWidth - radius) - radius);
+        int posY = radius + r.nextInt((GameData.viewHeight + radius) - radius);
+
+        // choisir une direction au hasard
+        // si x est négatif la balle se déplace a gauche, sinon droite
+        // si y est négatif la balle se déplace en haut, sinon bas
+        int directionX = randomDirection[r.nextInt(randomDirection.length)];
+        int directionY = randomDirection[r.nextInt(randomDirection.length)];
+
+        // choisir un pas au hasard
+        int stepX = randomStep[r.nextInt(randomStep.length)];
+        int stepY = randomStep[r.nextInt(randomStep.length)];
+        return new IABalle(posX, posY, radius, directionX, directionY, stepX, stepY);
     }
 
+    /**
+     * Déplacement automatique de la balle
+     */
     @Override
     public void run() {
         while (true) {
@@ -68,8 +77,8 @@ public class IABalle extends Balle implements Runnable {
             }
 
             // empêcher de dépasser le rebord droit et rediriger vers la gauche
-            if (this.posX >= GameView.viewWidth - this.radius) {
-                this.posX = GameView.viewWidth - this.radius;
+            if (this.posX >= GameData.viewWidth - this.radius) {
+                this.posX = GameData.viewWidth - this.radius;
                 this.directionX = -this.directionX;
             }
 
@@ -80,8 +89,8 @@ public class IABalle extends Balle implements Runnable {
             }
 
             // empêcher de dépasser le rebord bas et rediriger vers le haut
-            if (this.posY >= GameView.viewHeight - this.radius) {
-                this.posY = GameView.viewHeight - this.radius;
+            if (this.posY >= GameData.viewHeight - this.radius) {
+                this.posY = GameData.viewHeight - this.radius;
                 this.directionY = -this.directionY;
             }
 

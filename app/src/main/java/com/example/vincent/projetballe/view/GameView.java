@@ -5,18 +5,13 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
 
-import com.example.vincent.projetballe.model.GameModel;
+import com.example.vincent.projetballe.model.GameData;
 import com.example.vincent.projetballe.model.LesBalles.Balle;
-import com.example.vincent.projetballe.model.LesBalles.UserBalle;
 
 /**
  * Cette classe dessine toutes les balles
  */
 public class GameView extends View {
-
-    // taille de la vue
-    public static int viewWidth;
-    public static int viewHeight;
 
     private Paint mPaint; // pour dessiner
 
@@ -29,16 +24,17 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         // dessiner la balle de l'utilisateur
-        if (UserBalle.getInstance() != null) {
-            mPaint.setColor(UserBalle.getInstance().getColor());
-            canvas.drawCircle(UserBalle.getInstance().getPosX(), UserBalle.getInstance().getPosY(), UserBalle.getInstance().getRadius(), mPaint);
+        if (GameData.userBalle != null) {
+            mPaint.setColor(GameData.userBalle.getColor());
+            canvas.drawCircle(GameData.userBalle.getPosX(), GameData.userBalle.getPosY(), GameData.userBalle.getRadius(), mPaint);
         }
         // dessiner chaque balle ia
-        for (Balle uneBalle : GameModel.listIABalles) {
-            mPaint.setColor(uneBalle.getColor());
-            canvas.drawCircle(uneBalle.getPosX(), uneBalle.getPosY(), uneBalle.getRadius(), mPaint);
+        if (GameData.listIABalles != null) {
+            for (Balle uneBalle : GameData.listIABalles) {
+                mPaint.setColor(uneBalle.getColor());
+                canvas.drawCircle(uneBalle.getPosX(), uneBalle.getPosY(), uneBalle.getRadius(), mPaint);
+            }
         }
 
         invalidate(); // redessiner en permanence

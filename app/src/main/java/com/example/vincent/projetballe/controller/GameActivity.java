@@ -10,10 +10,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.vincent.projetballe.model.GameModel;
+import com.example.vincent.projetballe.model.GameData;
 import com.example.vincent.projetballe.model.LesBalles.IABalle;
 import com.example.vincent.projetballe.model.LesBalles.UserBalle;
 import com.example.vincent.projetballe.view.GameView;
+
+import java.util.ArrayList;
 
 /**
  * Cette classe gère le déplacement de la balle de l'utilisateur à l'aide de l'accéléromètre
@@ -36,9 +38,6 @@ public class GameActivity extends Activity implements SensorEventListener {
         mGameView = new GameView(this);
         setContentView(mGameView);
 
-        // créer les tableaux pour sauvegarder les balles
-        GameModel.onCreate();
-
         // récupérer l'accéléromètre
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -54,6 +53,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.v(getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName());
         // lancer l'accéléromètre
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
@@ -62,6 +62,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     protected void onPause() {
         super.onPause();
+        Log.v(getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName());
         // arreter l'accéléromètre
         mSensorManager.unregisterListener(this);
     }
@@ -71,8 +72,9 @@ public class GameActivity extends Activity implements SensorEventListener {
      */
     @Override
     protected void onDestroy() {
+        Log.v(getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName());
         super.onDestroy();
-        GameModel.onDestroy(); // détruire le jeu
+        endGame();
         Intent intent = new Intent(this, MainActivity.class); // retourner dans le main activity
         startActivity(intent);
     }
@@ -83,21 +85,42 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        GameView.viewWidth = mGameView.getWidth();
-        GameView.viewHeight = mGameView.getHeight();
-        Log.v("WindowsSize", "Width=" + GameView.viewWidth); // Longueur max
-        Log.v("WindowsSize", "Height=" + GameView.viewHeight); // Hauteur Max
-        createBalles();
+        Log.v(getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName());
+        GameData.viewWidth = mGameView.getWidth();
+        GameData.viewHeight = mGameView.getHeight();
+        Log.v("WindowsSize", "Width=" + GameData.viewWidth); // Longueur max
+        Log.v("WindowsSize", "Height=" + GameData.viewHeight); // Hauteur Max
+        startGame();
     }
 
+
     /**
-     * Créer toutes les balles
+     * Démarrer le jeu
      */
-    private void createBalles() {
-        // créer la balle de l'utilisateur
-        if (UserBalle.getInstance() == null) UserBalle.setIntance(mGameView);
-        // créer des balles IA
-        GameModel.randomIABalles(5);
+    private void startGame() {
+        Log.v(getClass().getName(), "Starting game...");
+        // créer les tableaux pour stocker les balles
+        if (GameData.listIABalles == null) GameData.listIABalles = new ArrayList<>();
+
+        // positionner la balle de l'utilisateur au milieu
+        if (GameData.userBalle == null)
+            GameData.userBalle = new UserBalle(GameData.viewWidth / 2, GameData.viewHeight / 2, (int) (GameData.viewWidth * 4.63 / 100));
+
+        // ajouter 5 balles ia
+        while (GameData.listIABalles.size() < 5) {
+            GameData.listIABalles.add(IABalle.RandomBalle(GameData.userBalle.getRadius()));
+        }
+
+        // lancer les balles ia
+        for (IABalle uneBalle : GameData.listIABalles) {
+            uneBalle.start();
+        }
+
+    }
+
+
+    private void endGame() {
+        Log.v(getClass().getName(), "Ending game...");
     }
 
     /**
@@ -105,8 +128,7 @@ public class GameActivity extends Activity implements SensorEventListener {
      * ex : collision avec une autre balle, récupération d'un bonus
      */
     private void onUserBalleMoved() {
-        for (IABalle uneBalle : GameModel.listIABalles) {
-        }
+
     }
 
     /**
@@ -114,8 +136,8 @@ public class GameActivity extends Activity implements SensorEventListener {
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (UserBalle.getInstance() != null) {
-            UserBalle.getInstance().move((int) event.values[0], (int) event.values[1]);
+        if (GameData.userBalle != null) {
+            GameData.userBalle.move((int) event.values[0], (int) event.values[1]);
             onUserBalleMoved(); // gérer les évènements de la balle avec l'environnement
         }
     }
