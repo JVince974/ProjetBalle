@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.vincent.projetballe.model.GameData;
+import com.example.vincent.projetballe.model.LesBalles.CatchBall;
 import com.example.vincent.projetballe.model.LesBalles.IABalle;
 import com.example.vincent.projetballe.model.LesBalles.UserBalle;
 import com.example.vincent.projetballe.view.GameView;
@@ -114,6 +115,12 @@ public class GameActivity extends Activity implements SensorEventListener {
         // lancer les balles ia
         for (IABalle uneBalle : GameData.listIABalles) {
             uneBalle.start();
+        }
+
+        // la balle a attraper
+        if (GameData.catchBall == null) {
+            GameData.catchBall = CatchBall.RandomBalle(GameData.userBalle.getRadius());
+            GameData.catchBall.start();
         }
 
     }

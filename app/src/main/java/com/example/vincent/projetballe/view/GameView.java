@@ -37,6 +37,12 @@ public class GameView extends View {
             }
         }
 
+        // dessiner la balle a attraper
+        if (GameData.catchBall != null) {
+            mPaint.setColor(GameData.catchBall.getColor());
+            canvas.drawCircle(GameData.catchBall.getPosX(), GameData.catchBall.getPosY(), GameData.catchBall.getRadius(), mPaint);
+        }
+
         invalidate(); // redessiner en permanence
     }
 
