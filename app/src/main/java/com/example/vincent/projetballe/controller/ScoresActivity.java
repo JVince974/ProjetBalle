@@ -1,15 +1,17 @@
 package com.example.vincent.projetballe.controller;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.ListView;
 
 import com.example.vincent.projetballe.R;
+import com.example.vincent.projetballe.model.ScoresXML;
 
 public class ScoresActivity extends AppCompatActivity {
+
+    private ListView mListViewScores;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,14 +20,11 @@ public class ScoresActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        mListViewScores = (ListView) findViewById(R.id.listview_scores_adapter);
+//        ScoresAdapter scoresAdapter = new ScoresAdapter(getBaseContext())
+
+        //test pour écrire un fichier
+        ScoresXML.main();
     }
 
 }

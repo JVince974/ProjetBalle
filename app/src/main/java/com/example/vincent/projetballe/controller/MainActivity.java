@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -30,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         // demander acces a la localisation au demarrage
         checkPermissions();
+        debugScores();
     }
 
 
@@ -93,5 +93,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
         finish();
+    }
+
+
+    private void debugScores() {
+        Intent intent = new Intent(this, ScoresActivity.class);
+        startActivity(intent);
     }
 }
