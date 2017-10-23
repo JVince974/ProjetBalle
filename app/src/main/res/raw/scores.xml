@@ -18,4 +18,10 @@
         <latitude>4</latitude>
         <longitude>8</longitude>
     </joueur>
+    <joueur>
+        <nom>Tata</nom>
+        <score>15</score>
+        <latitude>20</latitude>
+        <longitude>8</longitude>
+    </joueur>
 </root>

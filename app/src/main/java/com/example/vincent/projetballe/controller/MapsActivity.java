@@ -8,10 +8,12 @@ import android.util.Log;
 import com.example.vincent.projetballe.R;
 import com.example.vincent.projetballe.model.Joueur;
 import com.example.vincent.projetballe.model.ScoresXML;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +29,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String position = intent.getStringExtra(ScoresActivity.DISPLAY_PLAYER_POSITION);
+        position = intent.getIntExtra(ScoresActivity.DISPLAY_PLAYER_POSITION, 0);
         Log.v(getClass().getSimpleName(), "DisplayPlayerId : " + position);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -51,14 +54,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         ArrayList<Joueur> lesJoueurs = ScoresXML.getLesJoueurs();
 
-        for (Joueur unJoueur : lesJoueurs) {
+        for (int i = 0; i < lesJoueurs.size(); i++) {
+            Joueur unJoueur = lesJoueurs.get(i);
             LatLng latLng = new LatLng(unJoueur.getLatitude(), unJoueur.getLongitude());
-            mMap.addMarker(new MarkerOptions()
+            Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(latLng)
                     .title(unJoueur.getNom() + ", Score :" + unJoueur.getScore())
                     .snippet("latitude : " + unJoueur.getLatitude() + " , longitude : " + unJoueur.getLongitude())
             );
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            // bouger la caméra sur le score actuel
+            if (i == position) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                marker.showInfoWindow();
+            }
+
         }
     }
 }

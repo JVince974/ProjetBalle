@@ -47,7 +47,7 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.v(Thread.currentThread().getStackTrace()[1].getMethodName(), lesJoueurs.get(position).toString());
         Intent intent = new Intent(this, MapsActivity.class);
-        intent.putExtra(DISPLAY_PLAYER_POSITION, "" + position);
+        intent.putExtra(DISPLAY_PLAYER_POSITION, position);
         startActivity(intent);
 
     }
