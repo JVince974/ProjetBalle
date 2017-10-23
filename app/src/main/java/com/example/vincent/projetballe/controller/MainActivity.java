@@ -47,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         // options
-        if (id == R.id.action_settings) {
-            Toast.makeText(this, "Settings", Toast.LENGTH_LONG).show();
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            Toast.makeText(this, "Settings", Toast.LENGTH_LONG).show();
+//            return true;
+//        }
         // scores
         if (id == R.id.action_scores) {
             Intent intent = new Intent(this, ScoresActivity.class);

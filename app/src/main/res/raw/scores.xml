@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <personne>
+    <joueur>
         <nom>Vincent</nom>
         <score>15</score>
         <latitude>1</latitude>
         <longitude>2</longitude>
-    </personne>
-    <personne>
+    </joueur>
+    <joueur>
         <nom>tata</nom>
         <score>18</score>
         <latitude>145</latitude>
         <longitude>245</longitude>
-    </personne>
-    <personne>
+    </joueur>
+    <joueur>
         <nom>toto</nom>
         <score>145455</score>
         <latitude>541</latitude>
         <longitude>245455</longitude>
-    </personne>
+    </joueur>
 </root>
