@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ScoresXMLPullParserHandler {
 
     // contient la liste des joueurs
-    private ArrayList<Joueur> listJoueurs;
+    private ArrayList<Joueur> lesJoueurs;
 
     public ScoresXMLPullParserHandler(InputStream inputStream) {
         try {
@@ -33,7 +33,7 @@ public class ScoresXMLPullParserHandler {
 
     // remplir la liste des joueurs
     private void readRoot(XmlPullParser parser) throws IOException, XmlPullParserException {
-        listJoueurs = new ArrayList<>();
+        lesJoueurs = new ArrayList<>();
 
         parser.require(XmlPullParser.START_TAG, null, "root");
         while (parser.next() != XmlPullParser.END_TAG) {
@@ -42,7 +42,7 @@ public class ScoresXMLPullParserHandler {
             }
             String tag = parser.getName();
             if (tag.equals(Joueur.TAG)) {
-                listJoueurs.add(readJoueur(parser));
+                lesJoueurs.add(readJoueur(parser));
             } else {
                 skip(parser);
             }
@@ -113,8 +113,8 @@ public class ScoresXMLPullParserHandler {
     }
 
 
-    public ArrayList<Joueur> getListJoueurs() {
-        return listJoueurs;
+    public ArrayList<Joueur> getLesJoueurs() {
+        return lesJoueurs;
     }
 }
 
