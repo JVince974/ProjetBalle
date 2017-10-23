@@ -1,15 +1,20 @@
 package com.example.vincent.projetballe.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.example.vincent.projetballe.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
+import com.example.vincent.projetballe.model.Joueur;
+import com.example.vincent.projetballe.model.ScoresXML;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -19,6 +24,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        // Get the Intent that started this activity and extract the string
+        Intent intent = getIntent();
+        String position = intent.getStringExtra(ScoresActivity.DISPLAY_PLAYER_POSITION);
+        Log.v(getClass().getSimpleName(), "DisplayPlayerId : " + position);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -39,9 +49,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        ArrayList<Joueur> lesJoueurs = ScoresXML.getLesJoueurs();
+
+        for (Joueur unJoueur : lesJoueurs) {
+            LatLng latLng = new LatLng(unJoueur.getLatitude(), unJoueur.getLongitude());
+            mMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title(unJoueur.getNom() + ", Score :" + unJoueur.getScore())
+                    .snippet("latitude : " + unJoueur.getLatitude() + " , longitude : " + unJoueur.getLongitude())
+            );
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        }
     }
 }
