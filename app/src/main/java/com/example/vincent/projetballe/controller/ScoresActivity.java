@@ -28,13 +28,9 @@ public class ScoresActivity extends AppCompatActivity {
         // parser le fichier des scores
         mScoresXML = new ScoresXMLPullParserHandler(getResources().openRawResource(R.raw.scores));
         ArrayList<Joueur> lesJoueurs = mScoresXML.getLesJoueurs();
-
+        // afficher dans la listView
         CustomScoresAdapter adapter = new CustomScoresAdapter(this, lesJoueurs);
         mListViewScores.setAdapter(adapter);
-
-//        for (Joueur joueur : lesJoueurs) {
-//            Log.v("Joueur", joueur.toString());
-//        }
 
 
     }
