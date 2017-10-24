@@ -26,4 +26,10 @@ abstract public class GameData {
     public static ArrayList<IABalle> listIABalles;
 
 
+    public static void clear() {
+        userBalle = null;
+        catchBall = null;
+        listIABalles = null;
+    }
+
 }

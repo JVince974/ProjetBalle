@@ -177,6 +177,14 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     private void destroyGame() {
         Log.v(getClass().getSimpleName(), "Destroying Game...");
+
+        // mettre en pause les balles ia
+        for (IABalle balle : GameData.listIABalles) {
+            balle.stop();
+        }
+        // la balles a attraper
+        GameData.catchBall.stop();
+        GameData.clear();
     }
 
 
