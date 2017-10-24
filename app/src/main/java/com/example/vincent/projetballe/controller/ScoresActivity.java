@@ -57,6 +57,7 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
         Log.v(new Exception().getStackTrace()[0].getMethodName(), "" + position);
+        final Joueur unJoueur = lesJoueurs.get(position);
         final String[] listActionsItems = {
                 getResources().getString(R.string.builder_item_show_player_position),
                 getResources().getString(R.string.builder_item_delete_current_item),
@@ -64,42 +65,43 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
 
         // Dialog choix d'actions
         final AlertDialog.Builder builderActionChoice = new AlertDialog.Builder(this);
-        builderActionChoice.setItems(listActionsItems, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.v("DialogInterface", "" + which + " : " + listActionsItems[which]);
-                switch (which) {
+        builderActionChoice.setTitle(unJoueur.getNom() + ", " + unJoueur.getScore())
+                .setItems(listActionsItems, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.v("DialogInterface", "" + which + " : " + listActionsItems[which]);
+                        switch (which) {
 
-                    case 0:
-                        showScorePositionOnMapsActivity(position);
-                        break;
-
-
-                    case 1:
-                        // dialog confirmer suppression
-                        AlertDialog.Builder builderConfirmDelete = new AlertDialog.Builder(ScoresActivity.this);
-                        builderConfirmDelete
-                                .setMessage(getResources().getString(R.string.builder_title_confirm_delete) + " " + lesJoueurs.get(position).getNom() + " ?")
-                                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // supprimer l'entrée à la confirmation
-                                        lesJoueurs.remove(position);
-                                        refreshListView();
-                                        Log.e("DialogInterface", "Supprimer aussi dans le fichier XML");
-                                    }
-                                })
-                                .setNegativeButton(R.string.no, null);
-                        builderConfirmDelete.create().show();
-                        break;
+                            case 0:
+                                showScorePositionOnMapsActivity(position);
+                                break;
 
 
-                    default:
-                        Log.e("DialogInterface", "" + which + " : " + listActionsItems[which] + " : No onClickAction");
-                        break;
+                            case 1:
+                                // dialog confirmer suppression
+                                AlertDialog.Builder builderConfirmDelete = new AlertDialog.Builder(ScoresActivity.this);
+                                builderConfirmDelete
+                                        .setMessage(getResources().getString(R.string.builder_title_confirm_delete) + " " + unJoueur.getNom() + " ?")
+                                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                // supprimer l'entrée à la confirmation
+                                                lesJoueurs.remove(position);
+                                                refreshListView();
+                                                Log.e("DialogInterface", "Supprimer aussi dans le fichier XML");
+                                            }
+                                        })
+                                        .setNegativeButton(R.string.no, null);
+                                builderConfirmDelete.create().show();
+                                break;
 
-                }
-            }
-        });
+
+                            default:
+                                Log.e("DialogInterface", "" + which + " : " + listActionsItems[which] + " : No onClickAction");
+                                break;
+
+                        }
+                    }
+                });
         builderActionChoice.create().show();
 
         return true;
