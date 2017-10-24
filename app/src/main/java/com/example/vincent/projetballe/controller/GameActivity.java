@@ -64,6 +64,9 @@ public class GameActivity extends Activity implements SensorEventListener {
     protected void onPause() {
         super.onPause();
         Log.v(getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName());
+        for (IABalle balle : GameData.listIABalles) {
+            balle.pause();
+        }
         // arreter l'accéléromètre
         mSensorManager.unregisterListener(this);
     }

@@ -21,6 +21,8 @@ public class IABalle extends Balle implements Runnable {
     protected int stepX, stepY; // le pas de la balle
     protected Thread thread; // le thread associé à la balle
 
+    private boolean suspended = false;
+
 
     public IABalle(int posX, int posY, int radius, int directionX, int directionY, int stepX, int stepY) {
         super(posX, posY, radius);
@@ -101,21 +103,32 @@ public class IABalle extends Balle implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            synchronized (this) {
+                while (suspended) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
 
     // lancer le thread
     public void start() {
-        this.thread.start();
+        if (!thread.isAlive())
+            thread.start();
     }
 
     // mettre le thread en pause
     public void pause() {
-        try {
-            this.thread.wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        suspended = true;
+    }
+
+    public synchronized void resume() {
+        suspended = false;
+        notify();
     }
 
 
