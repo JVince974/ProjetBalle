@@ -40,7 +40,6 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
         // afficher dans la listView
         mAdapter = new CustomScoresAdapter(this, lesJoueurs);
         mListViewScores.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();  // alert la listView en cas de mise a jour de l'adapter
         mListViewScores.setOnItemClickListener(this);
         mListViewScores.setOnItemLongClickListener(this);
     }
@@ -72,7 +71,9 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
                         showScorePositionOnMapsActivity(position);
                         break;
                     case 1:
-
+                        lesJoueurs.remove(position);
+                        refreshListView();
+                        Log.e("DialogInterface", "Supprimer aussi dans le fichier XML");
                         break;
                     default:
                         Log.e("DialogInterface", "" + which + " : " + listActions[which] + " : No onClickAction");
@@ -91,6 +92,12 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
         startActivity(intent);
     }
 
+    // rafraichir la vue, appeler cette mého
+    private void refreshListView() {
+        mAdapter.notifyDataSetChanged();
+        mListViewScores.invalidate();
+    }
+
     /******************************
      *      MENU ITEMS
      ******************************/
@@ -106,8 +113,7 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
         // supprimer tous les scores
         if (id == R.id.action_delete_all_scores) {
             lesJoueurs.clear();
-            mAdapter.notifyDataSetChanged();
-            mListViewScores.invalidate();
+            refreshListView();
             return true;
         }
         return super.onOptionsItemSelected(item);
