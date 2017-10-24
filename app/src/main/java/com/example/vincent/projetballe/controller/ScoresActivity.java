@@ -77,9 +77,9 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
 
                     case 1:
                         // dialog confirmer suppression
-                        AlertDialog.Builder bConfirmDelete = new AlertDialog.Builder(ScoresActivity.this);
-                        bConfirmDelete
-                                .setMessage(R.string.builder_title_confirm_delete)
+                        AlertDialog.Builder builderConfirmDelete = new AlertDialog.Builder(ScoresActivity.this);
+                        builderConfirmDelete
+                                .setMessage(getResources().getString(R.string.builder_title_confirm_delete) + " " + lesJoueurs.get(position).getNom() + " ?")
                                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         // supprimer l'entrée à la confirmation
@@ -89,7 +89,7 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
                                     }
                                 })
                                 .setNegativeButton(R.string.no, null);
-                        bConfirmDelete.create().show();
+                        builderConfirmDelete.create().show();
                         break;
 
 
@@ -113,6 +113,7 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
 
     // rafraichir la vue, appeler cette mého
     private void refreshListView() {
+        ScoresXML.save();
         mAdapter.notifyDataSetChanged();
         mListViewScores.invalidate();
     }

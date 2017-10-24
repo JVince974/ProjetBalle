@@ -1,6 +1,7 @@
 package com.example.vincent.projetballe.model;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.Xml;
 
 import com.example.vincent.projetballe.R;
@@ -27,6 +28,10 @@ final public class ScoresXML {
         return lesJoueurs;
     }
 
+
+    public static void save() {
+        Log.v(ScoresXML.class.toString(), "" + lesJoueurs.size());
+    }
 
     //**********************************
     //

@@ -11,7 +11,7 @@
     <string name="action_delete_all_scores">Supprimer tous les scores</string>
 
     <!--Builder Title-->
-    <string name="builder_title_confirm_delete">Voir la position</string>
+    <string name="builder_title_confirm_delete">Voulez-vous supprimer</string>
 
     <!-- Builder Item Actions-->
     <string name="builder_item_show_player_position">Voir la position</string>
