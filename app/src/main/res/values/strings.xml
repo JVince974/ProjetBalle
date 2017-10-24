@@ -1,8 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Activity name -->
     <string name="app_name">ProjetBalle</string>
     <string name="title_activity_scores">ScoresActivity</string>
     <string name="title_activity_maps">Map</string>
 
-    <string name="action_settings">Settings</string>
+    <!-- Settings -->
+    <string name="action_settings">Options</string>
+    <string name="action_scores">Scores</string>
+    <string name="action_delete_all_scores">Supprimer tous les scores</string>
+
+    <!--AlertDialog Actions-->
+    <string name="alert_dialog_show_player_position">Voir la position</string>
+    <string name="alert_dialog_delete_current_item">Supprimer</string>
+
+    <!-- Button -->
+    <string name="button_start">Commencer !</string>
+
+
+    <string name="request_location">Autoriser la localisation pour pouvoir continuer</string>
 </resources>

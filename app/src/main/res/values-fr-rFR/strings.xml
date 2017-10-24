@@ -10,6 +10,9 @@
     <string name="action_scores">Scores</string>
     <string name="action_delete_all_scores">Supprimer tous les scores</string>
 
+    <!--AlertDialog Actions-->
+    <string name="alert_dialog_show_player_position">Voir la position</string>
+    <string name="alert_dialog_delete_current_item">Supprimer</string>
 
     <!-- Button -->
     <string name="button_start">Commencer !</string>

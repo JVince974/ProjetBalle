@@ -1,5 +1,7 @@
 package com.example.vincent.projetballe.controller;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +20,7 @@ import com.example.vincent.projetballe.model.ScoresXML;
 
 import java.util.ArrayList;
 
-public class ScoresActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnLongClickListener {
+public class ScoresActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     public final static String DISPLAY_PLAYER_POSITION = "DISPLAY_PLAYER_POSITION";
 
@@ -40,7 +42,7 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
         mListViewScores.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();  // alert la listView en cas de mise a jour de l'adapter
         mListViewScores.setOnItemClickListener(this);
-        mListViewScores.setOnLongClickListener(this);
+        mListViewScores.setOnItemLongClickListener(this);
     }
 
 
@@ -56,10 +58,28 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     @Override
-    public boolean onLongClick(View v) {
-        return false;
-    }
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        final String[] listActions = {
+                getResources().getString(R.string.alert_dialog_show_player_position),
+                getResources().getString(R.string.alert_dialog_delete_current_item),
+        };
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setItems(listActions, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Log.v("DialogInterface", "" + which + " : " + listActions[which]);
+                switch (which) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                }
+            }
+        });
+        builder.create().show();
+
+        return true;
+    }
 
     /******************************
      *      MENU ITEMS
@@ -82,6 +102,5 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 }
