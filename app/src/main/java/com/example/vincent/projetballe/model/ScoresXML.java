@@ -1,7 +1,6 @@
 package com.example.vincent.projetballe.model;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.Xml;
 
 import com.example.vincent.projetballe.R;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
  */
 final public class ScoresXML {
 
+    private static String fileData = "scores.xml";
     // contient la liste des joueurs
     private static ArrayList<Joueur> lesJoueurs;
 
@@ -29,8 +29,56 @@ final public class ScoresXML {
     }
 
 
-    public static void save() {
-        Log.v(ScoresXML.class.toString(), "" + lesJoueurs.size());
+    public static void save(Context context) {
+        try {
+//            FileOutputStream fos = context.openFileOutput(fileData, context.MODE_PRIVATE);
+        } catch (Exception e) {
+
+        }
+
+//        XmlSerializer xmlSerializer = Xml.newSerializer();
+//        StringWriter writer = new StringWriter();
+//
+//        xmlSerializer.setOutput(writer);
+//        // start DOCUMENT
+//        xmlSerializer.startDocument("UTF-8", true);
+//        // open tag: <record>
+//        xmlSerializer.startTag("", Study.RECORD);
+//        // open tag: <study>
+//        xmlSerializer.startTag("", Study.STUDY);
+//        xmlSerializer.attribute("", Study.ID, String.valueOf(study.mId));
+//
+//        // open tag: <topic>
+//        xmlSerializer.startTag("", Study.TOPIC);
+//        xmlSerializer.text(study.mTopic);
+//        // close tag: </topic>
+//        xmlSerializer.endTag("", Study.TOPIC);
+//
+//        // open tag: <content>
+//        xmlSerializer.startTag("", Study.CONTENT);
+//        xmlSerializer.text(study.mContent);
+//        // close tag: </content>
+//        xmlSerializer.endTag("", Study.CONTENT);
+//
+//        // open tag: <author>
+//        xmlSerializer.startTag("", Study.AUTHOR);
+//        xmlSerializer.text(study.mAuthor);
+//        // close tag: </author>
+//        xmlSerializer.endTag("", Study.AUTHOR);
+//
+//        // open tag: <date>
+//        xmlSerializer.startTag("", Study.DATE);
+//        xmlSerializer.text(study.mDate);
+//        // close tag: </date>
+//        xmlSerializer.endTag("", Study.DATE);
+//
+//        // close tag: </study>
+//        xmlSerializer.endTag("", Study.STUDY);
+//        // close tag: </record>
+//        xmlSerializer.endTag("", Study.RECORD);
+//
+//        // end DOCUMENT
+//        xmlSerializer.endDocument();
     }
 
     //**********************************
