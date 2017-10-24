@@ -1,7 +1,9 @@
 package com.example.vincent.projetballe.model;
 
-import android.util.Log;
+import android.content.Context;
 import android.util.Xml;
+
+import com.example.vincent.projetballe.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -18,7 +20,21 @@ public class ScoresXML {
     // contient la liste des joueurs
     private static ArrayList<Joueur> lesJoueurs;
 
-    public static void parse(InputStream inputStream) {
+
+    public static ArrayList<Joueur> getLesJoueurs(Context context) {
+        if (lesJoueurs == null)
+            parse(context.getResources().openRawResource(R.raw.scores));
+        return lesJoueurs;
+    }
+
+
+    //**********************************
+    //
+    // PRIVATE
+    //
+    //**********************************
+
+    private static void parse(InputStream inputStream) {
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -114,10 +130,5 @@ public class ScoresXML {
     }
 
 
-    public static ArrayList<Joueur> getLesJoueurs() {
-        if (lesJoueurs == null)
-            Log.e("ScoresXML", "Impossible de récupérer la liste des scores car la variable est nulle, essayez plutôt de parser le fichier XML associé");
-        return lesJoueurs;
-    }
 }
 

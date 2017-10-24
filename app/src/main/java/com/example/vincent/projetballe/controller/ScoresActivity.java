@@ -18,7 +18,7 @@ import com.example.vincent.projetballe.model.ScoresXML;
 
 import java.util.ArrayList;
 
-public class ScoresActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ScoresActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnLongClickListener {
 
     public final static String DISPLAY_PLAYER_POSITION = "DISPLAY_PLAYER_POSITION";
 
@@ -34,22 +34,30 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
         setSupportActionBar(toolbar);
 
         mListViewScores = (ListView) findViewById(R.id.listview_scores_adapter);
-        // parser le fichier des scores
-        ScoresXML.parse(getResources().openRawResource(R.raw.scores));
-        lesJoueurs = ScoresXML.getLesJoueurs();
+        lesJoueurs = ScoresXML.getLesJoueurs(this);
         // afficher dans la listView
         mAdapter = new CustomScoresAdapter(this, lesJoueurs);
         mListViewScores.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();  // alert la listView en cas de mise a jour de l'adapter
         mListViewScores.setOnItemClickListener(this);
+        mListViewScores.setOnLongClickListener(this);
     }
 
+
+    /******************************
+     *      LISTVIEW ONCLICK
+     ******************************/
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.v(Thread.currentThread().getStackTrace()[1].getMethodName(), lesJoueurs.get(position).toString());
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra(DISPLAY_PLAYER_POSITION, position);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        return false;
     }
 
 
@@ -74,4 +82,6 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

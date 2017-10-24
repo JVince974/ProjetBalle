@@ -52,7 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        ArrayList<Joueur> lesJoueurs = ScoresXML.getLesJoueurs();
+        ArrayList<Joueur> lesJoueurs = ScoresXML.getLesJoueurs(this);
 
         for (int i = 0; i < lesJoueurs.size(); i++) {
             Joueur unJoueur = lesJoueurs.get(i);
