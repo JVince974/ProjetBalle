@@ -120,12 +120,14 @@ public class IABalle extends Balle implements Runnable {
         }
     }
 
-    // lancer le thread
+    /*
+     * GESTION DES THREADS
+     */
+
     public void start() {
         thread.start();
     }
 
-    // mettre le thread en pause
     public void pause() {
         running = false;
     }

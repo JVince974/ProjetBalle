@@ -94,8 +94,7 @@ public class GameActivity extends Activity implements SensorEventListener {
             } else {
                 GameData.viewWidth = mGameView.getWidth();
                 GameData.viewHeight = mGameView.getHeight();
-                Log.v("WindowsSize", "Width=" + GameData.viewWidth); // Longueur max
-                Log.v("WindowsSize", "Height=" + GameData.viewHeight); // Hauteur Max
+                Log.v("WindowsSize", "Width=" + GameData.viewWidth + ", Height=" + GameData.viewHeight); // Longueur max
                 startGame();
             }
         } else {
@@ -105,12 +104,10 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
 
 
-    //
-    //
-    // Gestion de la partie
-    // startGame(), resumeGame(), pauseGame(), destroyGame()
-    //
-    //
+    /*
+     * GESTION DE LA PARTIE
+     * startGame(), resumeGame(), pauseGame(), destroyGame()
+     */
 
 
     private void startGame() {
@@ -192,8 +189,18 @@ public class GameActivity extends Activity implements SensorEventListener {
      * Analyse chaque interaction de la balle avec l'environnement
      * ex : collision avec une autre balle, récupération d'un bonus
      */
-    private void onUserBalleMoved() {
+    private void onUserBalleMovedListener() {
+        UserBalle mUserBall = GameData.userBalle;
+//        for (IABalle balle : GameData.listIABalles) {
+//            if (mUserBall.touched(balle)) {
+//                Log.v(new Exception().getStackTrace()[0].getMethodName(), "UserBall touched IABall");
+//            }
+//        }
 
+        if (mUserBall.touched(GameData.catchBall)) {
+            Log.v(new Exception().getStackTrace()[0].getMethodName(), "UserBall touched CatchBall");
+        }
+        
     }
 
     /**
@@ -201,9 +208,10 @@ public class GameActivity extends Activity implements SensorEventListener {
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
+//        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + " : x=" + event.values[0] + ", y=" + event.values[1]);
         if (GameData.userBalle != null) {
             GameData.userBalle.move((int) event.values[0], (int) event.values[1]);
-            onUserBalleMoved(); // gérer les évènements de la balle avec l'environnement
+            onUserBalleMovedListener(); // gérer les évènements de la balle avec l'environnement
         }
     }
 

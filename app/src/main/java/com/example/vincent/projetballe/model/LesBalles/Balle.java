@@ -31,6 +31,12 @@ abstract public class Balle {
     }
 
 
+    public boolean touched(Balle balle) {
+        double distance = Math.sqrt(Math.pow(this.getPosX() - balle.getPosX(), 2) + Math.pow(this.getPosY() - balle.getPosY(), 2));
+        return distance <= (this.getRadius() + balle.getRadius());
+    }
+
+
     @Override
     public String toString() {
         return "Balle{" +
@@ -40,6 +46,7 @@ abstract public class Balle {
                 ", color=" + color +
                 '}';
     }
+
 
     /*******************
      * GETTER AND SETTER

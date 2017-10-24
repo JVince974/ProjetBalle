@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Toutes les données du jeu sont sauvegardés dans cette classes
  * les balles, le score, la taille de l'écran, etc...
  */
-abstract public class GameData {
+final public class GameData {
 
     // taille de l'écran
     public static int viewWidth;
@@ -30,6 +30,7 @@ abstract public class GameData {
         userBalle = null;
         catchBall = null;
         listIABalles = null;
+        score = 0;
     }
 
 }
