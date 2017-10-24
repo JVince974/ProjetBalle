@@ -51,14 +51,13 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
      ******************************/
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.v(Thread.currentThread().getStackTrace()[1].getMethodName(), lesJoueurs.get(position).toString());
-        Intent intent = new Intent(this, MapsActivity.class);
-        intent.putExtra(DISPLAY_PLAYER_POSITION, position);
-        startActivity(intent);
+        Log.v(new Exception().getStackTrace()[0].getMethodName(), "" + position);
+        showScorePositionOnMapsActivity(position);
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+        Log.v(new Exception().getStackTrace()[0].getMethodName(), "" + position);
         final String[] listActions = {
                 getResources().getString(R.string.alert_dialog_show_player_position),
                 getResources().getString(R.string.alert_dialog_delete_current_item),
@@ -70,8 +69,13 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
                 Log.v("DialogInterface", "" + which + " : " + listActions[which]);
                 switch (which) {
                     case 0:
+                        showScorePositionOnMapsActivity(position);
                         break;
                     case 1:
+
+                        break;
+                    default:
+                        Log.e("DialogInterface", "" + which + " : " + listActions[which] + " : No onClickAction");
                         break;
                 }
             }
@@ -79,6 +83,12 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
         builder.create().show();
 
         return true;
+    }
+
+    private void showScorePositionOnMapsActivity(int position) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra(DISPLAY_PLAYER_POSITION, position);
+        startActivity(intent);
     }
 
     /******************************
