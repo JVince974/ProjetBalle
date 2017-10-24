@@ -62,16 +62,22 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
                 getResources().getString(R.string.builder_item_delete_current_item),
         };
 
-        final AlertDialog.Builder bActionChoice = new AlertDialog.Builder(this);
-        bActionChoice.setItems(listActionsItems, new DialogInterface.OnClickListener() {
+        // Dialog choix d'actions
+        final AlertDialog.Builder builderActionChoice = new AlertDialog.Builder(this);
+        builderActionChoice.setItems(listActionsItems, new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.v("DialogInterface", "" + which + " : " + listActionsItems[which]);
                 switch (which) {
+
                     case 0:
                         showScorePositionOnMapsActivity(position);
                         break;
+
+
                     case 1:
-                        AlertDialog.Builder bConfirmDelete = new AlertDialog.Builder(getBaseContext());
+                        // dialog confirmer suppression
+                        AlertDialog.Builder bConfirmDelete = new AlertDialog.Builder(ScoresActivity.this);
                         bConfirmDelete
                                 .setMessage(R.string.builder_title_confirm_delete)
                                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -82,20 +88,19 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
                                         Log.e("DialogInterface", "Supprimer aussi dans le fichier XML");
                                     }
                                 })
-                                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // User cancelled the dialog
-                                    }
-                                });
+                                .setNegativeButton(R.string.no, null);
                         bConfirmDelete.create().show();
                         break;
+
+
                     default:
                         Log.e("DialogInterface", "" + which + " : " + listActionsItems[which] + " : No onClickAction");
                         break;
+
                 }
             }
         });
-        bActionChoice.create().show();
+        builderActionChoice.create().show();
 
         return true;
     }
