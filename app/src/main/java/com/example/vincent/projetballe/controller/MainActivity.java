@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         // demander acces a la localisation au demarrage
         checkPermissions();
-        debugScores();
+        debugGame();
     }
 
 
@@ -99,5 +99,11 @@ public class MainActivity extends AppCompatActivity {
     private void debugScores() {
         Intent intent = new Intent(this, ScoresActivity.class);
         startActivity(intent);
+    }
+
+    private void debugGame() {
+        Intent intent = new Intent(this, GameActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -31,10 +31,12 @@ public class GameActivity extends Activity implements SensorEventListener {
     // Accéléromètre
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
+    private boolean gameAlreadyStarted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
         // récupérer la vue
         mGameView = new GameView(this);
         setContentView(mGameView);
@@ -51,34 +53,30 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.v(getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName());
-        // lancer l'accéléromètre
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.v(getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName());
-        for (IABalle balle : GameData.listIABalles) {
-            balle.pause();
-        }
-        // arreter l'accéléromètre
-        mSensorManager.unregisterListener(this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+//        // lancer l'accéléromètre
+//        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+//    }
+//
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+//        pauseGame();
+//    }
 
     /**
      * Détruire le jeu pour la partie suivante
      */
     @Override
     protected void onDestroy() {
-        Log.v(getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName());
+        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
         super.onDestroy();
-        endGame();
+        destroyGame();
         Intent intent = new Intent(this, MainActivity.class); // retourner dans le main activity
         startActivity(intent);
     }
@@ -89,20 +87,34 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        Log.v(getClass().getName(), Thread.currentThread().getStackTrace()[1].getMethodName());
-        GameData.viewWidth = mGameView.getWidth();
-        GameData.viewHeight = mGameView.getHeight();
-        Log.v("WindowsSize", "Width=" + GameData.viewWidth); // Longueur max
-        Log.v("WindowsSize", "Height=" + GameData.viewHeight); // Hauteur Max
-        startGame();
+        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + " : hasFocus = " + hasFocus);
+        if (hasFocus) {
+            if (gameAlreadyStarted) {
+                resumeGame();
+            } else {
+                GameData.viewWidth = mGameView.getWidth();
+                GameData.viewHeight = mGameView.getHeight();
+                Log.v("WindowsSize", "Width=" + GameData.viewWidth); // Longueur max
+                Log.v("WindowsSize", "Height=" + GameData.viewHeight); // Hauteur Max
+                startGame();
+            }
+        } else {
+            pauseGame();
+        }
+
     }
 
 
-    /**
-     * Démarrer le jeu
-     */
+    //
+    //
+    // Gestion de la partie
+    // startGame(), resumeGame(), pauseGame(), destroyGame()
+    //
+    //
+
+
     private void startGame() {
-        Log.v(getClass().getName(), "Starting game...");
+        Log.v(getClass().getSimpleName(), "Starting Game...");
         // créer les tableaux pour stocker les balles
         if (GameData.listIABalles == null) GameData.listIABalles = new ArrayList<>();
 
@@ -126,12 +138,47 @@ public class GameActivity extends Activity implements SensorEventListener {
             GameData.catchBall.start();
         }
 
+        gameAlreadyStarted = true;
+        // lancer l'accéléromètre
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
 
 
-    private void endGame() {
-        Log.v(getClass().getName(), "Ending game...");
+    /**
+     * Mettre en pause l'accéléromètre et les balles IA
+     */
+    private void pauseGame() {
+        Log.v(getClass().getSimpleName(), "Pausing Game...");
+        // arreter l'accéléromètre
+        mSensorManager.unregisterListener(this);
+
+        // mettre en pause les balles ia
+        for (IABalle balle : GameData.listIABalles) {
+            balle.pause();
+        }
+
+        // la balles a attraper
+        GameData.catchBall.pause();
     }
+
+    private void resumeGame() {
+        Log.v(getClass().getSimpleName(), "Resuming Game...");
+        // lancer l'accéléromètre
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+
+        // mettre en pause les balles ia
+        for (IABalle balle : GameData.listIABalles) {
+            balle.resume();
+        }
+
+        // la balles a attraper
+        GameData.catchBall.resume();
+    }
+
+    private void destroyGame() {
+        Log.v(getClass().getSimpleName(), "Destroying Game...");
+    }
+
 
     /**
      * Analyse chaque interaction de la balle avec l'environnement

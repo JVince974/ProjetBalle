@@ -21,7 +21,7 @@ public class IABalle extends Balle implements Runnable {
     protected int stepX, stepY; // le pas de la balle
     protected Thread thread; // le thread associé à la balle
 
-    private boolean suspended = false;
+    private boolean running = true;
 
 
     public IABalle(int posX, int posY, int radius, int directionX, int directionY, int stepX, int stepY) {
@@ -66,70 +66,71 @@ public class IABalle extends Balle implements Runnable {
      * Déplacement automatique de la balle
      */
     @Override
-    public void run() {
+    public synchronized void run() {
         while (true) {
-            // déplacer les balles avec leur pas
-            this.posX += this.stepX * this.directionX * speed;
-            this.posY -= this.stepY * this.directionY * speed;
+            while (running) {
+                // déplacer les balles avec leur pas
+                this.posX += this.stepX * this.directionX * speed;
+                this.posY -= this.stepY * this.directionY * speed;
 
-            // empêcher de dépasser le rebord gauche et rediriger vers la droite
-            if (this.posX <= this.radius) {
-                this.posX = this.radius;
-                this.directionX = -this.directionX;
+                // empêcher de dépasser le rebord gauche et rediriger vers la droite
+                if (this.posX <= this.radius) {
+                    this.posX = this.radius;
+                    this.directionX = -this.directionX;
+                }
+
+                // empêcher de dépasser le rebord droit et rediriger vers la gauche
+                if (this.posX >= GameData.viewWidth - this.radius) {
+                    this.posX = GameData.viewWidth - this.radius;
+                    this.directionX = -this.directionX;
+                }
+
+                // empêcher de dépasser le rebord haut et et rediriger vers le bas
+                if (this.posY <= this.radius) {
+                    this.posY = this.radius;
+                    this.directionY = -this.directionY;
+                }
+
+                // empêcher de dépasser le rebord bas et rediriger vers le haut
+                if (this.posY >= GameData.viewHeight - this.radius) {
+                    this.posY = GameData.viewHeight - this.radius;
+                    this.directionY = -this.directionY;
+                }
+
+                // réduire le taux de rafraichissment
+                try {
+                    Thread.sleep(30);  // milliseconds
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
-
-            // empêcher de dépasser le rebord droit et rediriger vers la gauche
-            if (this.posX >= GameData.viewWidth - this.radius) {
-                this.posX = GameData.viewWidth - this.radius;
-                this.directionX = -this.directionX;
-            }
-
-            // empêcher de dépasser le rebord haut et et rediriger vers le bas
-            if (this.posY <= this.radius) {
-                this.posY = this.radius;
-                this.directionY = -this.directionY;
-            }
-
-            // empêcher de dépasser le rebord bas et rediriger vers le haut
-            if (this.posY >= GameData.viewHeight - this.radius) {
-                this.posY = GameData.viewHeight - this.radius;
-                this.directionY = -this.directionY;
-            }
-
-
-            // réduire le taux de rafraichissment
+            // mettre en pause quand la variable running est à false
             try {
-                Thread.sleep(30);  // milliseconds
+                wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-            synchronized (this) {
-                while (suspended) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         }
     }
 
     // lancer le thread
     public void start() {
-        if (!thread.isAlive())
-            thread.start();
+        thread.start();
     }
 
     // mettre le thread en pause
     public void pause() {
-        suspended = true;
+        running = false;
     }
 
     public synchronized void resume() {
-        suspended = false;
+        running = true;
         notify();
     }
 
+    public void stop() {
+
+    }
 
 }

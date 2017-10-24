@@ -31,16 +31,15 @@ abstract public class Balle {
     }
 
 
-    /**
-     * Affiche la balle pour le log
-     */
+    @Override
     public String toString() {
-        return "[posX=" + posX + "; "
-                + "posY=" + posY + "; "
-                + "radius=" + radius + "; "
-                + "color=" + color + ";";
+        return "Balle{" +
+                "posX=" + posX +
+                ", posY=" + posY +
+                ", radius=" + radius +
+                ", color=" + color +
+                '}';
     }
-
 
     /*******************
      * GETTER AND SETTER
