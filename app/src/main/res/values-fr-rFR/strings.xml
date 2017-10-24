@@ -8,6 +8,8 @@
     <!-- Settings -->
     <string name="action_settings">Options</string>
     <string name="action_scores">Scores</string>
+    <string name="action_delete_all_scores">Supprimer tous les scores</string>
+
 
     <!-- Button -->
     <string name="button_start">Commencer !</string>
