@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Cette classe permet de sauvegarder les scores dans un fichier XML
  */
-public class ScoresXML {
+final public class ScoresXML {
 
     // contient la liste des joueurs
     private static ArrayList<Joueur> lesJoueurs;

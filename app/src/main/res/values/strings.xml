@@ -10,13 +10,19 @@
     <string name="action_scores">Scores</string>
     <string name="action_delete_all_scores">Supprimer tous les scores</string>
 
-    <!--AlertDialog Actions-->
-    <string name="alert_dialog_show_player_position">Voir la position</string>
-    <string name="alert_dialog_delete_current_item">Supprimer</string>
+    <!--Builder Title-->
+    <string name="builder_title_confirm_delete">Voir la position</string>
+
+    <!-- Builder Item Actions-->
+    <string name="builder_item_show_player_position">Voir la position</string>
+    <string name="builder_item_delete_current_item">Supprimer</string>
+
+    <!--Confirm Dialog-->
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 
     <!-- Button -->
     <string name="button_start">Commencer !</string>
-
 
     <string name="request_location">Autoriser la localisation pour pouvoir continuer</string>
 </resources>
