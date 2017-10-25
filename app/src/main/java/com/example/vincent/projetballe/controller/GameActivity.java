@@ -206,8 +206,27 @@ public class GameActivity extends Activity implements SensorEventListener {
             }
         }
 
+        // Quand on touche la balle a attraper
         if (mUserBall.touched(GameData.catchBall)) {
             Log.v(new Exception().getStackTrace()[0].getMethodName(), "UserBall touched CatchBall");
+            GameData.score++;
+            diplayScore();
+            // Détruire la catch balle et faire réapparaitre une plus tard
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    GameData.catchBall.stop();
+                    GameData.catchBall.setPosX(GameData.viewWidth + 10000);
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    GameData.catchBall = null;
+                    GameData.catchBall = CatchBall.RandomBalle(GameData.userBalle.getRadius());
+                    GameData.catchBall.start();
+                }
+            }).start();
         }
 
     }
