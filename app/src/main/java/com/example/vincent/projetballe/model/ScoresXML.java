@@ -1,6 +1,7 @@
 package com.example.vincent.projetballe.model;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.Xml;
 
 import com.example.vincent.projetballe.R;
@@ -30,6 +31,7 @@ final public class ScoresXML {
 
 
     public static void save(Context context) {
+        Log.v(ScoresXML.class.getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
         try {
 //            FileOutputStream fos = context.openFileOutput(fileData, context.MODE_PRIVATE);
         } catch (Exception e) {

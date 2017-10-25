@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,10 +38,14 @@ public class GameActivity extends Activity implements SensorEventListener {
     private Sensor mAccelerometer;
     private boolean gameAlreadyStarted = false;
 
+    // Media Player
+    private MediaPlayer mMediaPlayer;
+    private int iPausedPosition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
         // récupérer la vue
@@ -99,7 +104,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + " : hasFocus = " + hasFocus);
+        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + ": hasFocus=" + hasFocus);
         if (hasFocus) {
             if (gameAlreadyStarted) {
                 resumeGame();
@@ -148,6 +153,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         }
 
         gameAlreadyStarted = true;
+        playSong();
         // lancer l'accéléromètre
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
@@ -168,6 +174,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
         // la balles a attraper
         GameData.catchBall.pause();
+        pauseSong();
     }
 
     private void resumeGame() {
@@ -182,6 +189,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
         // la balles a attraper
         GameData.catchBall.resume();
+        resumeSong();
     }
 
     private void destroyGame() {
@@ -194,6 +202,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         // la balles a attraper
         GameData.catchBall.stop();
         GameData.clear();
+        stopSong();
     }
 
 
@@ -241,7 +250,9 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     }
 
-
+    /*
+     * Afficher le score
+     */
     private void diplayScore() {
         tvScore.setText("Score : " + GameData.score);
     }
@@ -261,6 +272,38 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+
+    public void playSong() {
+        stopSong();
+        mMediaPlayer = MediaPlayer.create(this, R.raw.rayman_ost);
+        mMediaPlayer.setOnCompletionListener(
+                new MediaPlayer.OnCompletionListener() {
+                    public void onCompletion(MediaPlayer mp) {
+                        stopSong();
+                    }
+                }
+        );
+        mMediaPlayer.start();
+    }
+
+
+    public void pauseSong() {
+        mMediaPlayer.pause();
+        iPausedPosition = mMediaPlayer.getCurrentPosition();
+    }
+
+    public void resumeSong() {
+        mMediaPlayer.seekTo(iPausedPosition);
+        mMediaPlayer.start();
+    }
+
+    public void stopSong() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
     }
 
 }

@@ -34,7 +34,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 0;
+    private final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 0;
+    private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    private final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
 
     private final int START_FOR_RESULT_SCORE = 0;
 
@@ -175,27 +177,52 @@ public class MainActivity extends AppCompatActivity {
     public void checkPermissions() {
         // demander la localisation
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+        // demander l'écriture en storage externe
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+        }
+        // demander la lecture en storage interne
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION:
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION:
                 // Si l'utilisateur refuse, fermer l'application
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(this, getResources().getString(R.string.request_location), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getResources().getString(R.string.request_permission_location), Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                break;
+            // Si l'utilisateur refuse, fermer l'application
+            case PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    Toast.makeText(this, getResources().getString(R.string.request_permission_read_external_storage), Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                break;
+            // Si l'utilisateur refuse, fermer l'application
+            case PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    Toast.makeText(this, getResources().getString(R.string.request_permission_write_external_storage), Toast.LENGTH_LONG).show();
                     finish();
                 }
                 break;
         }
+
     }
 
     /******************************
      *      LANCER LE JEU
      ******************************/
+
     public void startGame(View view) {
         // Lancer GameActivity
         Intent intent = new Intent(this, GameActivity.class);
@@ -217,6 +244,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void debug() {
+        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + ": filePath=" +
+                getApplicationInfo().dataDir
+        );
+//        ScoresXML.save(this);
 //        GPSTracking gpsTracking = new GPSTracking(this);
 //        gpsTracking.start();
     }

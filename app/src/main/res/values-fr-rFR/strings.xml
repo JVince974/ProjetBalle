@@ -34,5 +34,5 @@
     <string name="pseudo">Pseudo</string>
     <string name="edit_text_required_pseudo">Indiquez votre pseudo</string>
 
-    <string name="request_location">Autoriser la localisation pour pouvoir continuer</string>
+    <string name="request_permission_location">Autoriser la localisation pour pouvoir continuer</string>
 </resources>
