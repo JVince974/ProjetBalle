@@ -2,6 +2,8 @@ package com.example.vincent.projetballe.controller;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -12,9 +14,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.vincent.projetballe.R;
@@ -57,8 +61,36 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 int score = data.getIntExtra(GameActivity.MY_INTENT_EXTRA_SCORE, 0);
                 Log.v(getClass().getSimpleName(), "Score = " + score);
+
+                // créer le dialog pour sauvegarde le score de l'utlisateur
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                // Get the layout inflater
+                LayoutInflater inflater = getLayoutInflater();
+
+                // Inflate and set the layout for the dialog
+                // Pass null as the parent view because its going in the dialog layout
+                builder
+                        .setView(inflater.inflate(R.layout.dialog_input_score, null))
+                        .setPositiveButton(R.string.save, null)
+                        .setNegativeButton(R.string.cancel, null);
+
+                final AlertDialog dialogScoreInput = builder.create();
+                dialogScoreInput.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        Button btnSave = dialogScoreInput.getButton(AlertDialog.BUTTON_POSITIVE);
+                        btnSave.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Log.v(getClass().getSimpleName(), "Saving score...");
+                            }
+                        });
+                    }
+                });
+                dialogScoreInput.show();
+
             }
-            Snackbar.make(getWindow().getDecorView().getRootView(), R.string.game_over, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.layout_main), R.string.game_over, Snackbar.LENGTH_LONG).show();
         }
     }
 
