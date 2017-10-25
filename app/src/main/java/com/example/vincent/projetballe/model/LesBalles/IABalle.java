@@ -67,7 +67,7 @@ public class IABalle extends Balle implements Runnable {
      */
     @Override
     public synchronized void run() {
-        while (!thread.isInterrupted()) {
+        while (!Thread.currentThread().isInterrupted()) {
             while (running) {
                 // déplacer les balles avec leur pas
                 this.posX += this.stepX * this.directionX * speed;
@@ -102,7 +102,7 @@ public class IABalle extends Balle implements Runnable {
                     Thread.sleep(30);  // milliseconds
                 } catch (InterruptedException e) {
                     // e.printStackTrace();
-                    thread.interrupt();
+                    Thread.currentThread().interrupt();
                     break;
                 }
 
@@ -113,7 +113,7 @@ public class IABalle extends Balle implements Runnable {
                     wait();
                 } catch (InterruptedException e) {
                     // e.printStackTrace();
-                    thread.interrupt();
+                    Thread.currentThread().interrupt();
                     break;
                 }
             }
@@ -139,7 +139,7 @@ public class IABalle extends Balle implements Runnable {
 
     public void stop() {
         interrupt = true;
-        thread.interrupt();
+        Thread.currentThread().interrupt();
     }
 
 }

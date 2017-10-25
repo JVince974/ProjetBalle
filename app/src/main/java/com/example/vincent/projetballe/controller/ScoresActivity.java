@@ -121,7 +121,6 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
     private void showScorePositionOnMapsActivity(int position) {
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra(MY_INTENT_EXTRA_DISPLAY_PLAYER_POSITION, position);
-        startActivity(intent);
     }
 
     // rafraichir la vue, appeler cette mého

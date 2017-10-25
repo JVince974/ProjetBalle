@@ -88,8 +88,9 @@ public class GameActivity extends Activity implements SensorEventListener {
         Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
         super.onDestroy();
         destroyGame();
-        Intent intent = new Intent(this, MainActivity.class); // retourner dans le main activity
-        startActivity(intent);
+        // TODO: 25/10/2017 Supprimer les lignes en dessous
+//        Intent intent = new Intent(this, MainActivity.class); // retourner dans le main activity
+//        startActivity(intent);
     }
 
     /**
@@ -205,10 +206,12 @@ public class GameActivity extends Activity implements SensorEventListener {
         for (IABalle balle : GameData.listIABalles) {
             if (mUserBall.touched(balle)) {
                 Log.v(new Exception().getStackTrace()[0].getMethodName(), "UserBall touched IABall");
+                // Envoyer le score au main Activity
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(MY_INTENT_EXTRA_SCORE, GameData.score);
-                startActivity(intent);
-                this.finish();
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+                break;
             }
         }
 

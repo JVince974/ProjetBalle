@@ -1,6 +1,7 @@
 package com.example.vincent.projetballe.controller;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +20,9 @@ import com.example.vincent.projetballe.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 0;
+
+    private final int START_FOR_RESULT_SCORE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,28 @@ public class MainActivity extends AppCompatActivity {
         checkPermissions();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+        if (resultCode == Activity.RESULT_OK) {
+            int score = data.getIntExtra(GameActivity.MY_INTENT_EXTRA_SCORE, 0);
+            Log.v(getClass().getSimpleName(), "Score = " + score);
+        }
+    }
 
     /******************************
      *      MENU ITEMS
@@ -59,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     /******************************
      *      PERMISSION GPS
@@ -90,10 +117,11 @@ public class MainActivity extends AppCompatActivity {
     public void startGame(View view) {
         // Lancer GameActivity
         Intent intent = new Intent(this, GameActivity.class);
-        startActivity(intent);
-        finish();
+        startActivityForResult(intent, START_FOR_RESULT_SCORE);
     }
 
+
+    /// DEBUG
 
     private void debugScores() {
         Intent intent = new Intent(this, ScoresActivity.class);
@@ -101,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void debugGame() {
+        // Lancer GameActivity
         Intent intent = new Intent(this, GameActivity.class);
-        startActivity(intent);
-        finish();
+        startActivityForResult(intent, START_FOR_RESULT_SCORE);
     }
 }
