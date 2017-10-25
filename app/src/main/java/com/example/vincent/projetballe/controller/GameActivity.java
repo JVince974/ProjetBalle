@@ -223,7 +223,6 @@ public class GameActivity extends Activity implements SensorEventListener {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    GameData.catchBall = null;
                     GameData.catchBall = CatchBall.RandomBalle(GameData.userBalle.getRadius());
                     GameData.catchBall.start();
                 }
