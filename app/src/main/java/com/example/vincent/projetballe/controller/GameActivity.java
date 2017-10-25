@@ -44,7 +44,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         // récupérer la vue
         mGameView = findViewById(R.id.game_view);
         tvScore = (TextView) findViewById(R.id.tv_score);
-        tvScore.setText("dqsdsq");
+        diplayScore();
 
         // récupérer la vue
 //        mGameView = new GameView(this);
@@ -211,6 +211,12 @@ public class GameActivity extends Activity implements SensorEventListener {
         }
 
     }
+
+
+    private void diplayScore() {
+        tvScore.setText("Score : " + GameData.score);
+    }
+
 
     /**
      * Bouger la balle avec l'accéléromètre
