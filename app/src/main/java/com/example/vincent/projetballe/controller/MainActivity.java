@@ -3,10 +3,13 @@ package com.example.vincent.projetballe.controller;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +26,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.vincent.projetballe.R;
+import com.example.vincent.projetballe.bibliotheque.GPSTracking;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         // demander acces a la localisation au demarrage
         checkPermissions();
+        checkGPSEnabled();
+        debug();
     }
 
     @Override
@@ -60,8 +66,10 @@ public class MainActivity extends AppCompatActivity {
         Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
         if (requestCode == START_FOR_RESULT_SCORE) {
             if (resultCode == Activity.RESULT_OK) {
-                int score = data.getIntExtra(GameActivity.MY_INTENT_EXTRA_SCORE, 0);
+                final int score = data.getIntExtra(GameActivity.MY_INTENT_EXTRA_SCORE, 0);
                 Log.v(getClass().getSimpleName(), "Score = " + score);
+                String nom;
+                double latitude, longitude;
 
                 // créer le dialog pour sauvegarde le score de l'utlisateur
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -81,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 dialogPseudoInput.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(final DialogInterface dialog) {
-
                         Button btnSave = dialogPseudoInput.getButton(AlertDialog.BUTTON_POSITIVE);
                         btnSave.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -91,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
                                 Log.v(getClass().getSimpleName(), "Pseudo = \"" + nom + "\"");
 //                                // vérification du champs text
                                 if (nom.trim().length() > 0) {
-                                    Toast.makeText(getBaseContext(), nom + " is > 0", Toast.LENGTH_LONG).show();
+                                    GPSTracking gpsTracking = new GPSTracking(MainActivity.this);
+                                    gpsTracking.start();
                                     // Créer un joueur et sauvegarder
 
 
@@ -143,6 +151,16 @@ public class MainActivity extends AppCompatActivity {
     /******************************
      *      PERMISSION GPS
      ******************************/
+
+
+    public void checkGPSEnabled() {
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Toast.makeText(this, getResources().getString(R.string.ask_for_gps), Toast.LENGTH_LONG).show();
+            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+        }
+    }
+
     public void checkPermissions() {
         // demander la localisation
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
@@ -185,5 +203,10 @@ public class MainActivity extends AppCompatActivity {
         // Lancer GameActivity
         Intent intent = new Intent(this, GameActivity.class);
         startActivityForResult(intent, START_FOR_RESULT_SCORE);
+    }
+
+    private void debug() {
+        GPSTracking gpsTracking = new GPSTracking(this);
+        gpsTracking.start();
     }
 }
