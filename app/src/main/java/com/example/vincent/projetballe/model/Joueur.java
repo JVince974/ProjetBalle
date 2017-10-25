@@ -1,5 +1,7 @@
 package com.example.vincent.projetballe.model;
 
+import android.util.Log;
+
 public class Joueur {
 
     public static final String TAG = "joueur";
@@ -18,6 +20,7 @@ public class Joueur {
         this.score = score;
         this.latitude = latitude;
         this.longitude = longitude;
+        Log.v("New", toString());
     }
 
     public String getNom() {

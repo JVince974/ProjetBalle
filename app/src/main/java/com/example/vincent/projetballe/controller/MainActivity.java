@@ -28,6 +28,9 @@ import android.widget.Toast;
 import com.example.vincent.projetballe.R;
 import com.example.vincent.projetballe.bibliotheque.GPSTracking;
 import com.example.vincent.projetballe.model.Joueur;
+import com.example.vincent.projetballe.model.ScoresXML;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Lorsque la partie se termine, le score est récupéré et traité ici
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -97,15 +103,17 @@ public class MainActivity extends AppCompatActivity {
                                 Log.v(getClass().getSimpleName(), "Pseudo = \"" + nom + "\"");
 //                                // vérification du champs text
                                 if (nom.trim().length() > 0) {
+                                    Log.v(getClass().getSimpleName(), "starting GPS");
                                     GPSTracking gpsTracking = new GPSTracking(MainActivity.this);
                                     gpsTracking.start();
                                     Log.v(getClass().getSimpleName(), "Saving score...");
-                                    // Créer un joueur et sauvegarder
+                                    // Créer un joueur et sauvegarder dans la liste des joueurs
                                     double latitude = gpsTracking.getLatitude();
                                     double longitude = gpsTracking.getLongitude();
                                     Joueur joueur = new Joueur(nom, score, latitude, longitude);
+                                    ArrayList<Joueur> lesJoueurs = ScoresXML.getLesJoueurs(MainActivity.this);
 
-
+                                    gpsTracking.stop();
                                     Log.v(getClass().getSimpleName(), "Save done...");
                                 } else {
                                     edtPseudoInput.setError(getResources().getString(R.string.edit_text_required_pseudo));
