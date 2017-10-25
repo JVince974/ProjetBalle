@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -52,9 +53,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
-        if (resultCode == Activity.RESULT_OK) {
-            int score = data.getIntExtra(GameActivity.MY_INTENT_EXTRA_SCORE, 0);
-            Log.v(getClass().getSimpleName(), "Score = " + score);
+        if (requestCode == START_FOR_RESULT_SCORE) {
+            if (resultCode == Activity.RESULT_OK) {
+                int score = data.getIntExtra(GameActivity.MY_INTENT_EXTRA_SCORE, 0);
+                Log.v(getClass().getSimpleName(), "Score = " + score);
+            }
+            Snackbar.make(getWindow().getDecorView().getRootView(), R.string.game_over, Snackbar.LENGTH_LONG).show();
         }
     }
 

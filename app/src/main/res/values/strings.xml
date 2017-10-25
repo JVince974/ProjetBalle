@@ -24,5 +24,8 @@
     <!-- Button -->
     <string name="button_start">Commencer !</string>
 
+    <!--Game-->
+    <string name="game_over">Partie terminée</string>
+
     <string name="request_location">Autoriser la localisation pour pouvoir continuer</string>
 </resources>

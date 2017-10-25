@@ -209,7 +209,8 @@ public class GameActivity extends Activity implements SensorEventListener {
                 // Envoyer le score au main Activity
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(MY_INTENT_EXTRA_SCORE, GameData.score);
-                setResult(Activity.RESULT_OK, intent);
+                if (GameData.score > 0)
+                    setResult(Activity.RESULT_OK, intent);
                 finish();
                 break;
             }
