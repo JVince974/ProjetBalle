@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.vincent.projetballe.R;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.v(getClass().getSimpleName(), "Score = " + score);
 
                 // créer le dialog pour sauvegarde le score de l'utlisateur
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 // Get the layout inflater
                 LayoutInflater inflater = getLayoutInflater();
 
@@ -72,26 +73,42 @@ public class MainActivity extends AppCompatActivity {
                 builder
                         .setView(inflater.inflate(R.layout.dialog_input_score, null))
                         .setPositiveButton(R.string.save, null)
-                        .setNegativeButton(R.string.cancel, null);
+                        .setNegativeButton(R.string.cancel, null)
+                        .setCancelable(false)
+                ;
 
-                final AlertDialog dialogScoreInput = builder.create();
-                dialogScoreInput.setOnShowListener(new DialogInterface.OnShowListener() {
+                final AlertDialog dialogPseudoInput = builder.create();
+                dialogPseudoInput.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
-                    public void onShow(DialogInterface dialog) {
-                        Button btnSave = dialogScoreInput.getButton(AlertDialog.BUTTON_POSITIVE);
+                    public void onShow(final DialogInterface dialog) {
+
+                        Button btnSave = dialogPseudoInput.getButton(AlertDialog.BUTTON_POSITIVE);
                         btnSave.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Log.v(getClass().getSimpleName(), "Saving score...");
+                                EditText edtPseudoInput = (EditText) dialogPseudoInput.findViewById(R.id.edt_pseudo);
+                                String nom = edtPseudoInput.getText().toString();
+                                Log.v(getClass().getSimpleName(), "Pseudo = \"" + nom + "\"");
+//                                // vérification du champs text
+                                if (nom.trim().length() > 0) {
+                                    Toast.makeText(getBaseContext(), nom + " is > 0", Toast.LENGTH_LONG).show();
+                                    // Créer un joueur et sauvegarder
+
+
+                                    Log.v(getClass().getSimpleName(), "Saving score...");
+                                } else {
+                                    edtPseudoInput.setError("test");
+                                }
                             }
                         });
                     }
                 });
-                dialogScoreInput.show();
+                dialogPseudoInput.show();
 
             }
             Snackbar.make(findViewById(R.id.layout_main), R.string.game_over, Snackbar.LENGTH_LONG).show();
         }
+
     }
 
     /******************************
