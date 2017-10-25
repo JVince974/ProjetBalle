@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.vincent.projetballe.R;
 import com.example.vincent.projetballe.bibliotheque.GPSTracking;
+import com.example.vincent.projetballe.model.Joueur;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 final int score = data.getIntExtra(GameActivity.MY_INTENT_EXTRA_SCORE, 0);
                 Log.v(getClass().getSimpleName(), "Score = " + score);
-                String nom;
-                double latitude, longitude;
 
                 // créer le dialog pour sauvegarde le score de l'utlisateur
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -100,10 +99,14 @@ public class MainActivity extends AppCompatActivity {
                                 if (nom.trim().length() > 0) {
                                     GPSTracking gpsTracking = new GPSTracking(MainActivity.this);
                                     gpsTracking.start();
-                                    // Créer un joueur et sauvegarder
-
-
                                     Log.v(getClass().getSimpleName(), "Saving score...");
+                                    // Créer un joueur et sauvegarder
+                                    double latitude = gpsTracking.getLatitude();
+                                    double longitude = gpsTracking.getLongitude();
+                                    Joueur joueur = new Joueur(nom, score, latitude, longitude);
+
+
+                                    Log.v(getClass().getSimpleName(), "Save done...");
                                 } else {
                                     edtPseudoInput.setError(getResources().getString(R.string.edit_text_required_pseudo));
                                 }
