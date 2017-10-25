@@ -29,7 +29,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        position = intent.getIntExtra(ScoresActivity.DISPLAY_PLAYER_POSITION, 0);
+        position = intent.getIntExtra(ScoresActivity.MY_INTENT_EXTRA_DISPLAY_PLAYER_POSITION, 0);
         Log.v(getClass().getSimpleName(), "DisplayPlayerId : " + position);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.

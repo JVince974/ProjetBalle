@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
         // demander acces a la localisation au demarrage
         checkPermissions();
-        debugGame();
     }
 
 

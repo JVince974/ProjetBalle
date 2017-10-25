@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class ScoresActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
-    public final static String DISPLAY_PLAYER_POSITION = "DISPLAY_PLAYER_POSITION";
+    public final static String MY_INTENT_EXTRA_DISPLAY_PLAYER_POSITION = "MY_INTENT_EXTRA_DISPLAY_PLAYER_POSITION";
 
     private ListView mListViewScores;
     private ArrayList<Joueur> lesJoueurs;
@@ -120,7 +120,7 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
 
     private void showScorePositionOnMapsActivity(int position) {
         Intent intent = new Intent(this, MapsActivity.class);
-        intent.putExtra(DISPLAY_PLAYER_POSITION, position);
+        intent.putExtra(MY_INTENT_EXTRA_DISPLAY_PLAYER_POSITION, position);
         startActivity(intent);
     }
 

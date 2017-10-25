@@ -27,6 +27,8 @@ import java.util.ArrayList;
  */
 public class GameActivity extends Activity implements SensorEventListener {
 
+    public final static String MY_INTENT_EXTRA_SCORE = "score";
+
     // Vue
     private View mGameView;
     private TextView tvScore;
@@ -203,6 +205,10 @@ public class GameActivity extends Activity implements SensorEventListener {
         for (IABalle balle : GameData.listIABalles) {
             if (mUserBall.touched(balle)) {
                 Log.v(new Exception().getStackTrace()[0].getMethodName(), "UserBall touched IABall");
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra(MY_INTENT_EXTRA_SCORE, GameData.score);
+                startActivity(intent);
+                this.finish();
             }
         }
 
