@@ -3,6 +3,8 @@ package com.example.vincent.projetballe.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.view.View;
 
 import com.example.vincent.projetballe.model.GameData;
@@ -17,6 +19,20 @@ public class GameView extends View {
 
     public GameView(Context context) {
         super(context);
+        initialise();
+    }
+
+    public GameView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        initialise();
+    }
+
+    public GameView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        initialise();
+    }
+
+    private void initialise() {
         mPaint = new Paint();
         mPaint.setStyle(Paint.Style.FILL);
     }

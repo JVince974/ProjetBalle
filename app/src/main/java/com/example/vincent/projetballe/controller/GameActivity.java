@@ -9,12 +9,13 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
+import com.example.vincent.projetballe.R;
 import com.example.vincent.projetballe.model.GameData;
 import com.example.vincent.projetballe.model.LesBalles.CatchBall;
 import com.example.vincent.projetballe.model.LesBalles.IABalle;
 import com.example.vincent.projetballe.model.LesBalles.UserBalle;
-import com.example.vincent.projetballe.view.GameView;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     // Vue
     private View mGameView;
+    private TextView tvScore;
     // Accéléromètre
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -37,9 +39,16 @@ public class GameActivity extends Activity implements SensorEventListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+        setContentView(R.layout.activity_game);
+
         // récupérer la vue
-        mGameView = new GameView(this);
-        setContentView(mGameView);
+        mGameView = findViewById(R.id.game_view);
+        tvScore = (TextView) findViewById(R.id.tv_score);
+        tvScore.setText("dqsdsq");
+
+        // récupérer la vue
+//        mGameView = new GameView(this);
+//        setContentView(mGameView);
 
         // récupérer l'accéléromètre
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
