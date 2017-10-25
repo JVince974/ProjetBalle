@@ -24,9 +24,6 @@
     <string name="save">Sauvegarder</string>
     <string name="cancel">Annuler</string>
 
-    <!--Edit text-->
-    <!--<string name=""-->
-    
     <!-- Button -->
     <string name="button_start">Commencer !</string>
 
@@ -35,6 +32,7 @@
 
     <!--Input pseudo user for score-->
     <string name="pseudo">Pseudo</string>
+    <string name="edit_text_required_pseudo">Indiquez votre pseudo</string>
 
     <string name="request_location">Autoriser la localisation pour pouvoir continuer</string>
 </resources>

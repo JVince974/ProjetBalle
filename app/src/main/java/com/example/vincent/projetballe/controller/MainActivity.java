@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     Log.v(getClass().getSimpleName(), "Saving score...");
                                 } else {
-                                    edtPseudoInput.setError("test");
+                                    edtPseudoInput.setError(getResources().getString(R.string.edit_text_required_pseudo));
                                 }
                             }
                         });
