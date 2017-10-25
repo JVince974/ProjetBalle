@@ -191,16 +191,16 @@ public class GameActivity extends Activity implements SensorEventListener {
      */
     private void onUserBalleMovedListener() {
         UserBalle mUserBall = GameData.userBalle;
-//        for (IABalle balle : GameData.listIABalles) {
-//            if (mUserBall.touched(balle)) {
-//                Log.v(new Exception().getStackTrace()[0].getMethodName(), "UserBall touched IABall");
-//            }
-//        }
+        for (IABalle balle : GameData.listIABalles) {
+            if (mUserBall.touched(balle)) {
+                Log.v(new Exception().getStackTrace()[0].getMethodName(), "UserBall touched IABall");
+            }
+        }
 
         if (mUserBall.touched(GameData.catchBall)) {
             Log.v(new Exception().getStackTrace()[0].getMethodName(), "UserBall touched CatchBall");
         }
-        
+
     }
 
     /**
