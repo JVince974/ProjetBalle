@@ -15,7 +15,7 @@ public class IABalle extends Balle implements Runnable {
     private final static int COLOR = Color.BLACK; // couleur
 
     // vitesse de toutes les balles
-    public static int speed = 2;
+    public static float speed = 1;
 
     protected int directionX, directionY; // la direction de la balle
     protected int stepX, stepY; // le pas de la balle
