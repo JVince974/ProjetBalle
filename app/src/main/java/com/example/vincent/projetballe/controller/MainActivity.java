@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void debug() {
-        GPSTracking gpsTracking = new GPSTracking(this);
-        gpsTracking.start();
+//        GPSTracking gpsTracking = new GPSTracking(this);
+//        gpsTracking.start();
     }
 }
