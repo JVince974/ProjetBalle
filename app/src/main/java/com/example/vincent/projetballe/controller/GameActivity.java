@@ -215,7 +215,7 @@ public class GameActivity extends Activity implements SensorEventListener {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    IABalle.speed *= 1.2;
+                    IABalle.speed *= 1.5;
                     GameData.catchBall.stop();
                     GameData.catchBall.setPosX(GameData.viewWidth + 10000);
                     try {

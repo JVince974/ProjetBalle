@@ -31,6 +31,7 @@ final public class GameData {
         catchBall = null;
         listIABalles = null;
         score = 0;
+        IABalle.speed = 2;
     }
 
 }
