@@ -4,13 +4,17 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Xml;
 
-import com.example.vincent.projetballe.R;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlSerializer;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 /**
@@ -18,69 +22,95 @@ import java.util.ArrayList;
  */
 final public class ScoresXML {
 
-    private static String fileData = "scores.xml";
+    private static String fileName = "scores.xml";
     // contient la liste des joueurs
     private static ArrayList<Joueur> lesJoueurs;
 
 
     public static ArrayList<Joueur> getLesJoueurs(Context context) {
-        if (lesJoueurs == null)
-            parse(context.getResources().openRawResource(R.raw.scores));
+        // open the file
+        if (lesJoueurs == null) {
+//            parse(context.getResources().openRawResource(R.raw.scores)); // au cas où
+
+            File file = new File(context.getExternalCacheDir() + fileName);
+            // créer le fichier s'il n'existe pas
+            if (file.exists()) {
+                Log.v(ScoresXML.class.getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + ": creating file : " + file.getAbsolutePath());
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // lire le fichier
+            try {
+                FileInputStream fis = new FileInputStream(file);
+                parse(fis);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Log.v(ScoresXML.class.getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + ": lesJoueurs : " + lesJoueurs.toString());
+
         return lesJoueurs;
     }
 
-
+    /**
+     * Créer le fichier xml
+     */
     public static void save(Context context) {
         Log.v(ScoresXML.class.getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+        File file = new File(context.getExternalCacheDir() + fileName);
+        Log.v(ScoresXML.class.getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + ": filepath=" + file.getAbsolutePath());
         try {
-//            FileOutputStream fos = context.openFileOutput(fileData, context.MODE_PRIVATE);
-        } catch (Exception e) {
+            // créer le fichier
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            XmlSerializer xmlSerializer = Xml.newSerializer();
+            StringWriter writer = new StringWriter();
+            xmlSerializer.setOutput(writer);
+            xmlSerializer.startDocument("UTF-8", true);
 
+            xmlSerializer.startTag(null, "root");
+            for (Joueur joueur : getLesJoueurs(context)) {
+                Log.v(ScoresXML.class.getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + ": saving " + joueur.toString());
+                // joueur
+                xmlSerializer.startTag(null, "joueur");
+
+                // nom
+                xmlSerializer.startTag(null, "nom");
+                xmlSerializer.text(joueur.getNom());
+                xmlSerializer.endTag(null, "nom");
+
+                // score
+                xmlSerializer.startTag(null, "score");
+                xmlSerializer.text(String.valueOf(joueur.getScore()));
+                xmlSerializer.endTag(null, "score");
+
+                // latitude
+                xmlSerializer.startTag(null, "latitude");
+                xmlSerializer.text(String.valueOf(joueur.getLatitude()));
+                xmlSerializer.endTag(null, "latitude");
+
+                // longitude
+                xmlSerializer.startTag(null, "longitude");
+                xmlSerializer.text(String.valueOf(joueur.getLongitude()));
+                xmlSerializer.endTag(null, "longitude");
+
+                xmlSerializer.endTag(null, "joueur");
+            }
+
+            xmlSerializer.endTag(null, "root");
+            xmlSerializer.endDocument();
+            xmlSerializer.flush();
+            String dataWrite = writer.toString();
+            fos.write(dataWrite.getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-//        XmlSerializer xmlSerializer = Xml.newSerializer();
-//        StringWriter writer = new StringWriter();
-//
-//        xmlSerializer.setOutput(writer);
-//        // start DOCUMENT
-//        xmlSerializer.startDocument("UTF-8", true);
-//        // open tag: <record>
-//        xmlSerializer.startTag("", Study.RECORD);
-//        // open tag: <study>
-//        xmlSerializer.startTag("", Study.STUDY);
-//        xmlSerializer.attribute("", Study.ID, String.valueOf(study.mId));
-//
-//        // open tag: <topic>
-//        xmlSerializer.startTag("", Study.TOPIC);
-//        xmlSerializer.text(study.mTopic);
-//        // close tag: </topic>
-//        xmlSerializer.endTag("", Study.TOPIC);
-//
-//        // open tag: <content>
-//        xmlSerializer.startTag("", Study.CONTENT);
-//        xmlSerializer.text(study.mContent);
-//        // close tag: </content>
-//        xmlSerializer.endTag("", Study.CONTENT);
-//
-//        // open tag: <author>
-//        xmlSerializer.startTag("", Study.AUTHOR);
-//        xmlSerializer.text(study.mAuthor);
-//        // close tag: </author>
-//        xmlSerializer.endTag("", Study.AUTHOR);
-//
-//        // open tag: <date>
-//        xmlSerializer.startTag("", Study.DATE);
-//        xmlSerializer.text(study.mDate);
-//        // close tag: </date>
-//        xmlSerializer.endTag("", Study.DATE);
-//
-//        // close tag: </study>
-//        xmlSerializer.endTag("", Study.STUDY);
-//        // close tag: </record>
-//        xmlSerializer.endTag("", Study.RECORD);
-//
-//        // end DOCUMENT
-//        xmlSerializer.endDocument();
     }
 
     //**********************************
@@ -181,6 +211,96 @@ final public class ScoresXML {
                     depth++;
                     break;
             }
+        }
+    }
+
+    ///////
+    ///////  DEBUG
+    ///////
+
+
+    public static void debugCreateXml(Context context) {
+        Log.v(ScoresXML.class.getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+        File file = new File(context.getExternalCacheDir() + fileName);
+        Log.v(ScoresXML.class.getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + ": filepath=" + file.getAbsolutePath());
+        try {
+            // créer le fichier
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            XmlSerializer xmlSerializer = Xml.newSerializer();
+            StringWriter writer = new StringWriter();
+            xmlSerializer.setOutput(writer);
+            xmlSerializer.startDocument("UTF-8", true);
+
+            xmlSerializer.startTag(null, "root");
+            // joueur
+            xmlSerializer.startTag(null, "joueur");
+            // nom
+            xmlSerializer.startTag(null, "nom");
+            xmlSerializer.text("Test");
+            xmlSerializer.endTag(null, "nom");
+            // score
+            xmlSerializer.startTag(null, "score");
+            xmlSerializer.text(String.valueOf("15"));
+            xmlSerializer.endTag(null, "score");
+            // latitude
+            xmlSerializer.startTag(null, "latitude");
+            xmlSerializer.text(String.valueOf("15"));
+            xmlSerializer.endTag(null, "latitude");
+            // longitude
+            xmlSerializer.startTag(null, "longitude");
+            xmlSerializer.text(String.valueOf("16"));
+            xmlSerializer.endTag(null, "longitude");
+            xmlSerializer.endTag(null, "joueur");
+
+            // joueur
+            xmlSerializer.startTag(null, "joueur");
+            // nom
+            xmlSerializer.startTag(null, "nom");
+            xmlSerializer.text("Toto");
+            xmlSerializer.endTag(null, "nom");
+            // score
+            xmlSerializer.startTag(null, "score");
+            xmlSerializer.text(String.valueOf("15"));
+            xmlSerializer.endTag(null, "score");
+            // latitude
+            xmlSerializer.startTag(null, "latitude");
+            xmlSerializer.text(String.valueOf("15"));
+            xmlSerializer.endTag(null, "latitude");
+            // longitude
+            xmlSerializer.startTag(null, "longitude");
+            xmlSerializer.text(String.valueOf("16"));
+            xmlSerializer.endTag(null, "longitude");
+            xmlSerializer.endTag(null, "joueur");
+
+            // joueur
+            xmlSerializer.startTag(null, "joueur");
+            // nom
+            xmlSerializer.startTag(null, "nom");
+            xmlSerializer.text("Tata");
+            xmlSerializer.endTag(null, "nom");
+            // score
+            xmlSerializer.startTag(null, "score");
+            xmlSerializer.text(String.valueOf("15"));
+            xmlSerializer.endTag(null, "score");
+            // latitude
+            xmlSerializer.startTag(null, "latitude");
+            xmlSerializer.text(String.valueOf("15"));
+            xmlSerializer.endTag(null, "latitude");
+            // longitude
+            xmlSerializer.startTag(null, "longitude");
+            xmlSerializer.text(String.valueOf("16"));
+            xmlSerializer.endTag(null, "longitude");
+            xmlSerializer.endTag(null, "joueur");
+
+            xmlSerializer.endTag(null, "root");
+            xmlSerializer.endDocument();
+            xmlSerializer.flush();
+            String dataWrite = writer.toString();
+            fos.write(dataWrite.getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

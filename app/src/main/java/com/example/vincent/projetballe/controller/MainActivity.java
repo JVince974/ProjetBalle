@@ -243,12 +243,10 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, START_FOR_RESULT_SCORE);
     }
 
+
     private void debug() {
-        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
-        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + ": filePath=" +
-                getApplicationInfo().dataDir
-        );
 //        ScoresXML.save(this);
+//        ScoresXML.debugCreateXml(this);
 //        GPSTracking gpsTracking = new GPSTracking(this);
 //        gpsTracking.start();
     }
