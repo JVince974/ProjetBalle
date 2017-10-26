@@ -11,7 +11,7 @@ import com.example.vincent.projetballe.model.GameData;
 public class UserBalle extends Balle {
     public final static int COLOR = Color.RED; // couleur
 
-    private int speed = 5;
+    private int speed = 4;
 
     // constructeur
     public UserBalle(int posX, int posY, int radius) {
