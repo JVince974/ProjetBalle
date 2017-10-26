@@ -137,7 +137,7 @@ public class GameActivity extends Activity implements SensorEventListener {
             GameData.userBalle = new UserBalle(GameData.viewWidth / 2, GameData.viewHeight / 2, (int) (GameData.viewWidth * 4.63 / 100));
 
         // ajouter 5 balles ia
-        while (GameData.listIABalles.size() < 5) {
+        while (GameData.listIABalles.size() < 3) {
             GameData.listIABalles.add(IABalle.RandomBalle(GameData.userBalle.getRadius()));
         }
 
