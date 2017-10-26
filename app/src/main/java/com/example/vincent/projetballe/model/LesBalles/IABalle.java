@@ -43,7 +43,7 @@ public class IABalle extends Balle implements Runnable {
     public static IABalle RandomBalle(int radius) {
         Random r = new Random();
         int[] randomDirection = new int[]{-1, 1};
-        int[] randomStep = new int[]{1, 2, 3, 4, 5};
+        int[] randomStep = new int[]{1, 2, 3};
 
         // générer des coordonées aléatoire pour la balle
         // ne doit pas dépasser la taille de l'écran
