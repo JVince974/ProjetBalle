@@ -97,8 +97,8 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
                                             public void onClick(DialogInterface dialog, int id) {
                                                 // supprimer l'entrée à la confirmation
                                                 lesJoueurs.remove(position);
+                                                ScoresXML.save(ScoresActivity.this);
                                                 refreshListView();
-                                                Log.e("DialogInterface", "Supprimer aussi dans le fichier XML");
                                             }
                                         })
                                         .setNegativeButton(R.string.no, null);
@@ -146,6 +146,7 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
         // supprimer tous les scores
         if (id == R.id.action_delete_all_scores) {
             lesJoueurs.clear();
+            ScoresXML.save(this);
             refreshListView();
             return true;
         }

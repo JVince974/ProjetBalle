@@ -75,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
         Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
         if (requestCode == START_FOR_RESULT_SCORE) {
             if (resultCode == Activity.RESULT_OK) {
+                Log.v(getClass().getSimpleName(), "starting GPS");
+                final GPSTracking gpsTracking = new GPSTracking(MainActivity.this);
+                gpsTracking.start();
                 final int score = data.getIntExtra(GameActivity.MY_INTENT_EXTRA_SCORE, 0);
                 Log.v(getClass().getSimpleName(), "Score = " + score);
 
@@ -105,18 +108,16 @@ public class MainActivity extends AppCompatActivity {
                                 Log.v(getClass().getSimpleName(), "Pseudo = \"" + nom + "\"");
 //                                // vérification du champs text
                                 if (nom.trim().length() > 0) {
-                                    Log.v(getClass().getSimpleName(), "starting GPS");
-                                    GPSTracking gpsTracking = new GPSTracking(MainActivity.this);
-                                    gpsTracking.start();
                                     Log.v(getClass().getSimpleName(), "Saving score...");
                                     // Créer un joueur et sauvegarder dans la liste des joueurs
                                     double latitude = gpsTracking.getLatitude();
                                     double longitude = gpsTracking.getLongitude();
                                     Joueur joueur = new Joueur(nom, score, latitude, longitude);
                                     ArrayList<Joueur> lesJoueurs = ScoresXML.getLesJoueurs(MainActivity.this);
-
-                                    gpsTracking.stop();
+                                    lesJoueurs.add(joueur);
+                                    ScoresXML.save(MainActivity.this);
                                     Log.v(getClass().getSimpleName(), "Save done...");
+                                    dialog.dismiss();
                                 } else {
                                     edtPseudoInput.setError(getResources().getString(R.string.edit_text_required_pseudo));
                                 }
@@ -124,8 +125,14 @@ public class MainActivity extends AppCompatActivity {
                         });
                     }
                 });
+                dialogPseudoInput.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        Log.v(getClass().getSimpleName(), "Stoping GPS");
+                        gpsTracking.stop();
+                    }
+                });
                 dialogPseudoInput.show();
-
             }
             Snackbar.make(findViewById(R.id.layout_main), R.string.game_over, Snackbar.LENGTH_LONG).show();
         }
