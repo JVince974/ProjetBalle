@@ -4,6 +4,7 @@ package com.example.vincent.projetballe.model.GameObject.lesBonus;
  * Cette classe gère les bonus
  */
 public class Bonus extends Thread {
+    private static final String TAG = "Bonus";
 //    private static final String TAG = "Bonus";
 //
 //    private static final int TYPE_MALUS = -1;

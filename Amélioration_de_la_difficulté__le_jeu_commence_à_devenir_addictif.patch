@@ -1,0 +1,16 @@
+Index: app/src/main/java/com/example/vincent/projetballe/model/LesBalles/IABalle.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/vincent/projetballe/model/LesBalles/IABalle.java	(revision 66be8adefe9dba89888b2b03cc365e56f226ba7a)
++++ app/src/main/java/com/example/vincent/projetballe/model/LesBalles/IABalle.java	(revision )
+@@ -43,7 +43,7 @@
+     public static IABalle RandomBalle(int radius) {
+         Random r = new Random();
+         int[] randomDirection = new int[]{-1, 1};
+-        int[] randomStep = new int[]{1, 2, 3, 4, 5};
++        int[] randomStep = new int[]{1, 2, 3};
+ 
+         // générer des coordonées aléatoire pour la balle
+         // ne doit pas dépasser la taille de l'écran
