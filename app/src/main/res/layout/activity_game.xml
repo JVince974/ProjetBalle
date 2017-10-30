@@ -9,11 +9,19 @@
     <TextView
         android:id="@+id/tv_score"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:gravity="start"
+        android:text="@string/score"/>
 
-    <!-- Inclure le GameView -->
-    <com.example.vincent.projetballe.view.GameView
-        android:id="@+id/game_view"
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="end"/>
+
+    <!-- Inclure le AnimateGameView -->
+    <com.example.vincent.projetballe.view.AnimateGameView
+        android:id="@+id/animate_game_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

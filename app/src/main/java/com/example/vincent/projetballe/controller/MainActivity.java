@@ -56,13 +56,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+        Log.d(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+        Log.d(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
     }
 
 
@@ -72,14 +72,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+        Log.d(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
         if (requestCode == START_FOR_RESULT_SCORE) {
             if (resultCode == Activity.RESULT_OK) {
-                Log.v(getClass().getSimpleName(), "starting GPS");
+                Log.d(getClass().getSimpleName(), "starting GPS");
                 final GPSTracking gpsTracking = new GPSTracking(MainActivity.this);
                 gpsTracking.start();
                 final int score = data.getIntExtra(GameActivity.MY_INTENT_EXTRA_SCORE, 0);
-                Log.v(getClass().getSimpleName(), "Score = " + score);
+                Log.d(getClass().getSimpleName(), "Score = " + score);
 
                 // créer le dialog pour sauvegarde le score de l'utlisateur
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -105,10 +105,10 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(View view) {
                                 EditText edtPseudoInput = (EditText) dialogPseudoInput.findViewById(R.id.edt_pseudo);
                                 String nom = edtPseudoInput.getText().toString();
-                                Log.v(getClass().getSimpleName(), "Pseudo = \"" + nom + "\"");
+                                Log.d(getClass().getSimpleName(), "Pseudo = \"" + nom + "\"");
 //                                // vérification du champs text
                                 if (nom.trim().length() > 0) {
-                                    Log.v(getClass().getSimpleName(), "Saving score...");
+                                    Log.d(getClass().getSimpleName(), "Saving score...");
                                     // Créer un joueur et sauvegarder dans la liste des joueurs
                                     double latitude = gpsTracking.getLatitude();
                                     double longitude = gpsTracking.getLongitude();
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                                     ArrayList<Joueur> lesJoueurs = ScoresXML.getLesJoueurs(MainActivity.this);
                                     lesJoueurs.add(joueur);
                                     ScoresXML.save(MainActivity.this);
-                                    Log.v(getClass().getSimpleName(), "Save done...");
+                                    Log.d(getClass().getSimpleName(), "Save done...");
                                     dialog.dismiss();
                                 } else {
                                     edtPseudoInput.setError(getResources().getString(R.string.edit_text_required_pseudo));
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 dialogPseudoInput.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        Log.v(getClass().getSimpleName(), "Stoping GPS");
+                        Log.d(getClass().getSimpleName(), "Stoping GPS");
                         gpsTracking.stop();
                     }
                 });
@@ -252,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void debug() {
+        debugGame();
 //        ScoresXML.save(this);
 //        ScoresXML.debugCreateXml(this);
 //        GPSTracking gpsTracking = new GPSTracking(this);

@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
  * Assurez-vous d'avoir la permission de localisation
  */
 final public class GPSTracking {
+    private static final String TAG = "GPSTracking";
 
     private Context context;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -64,11 +65,11 @@ final public class GPSTracking {
     // rafraichir la location
     private void refreshLocation(Location lastLocation) {
         if (lastLocation != null) {
-            Log.v(new Exception().getStackTrace()[0].getMethodName(), toString());
+            Log.d(TAG, "refreshLocation() called with: lastLocation = [latitude=" + lastLocation.getLatitude() + ", longitude=" + lastLocation.getLongitude() + "]");
             this.latitude = lastLocation.getLatitude();
             this.longitude = lastLocation.getLongitude();
         } else {
-            Log.v(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + " : lastLocation is null");
+            Log.w(TAG, "refreshLocation() called with : location null, check if GPS is enabled");
         }
     }
 

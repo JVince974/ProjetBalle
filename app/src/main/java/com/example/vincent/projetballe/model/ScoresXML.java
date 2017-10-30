@@ -30,8 +30,8 @@ final public class ScoresXML {
     public static ArrayList<Joueur> getLesJoueurs(Context context) {
         // open the file
         if (lesJoueurs == null) {
+            lesJoueurs = new ArrayList<>();
 //            parse(context.getResources().openRawResource(R.raw.scores)); // au cas où
-
             File file = new File(context.getExternalCacheDir() + fileName);
             // créer le fichier s'il n'existe pas
             if (file.exists()) {
@@ -52,7 +52,7 @@ final public class ScoresXML {
             }
         }
 
-        Log.v(ScoresXML.class.getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + ": lesJoueurs : " + lesJoueurs.toString());
+//        Log.v(ScoresXML.class.getSimpleName(), new Exception().getStackTrace()[0].getMethodName() + ": lesJoueurs : " +  lesJoueurs.toString());
 
         return lesJoueurs;
     }

@@ -20,7 +20,7 @@ public class Joueur {
         this.score = score;
         this.latitude = latitude;
         this.longitude = longitude;
-        Log.v("New", toString());
+        Log.d("New", toString());
     }
 
     public String getNom() {

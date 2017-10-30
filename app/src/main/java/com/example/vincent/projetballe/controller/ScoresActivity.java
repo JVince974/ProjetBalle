@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class ScoresActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
-    public final static String MY_INTENT_EXTRA_DISPLAY_PLAYER_POSITION = "MY_INTENT_EXTRA_DISPLAY_PLAYER_POSITION";
+    public static final String MY_INTENT_EXTRA_DISPLAY_PLAYER_POSITION = "MY_INTENT_EXTRA_DISPLAY_PLAYER_POSITION";
 
     private ListView mListViewScores;
     private ArrayList<Joueur> lesJoueurs;
@@ -61,13 +61,13 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
      ******************************/
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.v(new Exception().getStackTrace()[0].getMethodName(), "" + position);
+        Log.d(new Exception().getStackTrace()[0].getMethodName(), "" + position);
         showScorePositionOnMapsActivity(position);
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-        Log.v(new Exception().getStackTrace()[0].getMethodName(), "" + position);
+        Log.d(new Exception().getStackTrace()[0].getMethodName(), "" + position);
         final Joueur unJoueur = lesJoueurs.get(position);
         final String[] listActionsItems = {
                 getResources().getString(R.string.builder_item_show_player_position),
@@ -80,7 +80,7 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
                 .setItems(listActionsItems, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.v("DialogInterface", "" + which + " : " + listActionsItems[which]);
+                        Log.d("DialogInterface", "" + which + " : " + listActionsItems[which]);
                         switch (which) {
 
                             case 0:
