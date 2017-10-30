@@ -42,17 +42,6 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
         mListViewScores.setAdapter(mAdapter);
         mListViewScores.setOnItemClickListener(this);
         mListViewScores.setOnItemLongClickListener(this);
-        test();
-    }
-
-    private void test() {
-//        Log.e("ttt", Arrays.toString(ScoresActivity.this.getFilesDir().list()));
-
-//        Log.e("tttt", Environment.getExternalStorageDirectory().getAbsolutePath());
-
-
-//        Log.e("ttt", ScoresActivity.this.getfi);
-//        ScoresXML.save(this);
     }
 
 

@@ -36,7 +36,7 @@
     <string name="pseudo">Pseudo</string>
     <string name="edit_text_required_pseudo">Indiquez votre pseudo</string>
 
-    <string name="score">Score : 0</string>
+    <string name="score">Score</string>
 
     <string name="request_permission_location">Autoriser la localisation pour pouvoir continuer</string>
     <string name="request_permission_read_external_storage">Autoriser la lecture des fichiers pour pouvoir afficher les scores</string>
