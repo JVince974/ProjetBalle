@@ -2,9 +2,12 @@ package com.example.vincent.projetballe.model.GameObject.lesBonus;
 
 import android.graphics.Color;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.vincent.projetballe.controller.GameActivity;
+import com.example.vincent.projetballe.model.GameObject.lesBalles.EnnemyBalle;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Bonus extends BonusMalus {
@@ -45,6 +48,10 @@ public class Bonus extends BonusMalus {
         return new Bonus(gameActivity, left, top, right, bottom, DURATION, which);
     }
 
+    /**
+     * FONCTION DEBOGGAGE
+     */
+
     // fonction deboggage
     public static Bonus debugWhichBonus(GameActivity gameActivity, int which) {
         Bonus bonus = randomBonus(gameActivity);
@@ -56,187 +63,61 @@ public class Bonus extends BonusMalus {
     @Override
     synchronized public void run() {
         switch (this.getWhich()) {
+
             case BONUS_STOP_IA_BALLS:
-
-
+                setBonusStopIaBalls();
                 break;
-
 
             case BONUS_YOU_CAN_EAT_OTHERS_BALLS:
-
-
+                setBonusYouCanEatOthersBalls();
                 break;
 
-
             case BONUS_INVINCIBILITY:
-
-
+                setBonusInvincibility();
                 break;
 
             default:
                 Log.e(TAG, "run: pas d'action défini pour ce bonus : " + getWhich());
                 break;
+
         }
     }
 
+    /**
+     * Arrete toutes les balles ennemies pendant un certains temps
+     */
     public void setBonusStopIaBalls() {
+        Log.d(TAG, "setBonusStopIaBalls() called");
+        getGameActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getGameActivity(), "stopping balls", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        ArrayList<EnnemyBalle> ennemyBalleArrayList = getGameActivity().getEnnemyBalleArrayList();
+        for (EnnemyBalle ennemyBalle : ennemyBalleArrayList) { // mettre en pause les balles
+            ennemyBalle.pause();
+        }
+
+        try { // attendre la durée du bonus
+            Thread.sleep(getDuration());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for (EnnemyBalle ennemyBalle : ennemyBalleArrayList) { // relancer les balles
+            ennemyBalle.resume();
+        }
     }
 
     public void setBonusYouCanEatOthersBalls() {
-
+        // a ne pas faire tout de suite
+        //  voir invincibility
     }
 
-
-    // TODO: 30/10/2017 toDelete
-////    public static void playBonus(Bonus bonus) {
-////        Log.d(TAG, "playBonus() called with: bonus = [" + bonus + "]");
-////        if (bonus.getType() == TYPE_BONUS) {
-////            switch (bonus.getValue()) {
-////
-////                case BONUS_STOP_IA_BALLS:
-////                    setStopIaBalles();
-////                    break;
-////
-////                case YOU_CAN_EAT_OTHERS_BALLS:
-////                    setYouCanEatOtherBall();
-////                    break;
-////
-////                default:
-////                    Log.e(TAG, "playBonus: Bonus non défini : " + bonus.getValue());
-////                    break;
-////            }
-////        } else if (bonus.getType() == TYPE_MALUS) {
-////            switch (bonus.getValue()) {
-////
-////                case DIVISION:
-////                    setDivision();
-////                    break;
-////
-////
-////                default:
-////                    Log.e(TAG, "playBonus: Malus non défini : " + bonus.getValue());
-////                    break;
-////            }
-////        } else {
-////            Log.e(TAG, "playBonus: TYPE doit être doit être égale à -1 ou 1, valeur définie : " + bonus.getType());
-////        }
-////    }
-//
-//    // Créer un chronomètre et lancer les bonus/malus
-//    @Override
-//    public void run() {
-//        Log.d(TAG, "run() called");
-//
-//        GameData.gameActivity.displayCronometer(5000);
-//
-//        if (this.getType() == TYPE_BONUS) {
-//            switch (this.getValue()) {
-//                case BONUS_STOP_IA_BALLS:
-//                    setStopIaBalles();
-//                    break;
-//
-//                case YOU_CAN_EAT_OTHERS_BALLS:
-//                    setYouCanEatOtherBall();
-//                    break;
-//
-//                default:
-//                    Log.e(TAG, "playBonus: Bonus non défini : " + this.getValue());
-//                    break;
-//            }
-//        } else if (this.getType() == TYPE_MALUS) {
-//            switch (this.getValue()) {
-//
-//                case DIVISION:
-//                    setDivision();
-//                    break;
-//
-//
-//                default:
-//                    Log.e(TAG, "playBonus: Malus non défini : " + this.getValue());
-//                    break;
-//            }
-//        } else {
-//            Log.e(TAG, "playBonus: TYPE doit être doit être égale à -1 ou 1, valeur définie : " + this.getType());
-//        }
-//    }
-//
-//    // Bonus method
-//
-//    private void setStopIaBalles() {
-//        Log.d(TAG, "setStopIaBalles() called");
-//        gameThread.getGameActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Toast.makeText(gameThread.getGameActivity(), "stopping balls", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        for (IABalle iaBalle : gameThread.getIABalleArrayList()) { // mettre en pause les balles
-//            iaBalle.pause();
-//        }
-//
-//        try {
-//            Thread.sleep(5000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        for (IABalle iaBalle : gameThread.getIABalleArrayList()) { // relancer les balles
-//            iaBalle.resume();
-//        }
-//    }
-//
-//    private void setYouCanEatOtherBall() {
-//        Log.d(TAG, "setYouCanEatOtherBall() called");
-//    }
-//
-//
-//    // malus method
-//
-//    private void setDivision() {
-//        Log.d(TAG, "setDivision() called");
-//        gameThread.getGameActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Toast.makeText(gameThread.getGameActivity(), "more balls", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        ArrayList<IABalle> mIABalleArrayList = gameThread.getIABalleArrayList();
-//        UserBalle mUserBalle = gameThread.getUserBalle();
-//
-//        while (mIABalleArrayList.size() < 9) {
-//            IABalle iaBalle = IABalle.RandomBalle(mUserBalle.getRadius());
-//            mIABalleArrayList.add(iaBalle);
-//            iaBalle.start();
-//        }
-//
-//        try {
-//            Thread.sleep(5000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        for (int i = 3; i < mIABalleArrayList.size(); i++) { // arreter toutes les balles
-//            IABalle iaBalle = mIABalleArrayList.get(i);
-//            iaBalle.stop();
-//            iaBalle.join();
-//        }
-//
-//        mIABalleArrayList.subList(3, 9).clear(); // détruire
-//
-//    }
-//
-//
-
-
-
-    /*
-    * FONCTION DEBOGGAGE
-     */
-
     public void setBonusInvincibility() {
-
+        Log.d(TAG, "setBonusInvincibility() called");
     }
 
 }
