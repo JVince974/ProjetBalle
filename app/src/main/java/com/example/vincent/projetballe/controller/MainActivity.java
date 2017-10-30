@@ -33,6 +33,7 @@ import com.example.vincent.projetballe.model.ScoresXML;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
     private final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 0;
     private final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
@@ -56,13 +57,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+        Log.d(TAG, "onPause() called");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+        Log.d(TAG, "onResume() called");
     }
 
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(getClass().getSimpleName(), new Exception().getStackTrace()[0].getMethodName());
+        Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data + "]");
         if (requestCode == START_FOR_RESULT_SCORE) {
             if (resultCode == Activity.RESULT_OK) {
                 Log.d(getClass().getSimpleName(), "starting GPS");
@@ -252,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void debug() {
+        Log.d(TAG, "debug() called");
         debugGame();
 //        ScoresXML.save(this);
 //        ScoresXML.debugCreateXml(this);

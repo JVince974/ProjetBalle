@@ -3,59 +3,38 @@ package com.example.vincent.projetballe.model.GameObject.lesBalles;
 
 import android.util.Log;
 
+import com.example.vincent.projetballe.controller.GameActivity;
+
 /**
  * Balle adverse a esquiver qui se déplace automatiquement
  * Elle change elle même ses propres coordonées grace à un thread
  */
 public abstract class IABalle extends Balle implements Runnable {
+
     // mouvement de la balle = x +  step * direction
     // -1 = gauche, 1 = droite
     // -1 = haut, 1 = bas
     final static int[] randomDirection = new int[]{-1, 1};
     final static int[] randomStep = new int[]{1, 2, 3};
     private static final String TAG = "IABalle";
-    // vitesse de toutes les balles
-    public static float SPEED = 1;
 
-
+    private GameActivity mGameActivity;
     private int directionX, directionY; // la direction de la balle
     private int stepX, stepY; // le pas de la balle
     private Thread thread; // le thread associé à la balle
 
     private boolean running = true;
 
-// TODO: 30/10/2017 toDelete
-//    public IABalle(int posX, int posY, int radius, int maxX, int maxY, int directionX, int directionY, int stepX, int stepY) {
-//        super(posX, posY, radius, COLOR_BALL, maxX, maxY);
-//        this.directionX = directionX;
-//        this.directionY = directionY;
-//        this.stepX = stepX;
-//        this.stepY = stepY;
-//        this.thread = new Thread(this);
-//    }
 
-    public IABalle(int posX, int posY, int radius, int color, int maxWidth, int maxHeight, int directionX, int directionY, int stepX, int stepY) {
+    public IABalle(GameActivity gameActivity, int posX, int posY, int radius, int color, int maxWidth, int maxHeight, int directionX, int directionY, int stepX, int stepY) {
         super(posX, posY, radius, color, maxWidth, maxHeight);
+        this.mGameActivity = gameActivity;
         this.directionX = directionX;
         this.directionY = directionY;
         this.stepX = stepX;
         this.stepY = stepY;
         this.thread = new Thread(this);
     }
-
-
-    // TODO: 30/10/2017 toDelete
-    //    public IABalle(int posX, int posY, int radius, int directionX, int directionY, int stepX, int stepY, int maxX, int maxY) {
-//        super(posX, posY, radius);
-//        this.color = COLOR_BALL;
-//        this.directionX = directionX;
-//        this.directionY = directionY;
-//        this.stepX = stepX;
-//        this.stepY = stepY;
-//        this.maxX = maxX;
-//        this.maxY = maxY;
-//        this.thread = new Thread(this);
-//    }
 
 
     /**
@@ -73,8 +52,8 @@ public abstract class IABalle extends Balle implements Runnable {
                 int maxHeight = getMaxHeight();
 
                 // déplacer les balles avec leur pas
-                posX += this.stepX * this.directionX * SPEED;
-                posY -= this.stepY * this.directionY * SPEED;
+                posX += this.stepX * this.directionX * mGameActivity.getIaBallSpeed();
+                posY -= this.stepY * this.directionY * mGameActivity.getIaBallSpeed();
 
                 // empêcher de dépasser le rebord gauche et rediriger vers la droite
                 if (posX <= radius) {

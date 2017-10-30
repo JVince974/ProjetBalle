@@ -1,5 +1,7 @@
 package com.example.vincent.projetballe.model.GameObject.lesBalles;
 
+import com.example.vincent.projetballe.model.GameObject.lesBonus.BonusMalus;
+
 public abstract class Balle {
     private static final String TAG = "Balle";
     //    private int[] colors;
@@ -35,22 +37,21 @@ public abstract class Balle {
         return distance < (this.radius + balle.getRadius());
     }
 
-    // // TODO: 30/10/2017 reactiver
-//    public boolean touched(Bonus bonus) {
-//        int left = (int) bonus.getLeft();
-//        int top = (int) bonus.getTop();
-//        int right = (int) bonus.getRight();
-//        int bottom = (int) bonus.getBottom();
-//
-//        // si la balle est entre le coté gauche et le coté droit du carré
-//        if (posX + radius > left && posX - radius < right) {
-//            // si la balle est entre le côté haut et le côté bas du carré
-//            if (posY + radius > top && posY - radius < bottom) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    public boolean touched(BonusMalus bonusMalus) {
+        int left = (int) bonusMalus.getLeft();
+        int top = (int) bonusMalus.getTop();
+        int right = (int) bonusMalus.getRight();
+        int bottom = (int) bonusMalus.getBottom();
+
+        // si la balle est entre le coté gauche et le coté droit du carré
+        if (posX + radius > left && posX - radius < right) {
+            // si la balle est entre le côté haut et le côté bas du carré
+            if (posY + radius > top && posY - radius < bottom) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     public void move(int x, int y) {

@@ -13,8 +13,8 @@ public class EnnemyBalle extends IABalle {
     private static final int COLOR_BALL = Color.BLACK;
 
 
-    public EnnemyBalle(int posX, int posY, int radius, int maxWidth, int maxHeight, int directionX, int directionY, int stepX, int stepY) {
-        super(posX, posY, radius, COLOR_BALL, maxWidth, maxHeight, directionX, directionY, stepX, stepY);
+    public EnnemyBalle(GameActivity gameActivity, int posX, int posY, int radius, int maxWidth, int maxHeight, int directionX, int directionY, int stepX, int stepY) {
+        super(gameActivity, posX, posY, radius, COLOR_BALL, maxWidth, maxHeight, directionX, directionY, stepX, stepY);
         Log.d(TAG, "EnnemyBalle() called with: posX = [" + posX + "], posY = [" + posY + "], radius = [" + radius + "], maxWidth = [" + maxWidth + "], maxHeight = [" + maxHeight + "], directionX = [" + directionX + "], directionY = [" + directionY + "], stepX = [" + stepX + "], stepY = [" + stepY + "]");
     }
 
@@ -46,7 +46,7 @@ public class EnnemyBalle extends IABalle {
         int stepX = randomStep[r.nextInt(randomStep.length)];
         int stepY = randomStep[r.nextInt(randomStep.length)];
 
-        return new EnnemyBalle(posX, posY, radius, maxWidth, maxHeight, directionX, directionY, stepX, stepY);
+        return new EnnemyBalle(gameActivity, posX, posY, radius, maxWidth, maxHeight, directionX, directionY, stepX, stepY);
     }
 
 

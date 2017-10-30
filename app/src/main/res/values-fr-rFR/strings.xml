@@ -30,9 +30,15 @@
     <!--Game-->
     <string name="game_over">Partie terminée</string>
 
+    <string name="ask_for_gps">Veuillez activez le GPS pour pouvoir sauvegarder votre score</string>
+
     <!--Input pseudo user for score-->
     <string name="pseudo">Pseudo</string>
     <string name="edit_text_required_pseudo">Indiquez votre pseudo</string>
 
+    <string name="score">Score</string>
+
     <string name="request_permission_location">Autoriser la localisation pour pouvoir continuer</string>
+    <string name="request_permission_read_external_storage">Autoriser la lecture des fichiers pour pouvoir afficher les scores</string>
+    <string name="request_permission_write_external_storage">Autoriser l\'écriture de fichier pour sauvegarder les scores</string>
 </resources>

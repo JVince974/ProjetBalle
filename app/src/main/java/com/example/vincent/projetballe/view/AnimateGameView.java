@@ -13,7 +13,7 @@ import com.example.vincent.projetballe.model.GameObject.lesBalles.Balle;
 import com.example.vincent.projetballe.model.GameObject.lesBalles.CatchBalle;
 import com.example.vincent.projetballe.model.GameObject.lesBalles.EnnemyBalle;
 import com.example.vincent.projetballe.model.GameObject.lesBalles.UserBalle;
-import com.example.vincent.projetballe.model.GameObject.lesBonus.Bonus;
+import com.example.vincent.projetballe.model.GameObject.lesBonus.BonusMalus;
 
 import java.util.ArrayList;
 
@@ -54,7 +54,7 @@ public class AnimateGameView extends View {
             UserBalle userBalle = mGameActivity.getUserBalle();
             ArrayList<EnnemyBalle> ennemyBalleArrayList = mGameActivity.getEnnemyBalleArrayList();
             CatchBalle catchBalle = mGameActivity.getCatchBalle();
-            Bonus bonus = mGameActivity.getBonus();
+            BonusMalus bonus = mGameActivity.getBonus();
 
             // dessiner la balle de l'utilisateur
             if (userBalle != null) {
@@ -76,10 +76,10 @@ public class AnimateGameView extends View {
             }
 
             // dessiner le bonus
-//            if (bonus != null) {
-//                mPaint.setColor(bonus.getColor());
-//                canvas.drawRect(bonus.getLeft(), bonus.getTop(), bonus.getRight(), bonus.getBottom(), mPaint);
-//            }
+            if (bonus != null) {
+                mPaint.setColor(bonus.getColor());
+                canvas.drawRect(bonus.getLeft(), bonus.getTop(), bonus.getRight(), bonus.getBottom(), mPaint);
+            }
         } else {
             Log.w(TAG, "onDraw: GameThread is null");
         }

@@ -113,7 +113,7 @@ public class ScoresActivity extends AppCompatActivity implements AdapterView.OnI
         startActivity(intent);
     }
 
-    // rafraichir la vue, appeler cette mého
+    // rafraichir la vue, appeler cette méhode
     private void refreshListView() {
 //        ScoresXML.save();
         mAdapter.notifyDataSetChanged();

@@ -4,6 +4,7 @@ import android.util.Log;
 
 public class Joueur {
 
+    // tag pour le xml
     public static final String TAG = "joueur";
     public static final String TAG_NOM = "nom";
     public static final String TAG_SCORE = "score";
@@ -20,7 +21,7 @@ public class Joueur {
         this.score = score;
         this.latitude = latitude;
         this.longitude = longitude;
-        Log.d("New", toString());
+        Log.d(TAG, "Joueur() called with: nom = [" + nom + "], score = [" + score + "], latitude = [" + latitude + "], longitude = [" + longitude + "]");
     }
 
     public String getNom() {

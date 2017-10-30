@@ -1,46 +1,104 @@
 package com.example.vincent.projetballe.model.GameObject.lesBonus;
 
-/**
- * Cette classe gère les bonus
- */
-public class Bonus extends Thread {
+import android.graphics.Color;
+import android.util.Log;
+
+import com.example.vincent.projetballe.controller.GameActivity;
+
+import java.util.Random;
+
+public class Bonus extends BonusMalus {
+    // bonus
+    public static final int BONUS_STOP_IA_BALLS = 0;
+    public static final int BONUS_YOU_CAN_EAT_OTHERS_BALLS = 1;
+    public static final int BONUS_INVINCIBILITY = 2;
+    // attention ne pas se tromper dans le nombre de bonus pour avoir qu'ils apparaissent tous
+    public static final int NUMBER_OF_BONUS = 3;
     private static final String TAG = "Bonus";
-//    private static final String TAG = "Bonus";
-//
-//    private static final int TYPE_MALUS = -1;
-//    private static final int TYPE_BONUS = 1;
-//    private static final int[] RANDOM_TYPE = new int[]{TYPE_MALUS, TYPE_BONUS};
-//
-//    // bonus
-//    private static final int NUMBER_OF_BONUS = 2;
-//    private static final int STOP_IA_BALLES = 0;
-//    private static final int YOU_CAN_EAT_OTHER_BALL = 1;
-////    private static final int e
-//
-//    // malus
-//    private static final int NUMBER_OF_MALUS = 1;
-//    private static final int DIVISION = 0;
-//
-//
-//    private static final int LONGUEUR_COTE = 80; // la longuer d'un cote
-//    private static final int COLOR = Color.GREEN;
-//
-//    private GameThread gameThread;
-//    private float left, top, right, bottom;
-//    private int type, value; // bonus ou malus
-//    private int color;
-//
-//
+    private static final int COLOR_BONUS = Color.GREEN;
+
+    public Bonus(GameActivity gameActivity, float left, float top, float right, float bottom, long duration, int which) {
+        super(gameActivity, left, top, right, bottom, COLOR_BONUS, duration, which);
+        Log.d(TAG, "Bonus() called with: left = [" + left + "], top = [" + top + "], right = [" + right + "], bottom = [" + bottom + "], duration = [" + duration + "], which = [" + which + "]");
+    }
+
+
+    // bonus au hasard
+    public static Bonus randomBonus(GameActivity gameActivity) {
+        Random r = new Random();
+        int left, top, right, bottom;
+        int which;
+
+        int maxWidth = gameActivity.getViewWidth();
+        int maxHeight = gameActivity.getViewHeight();
+
+        // générer des coordonées aléatoire pour le bonus
+        // ne doit pas dépasser la taille de l'écran
+        left = r.nextInt(maxWidth - LONGUEUR_COTE);
+        top = r.nextInt(maxHeight - LONGUEUR_COTE);
+        right = left + LONGUEUR_COTE;
+        bottom = top + LONGUEUR_COTE;
+
+        // quel bonus activer
+        which = r.nextInt(NUMBER_OF_BONUS);
+
+        return new Bonus(gameActivity, left, top, right, bottom, DURATION, which);
+    }
+
+    // fonction deboggage
+    public static Bonus debugWhichBonus(GameActivity gameActivity, int which) {
+        Bonus bonus = randomBonus(gameActivity);
+        bonus.setWhich(which);
+        return bonus;
+    }
+
+    // Déclenche le bonus
+    @Override
+    synchronized public void run() {
+        switch (this.getWhich()) {
+            case BONUS_STOP_IA_BALLS:
+
+
+                break;
+
+
+            case BONUS_YOU_CAN_EAT_OTHERS_BALLS:
+
+
+                break;
+
+
+            case BONUS_INVINCIBILITY:
+
+
+                break;
+
+            default:
+                Log.e(TAG, "run: pas d'action défini pour ce bonus : " + getWhich());
+                break;
+        }
+    }
+
+    public void setBonusStopIaBalls() {
+
+    }
+
+    public void setBonusYouCanEatOthersBalls() {
+
+    }
+
+
+    // TODO: 30/10/2017 toDelete
 ////    public static void playBonus(Bonus bonus) {
 ////        Log.d(TAG, "playBonus() called with: bonus = [" + bonus + "]");
 ////        if (bonus.getType() == TYPE_BONUS) {
 ////            switch (bonus.getValue()) {
 ////
-////                case STOP_IA_BALLES:
+////                case BONUS_STOP_IA_BALLS:
 ////                    setStopIaBalles();
 ////                    break;
 ////
-////                case YOU_CAN_EAT_OTHER_BALL:
+////                case YOU_CAN_EAT_OTHERS_BALLS:
 ////                    setYouCanEatOtherBall();
 ////                    break;
 ////
@@ -74,11 +132,11 @@ public class Bonus extends Thread {
 //
 //        if (this.getType() == TYPE_BONUS) {
 //            switch (this.getValue()) {
-//                case STOP_IA_BALLES:
+//                case BONUS_STOP_IA_BALLS:
 //                    setStopIaBalles();
 //                    break;
 //
-//                case YOU_CAN_EAT_OTHER_BALL:
+//                case YOU_CAN_EAT_OTHERS_BALLS:
 //                    setYouCanEatOtherBall();
 //                    break;
 //
@@ -170,110 +228,15 @@ public class Bonus extends Thread {
 //    }
 //
 //
-//    public Bonus(GameThread gameThread, float left, float top, float right, float bottom, int type, int value) {
-//        this.gameThread = gameThread;
-//        this.left = left;
-//        this.top = top;
-//        this.right = right;
-//        this.bottom = bottom;
-//        this.type = type;
-//        this.value = value;
-//        this.color = COLOR;
-//        Log.d(TAG, toString());
-//    }
-//
-//    public static Bonus randomBonus(GameThread gameThread) {
-//        Random r = new Random();
-//        int left, top, right, bottom;
-//        int type, value;
-//
-//        // générer des coordonées aléatoire pour le bonus
-//        // ne doit pas dépasser la taille de l'écran
-//        left = r.nextInt((GameData.viewWidth - LONGUEUR_COTE));
-//        top = r.nextInt((GameData.viewHeight - LONGUEUR_COTE));
-//        right = left + LONGUEUR_COTE;
-//        bottom = top + LONGUEUR_COTE;
-//
-//        type = RANDOM_TYPE[r.nextInt(RANDOM_TYPE.length)];
-//        if (type == TYPE_BONUS)
-//            value = r.nextInt(NUMBER_OF_BONUS);
-//        else
-//            value = r.nextInt(NUMBER_OF_MALUS);
-//
-////        return new Bonus(left, top, right, bottom, type, value);
-//        return new Bonus(gameThread, left, top, right, bottom, TYPE_MALUS, DIVISION);
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Bonus{" +
-//                "left=" + left +
-//                ", top=" + top +
-//                ", right=" + right +
-//                ", bottom=" + bottom +
-//                ", type=" + type +
-//                ", value=" + value +
-//                ", color=" + color +
-//                '}';
-//    }
-//
-//    //
-//    // GETTER AND SETTER
-//    //
-//
-//    public float getLeft() {
-//        return left;
-//    }
-//
-//    public void setLeft(float left) {
-//        this.left = left;
-//    }
-//
-//    public float getTop() {
-//        return top;
-//    }
-//
-//    public void setTop(float top) {
-//        this.top = top;
-//    }
-//
-//    public float getRight() {
-//        return right;
-//    }
-//
-//    public void setRight(float right) {
-//        this.right = right;
-//    }
-//
-//    public float getBottom() {
-//        return bottom;
-//    }
-//
-//    public void setBottom(float bottom) {
-//        this.bottom = bottom;
-//    }
-//
-//    public int getType() {
-//        return type;
-//    }
-//
-//    public void setType(int type) {
-//        this.type = type;
-//    }
-//
-//    public int getValue() {
-//        return value;
-//    }
-//
-//    public void setValue(int value) {
-//        this.value = value;
-//    }
-//
-//    public int getColor() {
-//        return color;
-//    }
-//
-//    public void setColor(int color) {
-//        this.color = color;
-//    }
+
+
+
+    /*
+    * FONCTION DEBOGGAGE
+     */
+
+    public void setBonusInvincibility() {
+
+    }
+
 }
