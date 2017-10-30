@@ -30,6 +30,7 @@ final public class ScoresXML {
     public static ArrayList<Joueur> getLesJoueurs(Context context) {
         // open the file
         if (lesJoueurs == null) {
+            lesJoueurs = new ArrayList<>();
 //            parse(context.getResources().openRawResource(R.raw.scores)); // au cas où
 
             File file = new File(context.getExternalCacheDir() + fileName);
