@@ -59,7 +59,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
         // récupérer l'accéléromètre
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 
         // lister tous les sensors du téléphone
 //        List<Sensor> sensorsList = mSensorManager.getSensorList(Sensor.TYPE_ALL);
