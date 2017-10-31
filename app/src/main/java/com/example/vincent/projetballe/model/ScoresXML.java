@@ -70,6 +70,7 @@ final public class ScoresXML {
             FileOutputStream fos = new FileOutputStream(file);
             XmlSerializer xmlSerializer = Xml.newSerializer();
             StringWriter writer = new StringWriter();
+            xmlSerializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
             xmlSerializer.setOutput(writer);
             xmlSerializer.startDocument("UTF-8", true);
 
