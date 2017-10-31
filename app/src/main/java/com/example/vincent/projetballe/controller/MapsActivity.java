@@ -1,7 +1,10 @@
 package com.example.vincent.projetballe.controller;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
@@ -51,6 +54,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(true); // activer le zoom
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        }
 
         ArrayList<Joueur> lesJoueurs = ScoresXML.getLesJoueurs(this);
 
@@ -64,10 +71,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             );
             // bouger la caméra sur le score actuel
             if (i == position) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                 marker.showInfoWindow();
             }
-
         }
     }
 }
