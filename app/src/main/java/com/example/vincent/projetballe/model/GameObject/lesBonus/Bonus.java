@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.example.vincent.projetballe.controller.GameActivity;
 import com.example.vincent.projetballe.model.GameObject.lesBalles.EnnemyBalle;
+import com.example.vincent.projetballe.model.GameObject.lesBalles.UserBalle;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -117,7 +118,30 @@ public class Bonus extends BonusMalus {
     }
 
     public void setBonusInvincibility() {
+
         Log.d(TAG, "setBonusInvincibility() called");
+
+        GameActivity gameActivity = getGameActivity();
+
+        gameActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getGameActivity(), "invincibility", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        UserBalle mUserBalle = gameActivity.getUserBalle();
+
+        mUserBalle.setCanDie(false);
+
+        try {  // attendre la durée du bonus
+            Thread.sleep(getDuration());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        mUserBalle.setCanDie(true);
+
     }
 
 }

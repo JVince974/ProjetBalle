@@ -14,7 +14,7 @@ import java.util.Random;
 public class Malus extends BonusMalus {
     // malus
     public static final int MALUS_DIVISION = 0;
-    // attention ne pas se tromper dans le nombre de malus pour avoir qu'ils apparaissent tous
+    // attention ne pas se tromper dans le nombre de malus pour qu'ils apparaissent tous
     public static final int NUMBER_OF_MALUS = 1;
     private static final String TAG = "Malus";
     private static final int COLOR_MALUS = Color.GREEN;
