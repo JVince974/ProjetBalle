@@ -32,7 +32,7 @@ public abstract class BonusMalus implements Runnable {
 
     public BonusMalus(GameActivity gameActivity, float left, float top, float right, float bottom, int color, long duration, int which) {
         mGameActivity = gameActivity;
-        LONGUEUR_COTE = ((int)(gameActivity.getViewWidth()*4.63/100))*2;
+        LONGUEUR_COTE = ((int)(gameActivity.getViewWidth()*4.63/100))   ;
         this.left = left;
         this.top = top;
         this.right = right;
