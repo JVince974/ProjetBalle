@@ -1,6 +1,5 @@
 package com.example.vincent.projetballe.model.GameObject.lesBalles;
 
-import android.graphics.Color;
 import android.util.Log;
 
 import com.example.vincent.projetballe.model.GameObject.lesBonus.BonusMalus;
@@ -67,31 +66,6 @@ public abstract class Balle {
         return false;
     }
 
-
-    /**
-     * Fait clignoter la balle
-     */
-    public void flash() {
-        // TODO: 31/10/2017 Implémenter cette méthode
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int balleColor = color;
-                for (int i = 0; ; i++) {
-                    try {
-                        color = Color.WHITE;
-                        Thread.sleep(10);
-                        color = balleColor;
-                    } catch (InterruptedException e) {
-                        Log.e(TAG, "flash() :: le thread a été arrêté brusquement lors de l'animation de changement de couleur de la balle");
-                        color = balleColor;
-                        return;
-                        // e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-    }
 
     /**
      * Effet d'animation d'apparition de la balle

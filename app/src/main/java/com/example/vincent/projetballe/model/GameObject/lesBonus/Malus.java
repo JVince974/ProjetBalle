@@ -93,7 +93,7 @@ public class Malus extends BonusMalus {
         gameActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getGameActivity(), "Run away...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getGameActivity(), "RUN, RUN, RUN !", Toast.LENGTH_SHORT).show();
             }
         });
 

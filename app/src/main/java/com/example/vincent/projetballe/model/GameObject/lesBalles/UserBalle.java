@@ -12,10 +12,51 @@ public class UserBalle extends Balle {
 
     private int speed = 5;
 
+    private boolean flashing = false; // connaitre si la balle est en train de clignoter
+
+
     public UserBalle(int posX, int posY, int radius, int maxWidth, int maxHeight) {
         super(posX, posY, radius, COLOR_BALL, maxWidth, maxHeight);
         appear();
         Log.d(TAG, "UserBalle() called with: posX = [" + posX + "], posY = [" + posY + "], radius = [" + radius + "], maxWidth = [" + maxWidth + "], maxHeight = [" + maxHeight + "]");
+    }
+
+
+    /**
+     * Fait clignoter la balle
+     * rend la balle invincible
+     */
+    public void flash() {
+        if (!flashing) {
+            flashing = true;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    setInvincible(true); // rendre la balle invincible
+                    int balleColor = getColor();
+
+                    for (int i = 0; i < 10; i++) {
+                        try {
+                            setColor(Color.WHITE);
+                            Thread.sleep(100);
+                            setColor(balleColor);
+                            Thread.sleep(100);
+
+                        } catch (InterruptedException e) {
+                            Log.e(TAG, "flash() :: le thread a été arrêté brusquement lors de l'animation de changement de couleur de la balle");
+                            setColor(balleColor);
+                            setInvincible(false);
+                            flashing = false;
+                            //  e.printStackTrace();
+                            return;
+                        }
+                    }
+
+                    setInvincible(false);
+                    flashing = false;
+                }
+            }).start();
+        }
     }
 
 
@@ -48,5 +89,6 @@ public class UserBalle extends Balle {
     public int getSpeed() {
         return speed;
     }
+
 
 }
