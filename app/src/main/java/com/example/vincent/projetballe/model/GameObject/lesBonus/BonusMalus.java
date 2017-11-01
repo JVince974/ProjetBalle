@@ -13,12 +13,12 @@ import java.util.Random;
  * elle est représenté par un carré vert sur le jeu
  */
 public abstract class BonusMalus implements Runnable {
-    public static int LONGUEUR_COTE; // la longueur d'un cote du carré
     public static final long DURATION = 5000; // durée général d'un bonus = 5sec
     private static final String TAG = "BonusMalus";
     private static final int TYPE_MALUS = -1;
     private static final int TYPE_BONUS = 1;
     private static final int[] RANDOM_TYPE = new int[]{TYPE_MALUS, TYPE_BONUS};
+    public static int LONGUEUR_COTE; // la longueur d'un cote du carré
     private GameActivity mGameActivity;
     private float left, top, right, bottom; // coordonnées du carré
     private float longueur, largeur; // longueur = right - left, largeur = bottom - top
@@ -32,7 +32,6 @@ public abstract class BonusMalus implements Runnable {
 
     public BonusMalus(GameActivity gameActivity, float left, float top, float right, float bottom, int color, long duration, int which) {
         mGameActivity = gameActivity;
-        LONGUEUR_COTE = ((int)(gameActivity.getViewWidth()*4.63/100))   ;
         this.left = left;
         this.top = top;
         this.right = right;

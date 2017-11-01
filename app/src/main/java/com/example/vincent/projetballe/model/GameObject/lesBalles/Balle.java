@@ -76,14 +76,15 @@ public abstract class Balle {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                int balleColor = color;
                 for (int i = 0; ; i++) {
-                    int balleColor = color;
-                    color = Color.WHITE;
                     try {
-                        Thread.sleep(2);
+                        color = Color.WHITE;
+                        Thread.sleep(10);
+                        color = balleColor;
                     } catch (InterruptedException e) {
                         Log.e(TAG, "flash() :: le thread a été arrêté brusquement lors de l'animation de changement de couleur de la balle");
-                        invincible = false;
+                        color = balleColor;
                         return;
                         // e.printStackTrace();
                     }
@@ -98,8 +99,8 @@ public abstract class Balle {
     public void appear() {
         invincible = true;
         for (int i = 0; i <= radius; i++) {
-            currentRadius = i;
             try {
+                currentRadius = i;
                 Thread.sleep(2);
             } catch (InterruptedException e) {
                 Log.e(TAG, "appear() :: le thread a été arrêté brusquement lors de l'animation d'apparition de la balle");
@@ -117,8 +118,8 @@ public abstract class Balle {
     public void disappear() {
         invincible = true;
         while (currentRadius > 0) {
-            currentRadius--;
             try {
+                currentRadius--;
                 Thread.sleep(1);
             } catch (InterruptedException e) {
                 Log.e(TAG, "disappear() :: le thread a été arrêté brusquement lors de l'animation de disparition de la balle");

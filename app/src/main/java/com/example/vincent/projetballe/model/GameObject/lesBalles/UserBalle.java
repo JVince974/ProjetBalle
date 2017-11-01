@@ -12,8 +12,6 @@ public class UserBalle extends Balle {
 
     private int speed = 5;
 
-    private boolean canDie=true;
-
     public UserBalle(int posX, int posY, int radius, int maxWidth, int maxHeight) {
         super(posX, posY, radius, COLOR_BALL, maxWidth, maxHeight);
         appear();
@@ -50,11 +48,5 @@ public class UserBalle extends Balle {
     public int getSpeed() {
         return speed;
     }
-
-    public boolean getCanDie(){return canDie;}
-
-    public void setCanDie(boolean canDieChange){this.canDie = canDieChange;}
-
-
 
 }
