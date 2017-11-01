@@ -11,16 +11,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Bonus extends BonusMalus {
-    private static final String TAG = "Bonus";
-    private static final int COLOR_BONUS = Color.GREEN;
-
     // bonus
     public static final int BONUS_STOP_IA_BALLS = 0;
     public static final int BONUS_YOU_CAN_EAT_OTHERS_BALLS = 1;
     public static final int BONUS_INVINCIBILITY = 2;
-
     // attention ne pas se tromper dans le nombre de bonus pour avoir qu'ils apparaissent tous
     public static final int NUMBER_OF_BONUS = 3;
+    private static final String TAG = "Bonus";
+    private static final int COLOR_BONUS = Color.GREEN;
 
 
     public Bonus(GameActivity gameActivity, float left, float top, float right, float bottom, long duration, int which) {
@@ -51,6 +49,16 @@ public class Bonus extends BonusMalus {
         return new Bonus(gameActivity, left, top, right, bottom, DURATION, which);
     }
 
+    /**
+     * FONCTION DEBOGGAGE
+     */
+
+    // fonction deboggage
+    public static Bonus debugWhichBonus(GameActivity gameActivity, int which) {
+        Bonus bonus = randomBonus(gameActivity);
+        bonus.setWhich(which);
+        return bonus;
+    }
 
     // Déclenche le bonus
     @Override
@@ -84,7 +92,7 @@ public class Bonus extends BonusMalus {
         getGameActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getGameActivity(), "stopping balls", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getGameActivity(), "Stopping balls", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -134,44 +142,5 @@ public class Bonus extends BonusMalus {
 //
 //        mUserBalle.setCanDie(true);
 
-    }
-
-
-    public void setBonusInvincibility() {
-
-//        Log.d(TAG, "setBonusInvincibility() called");
-//
-//        GameActivity gameActivity = getGameActivity();
-//
-//        gameActivity.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Toast.makeText(getGameActivity(), "invincibility", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        UserBalle mUserBalle = gameActivity.getUserBalle();
-//
-//        mUserBalle.setCanDie(false);
-//
-//        try {  // attendre la durée du bonus
-//            Thread.sleep(getDuration());
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        mUserBalle.setCanDie(true);
-
-    }
-
-    /**
-     * FONCTION DEBOGGAGE
-     */
-
-    // fonction deboggage
-    public static Bonus debugWhichBonus(GameActivity gameActivity, int which) {
-        Bonus bonus = randomBonus(gameActivity);
-        bonus.setWhich(which);
-        return bonus;
     }
 }
