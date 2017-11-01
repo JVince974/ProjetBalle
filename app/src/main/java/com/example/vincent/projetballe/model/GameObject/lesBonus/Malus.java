@@ -127,6 +127,4 @@ public class Malus extends BonusMalus {
         ennemyBalleArrayList.subList(3, 9).clear(); // détruire
         gameActivity.setIaBallSpeed(iaBallSpeed); // rétablir la vitesse par défaut des balles
     }
-
-
 }

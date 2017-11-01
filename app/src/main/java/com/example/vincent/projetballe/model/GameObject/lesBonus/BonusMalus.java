@@ -18,7 +18,9 @@ public abstract class BonusMalus implements Runnable {
     private static final int TYPE_MALUS = -1;
     private static final int TYPE_BONUS = 1;
     private static final int[] RANDOM_TYPE = new int[]{TYPE_MALUS, TYPE_BONUS};
-    public static int LONGUEUR_COTE; // la longueur d'un cote du carré
+    public static int LONGUEUR_COTE = 80; // la longueur d'un cote du carré
+
+
     private GameActivity mGameActivity;
     private float left, top, right, bottom; // coordonnées du carré
     private float longueur, largeur; // longueur = right - left, largeur = bottom - top
@@ -26,7 +28,6 @@ public abstract class BonusMalus implements Runnable {
     private long duration; // durée du bonus
     private int which; // quel bonus a déclencher
     private Thread thread;
-
 
     private boolean running = true; // pour mettre le thread en pause
 
