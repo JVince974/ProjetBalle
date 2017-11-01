@@ -1,5 +1,6 @@
 package com.example.vincent.projetballe.model.GameObject.lesBalles;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import com.example.vincent.projetballe.model.GameObject.lesBonus.BonusMalus;
@@ -75,7 +76,18 @@ public abstract class Balle {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
+                for (int i = 0; ; i++) {
+                    int balleColor = color;
+                    color = Color.WHITE;
+                    try {
+                        Thread.sleep(2);
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, "flash() :: le thread a été arrêté brusquement lors de l'animation de changement de couleur de la balle");
+                        invincible = false;
+                        return;
+                        // e.printStackTrace();
+                    }
+                }
             }
         }).start();
     }
