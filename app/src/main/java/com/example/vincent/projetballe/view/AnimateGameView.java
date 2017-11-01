@@ -16,6 +16,7 @@ import com.example.vincent.projetballe.model.GameObject.lesBalles.UserBalle;
 import com.example.vincent.projetballe.model.GameObject.lesBonus.BonusMalus;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 /**
  * Cette classe dessine toutes les balles
@@ -59,20 +60,24 @@ public class AnimateGameView extends View {
             // dessiner la balle de l'utilisateur
             if (userBalle != null) {
                 mPaint.setColor(userBalle.getColor());
-                canvas.drawCircle(userBalle.getPosX(), userBalle.getPosY(), userBalle.getRadius(), mPaint);
+                canvas.drawCircle(userBalle.getPosX(), userBalle.getPosY(), userBalle.getCurrentRadius(), mPaint);
             }
             // dessiner chaque balle ia
             if (ennemyBalleArrayList != null) {
-                for (Balle iaBalle : ennemyBalleArrayList) {
-                    mPaint.setColor(iaBalle.getColor());
-                    canvas.drawCircle(iaBalle.getPosX(), iaBalle.getPosY(), iaBalle.getRadius(), mPaint);
+                try {
+                    for (Balle iaBalle : ennemyBalleArrayList) {
+                        mPaint.setColor(iaBalle.getColor());
+                        canvas.drawCircle(iaBalle.getPosX(), iaBalle.getPosY(), iaBalle.getCurrentRadius(), mPaint);
+                    }
+                } catch (ConcurrentModificationException e) {
+                    e.printStackTrace();
                 }
             }
 
             // dessiner la balle a attraper
             if (catchBalle != null) {
                 mPaint.setColor(catchBalle.getColor());
-                canvas.drawCircle(catchBalle.getPosX(), catchBalle.getPosY(), catchBalle.getRadius(), mPaint);
+                canvas.drawCircle(catchBalle.getPosX(), catchBalle.getPosY(), catchBalle.getCurrentRadius(), mPaint);
             }
 
             // dessiner le bonus

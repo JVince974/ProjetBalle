@@ -102,11 +102,11 @@ public class Malus extends BonusMalus {
         UserBalle mUserBalle = gameActivity.getUserBalle();
         float iaBallSpeed = gameActivity.getIaBallSpeed(); // récupérer la vitesse des balles pour la restaurer après
 
-        gameActivity.setIaBallSpeed(3); // réduire la vitesse des balles pour réduire la difficulté
+        gameActivity.setIaBallSpeed(5); // réduire la vitesse des balles pour réduire la difficulté
 
         // ajouter jusqu'à 9 balle
         while (ennemyBalleArrayList.size() < 9) {
-            EnnemyBalle ennemyBalle = EnnemyBalle.randomEnnmyBalle(gameActivity, mUserBalle.getRadius());
+            EnnemyBalle ennemyBalle = EnnemyBalle.randomEnnmyBalle(gameActivity, mUserBalle.getCurrentRadius());
             ennemyBalleArrayList.add(ennemyBalle);
             ennemyBalle.start();
         }
@@ -121,7 +121,7 @@ public class Malus extends BonusMalus {
         for (int i = 3; i < ennemyBalleArrayList.size(); i++) {
             EnnemyBalle ennemyBalle = ennemyBalleArrayList.get(i);
             ennemyBalle.stop();
-            ennemyBalle.join();
+            if (i == ennemyBalleArrayList.size() - 1) ennemyBalle.join();
         }
 
         ennemyBalleArrayList.subList(3, 9).clear(); // détruire

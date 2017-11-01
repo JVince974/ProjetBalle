@@ -43,11 +43,12 @@ public abstract class IABalle extends Balle implements Runnable {
      */
     @Override
     synchronized public void run() {
+        appear();
         while (true) {
             while (running) {
                 int posX = getPosX();
                 int posY = getPosY();
-                int radius = getRadius();
+                int radius = getCurrentRadius();
                 int maxWidth = getMaxWidth();
                 int maxHeight = getMaxHeight();
 
@@ -58,25 +59,25 @@ public abstract class IABalle extends Balle implements Runnable {
                 // empêcher de dépasser le rebord gauche et rediriger vers la droite
                 if (posX <= radius) {
                     posX = radius;
-                    this.directionX = -this.directionX;
+                    this.directionX = Math.abs(this.directionX);
                 }
 
                 // empêcher de dépasser le rebord droit et rediriger vers la gauche
                 else if (posX >= maxWidth - radius) {
                     posX = maxWidth - radius;
-                    this.directionX = -this.directionX;
+                    this.directionX = -Math.abs(this.directionX);
                 }
 
                 // empêcher de dépasser le rebord haut et et rediriger vers le bas
                 if (posY <= radius) {
                     posY = radius;
-                    this.directionY = -this.directionY;
+                    this.directionY = -Math.abs(this.directionY);
                 }
 
                 // empêcher de dépasser le rebord bas et rediriger vers le haut
                 else if (posY >= maxHeight - radius) {
                     posY = maxHeight - radius;
-                    this.directionY = -this.directionY;
+                    this.directionY = Math.abs(this.directionY);
                 }
 
                 // déplacer la balle
@@ -86,7 +87,8 @@ public abstract class IABalle extends Balle implements Runnable {
                 try {
                     Thread.sleep(30);  // milliseconds
                 } catch (InterruptedException e) {
-                    Log.d(TAG, "interrupt() called");
+                    Log.d(TAG, "arret du thread de la balle ia");
+                    disappear();
                     return;
                 }
 
@@ -94,7 +96,8 @@ public abstract class IABalle extends Balle implements Runnable {
             try {
                 wait();
             } catch (InterruptedException e) {
-                Log.d(TAG, "interrupt() called");
+                Log.d(TAG, "arret du thread de la balle ia");
+                disappear();
                 return;
             }
         }

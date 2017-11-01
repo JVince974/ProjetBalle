@@ -119,5 +119,4 @@ public class Bonus extends BonusMalus {
     public void setBonusInvincibility() {
         Log.d(TAG, "setBonusInvincibility() called");
     }
-
 }

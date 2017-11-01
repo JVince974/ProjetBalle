@@ -1,5 +1,7 @@
 package com.example.vincent.projetballe.model.GameObject.lesBalles;
 
+import android.util.Log;
+
 import com.example.vincent.projetballe.model.GameObject.lesBonus.BonusMalus;
 
 public abstract class Balle {
@@ -20,23 +22,34 @@ public abstract class Balle {
     // coordonnées de la balle
     private int posX, posY;
     private int radius; // rayon de la balle
+    private int currentRadius;
     private int color;  // couleur de la balle
     private int maxWidth, maxHeight; // limite du déplacment = la taille de l'écran
+
+    private boolean invincible = false;
+
 
     public Balle(int posX, int posY, int radius, int color, int maxWidth, int maxHeight) {
         this.posX = posX;
         this.posY = posY;
         this.radius = radius;
+        this.currentRadius = 0;
         this.color = color;
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
     }
 
+    /**
+     * Vérifie si une balle a touché une autre balle
+     */
     public boolean touched(Balle balle) {
         double distance = Math.sqrt(Math.pow(this.posX - balle.getPosX(), 2) + Math.pow(this.posY - balle.getPosY(), 2));
-        return distance < (this.radius + balle.getRadius());
+        return distance < (this.radius + balle.getCurrentRadius());
     }
 
+    /**
+     * Vérifie si une balle a touché un bonus ou un malus
+     */
     public boolean touched(BonusMalus bonusMalus) {
         int left = (int) bonusMalus.getLeft();
         int top = (int) bonusMalus.getTop();
@@ -51,6 +64,58 @@ public abstract class Balle {
             }
         }
         return false;
+    }
+
+
+    /**
+     * Fait clignoter la balle
+     */
+    public void flash() {
+        // TODO: 31/10/2017 Implémenter cette méthode
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }).start();
+    }
+
+    /**
+     * Effet d'animation d'apparition de la balle
+     */
+    public void appear() {
+        invincible = true;
+        for (int i = 0; i <= radius; i++) {
+            currentRadius = i;
+            try {
+                Thread.sleep(2);
+            } catch (InterruptedException e) {
+                Log.e(TAG, "appear() :: le thread a été arrêté brusquement lors de l'animation d'apparition de la balle");
+                invincible = false;
+                return;
+                // e.printStackTrace();
+            }
+        }
+        invincible = false;
+    }
+
+    /**
+     * Effet d'animation disparition de la balle
+     */
+    public void disappear() {
+        invincible = true;
+        while (currentRadius > 0) {
+            currentRadius--;
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                Log.e(TAG, "disappear() :: le thread a été arrêté brusquement lors de l'animation de disparition de la balle");
+                invincible = false;
+                return;
+                // e.printStackTrace();
+            }
+        }
+        invincible = false;
     }
 
 
@@ -86,6 +151,14 @@ public abstract class Balle {
         this.radius = radius;
     }
 
+    public int getCurrentRadius() {
+        return currentRadius;
+    }
+
+    public void setCurrentRadius(int currentRadius) {
+        this.currentRadius = currentRadius;
+    }
+
     public int getColor() {
         return color;
     }
@@ -108,5 +181,13 @@ public abstract class Balle {
 
     public void setMaxHeight(int maxHeight) {
         this.maxHeight = maxHeight;
+    }
+
+    public boolean isInvincible() {
+        return invincible;
+    }
+
+    public void setInvincible(boolean invincible) {
+        this.invincible = invincible;
     }
 }

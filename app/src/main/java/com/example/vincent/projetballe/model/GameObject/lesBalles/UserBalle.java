@@ -14,6 +14,7 @@ public class UserBalle extends Balle {
 
     public UserBalle(int posX, int posY, int radius, int maxWidth, int maxHeight) {
         super(posX, posY, radius, COLOR_BALL, maxWidth, maxHeight);
+        appear();
         Log.d(TAG, "UserBalle() called with: posX = [" + posX + "], posY = [" + posY + "], radius = [" + radius + "], maxWidth = [" + maxWidth + "], maxHeight = [" + maxHeight + "]");
     }
 
@@ -25,20 +26,20 @@ public class UserBalle extends Balle {
     @Override
     public void move(int x, int y) {
         // empêcher de dépasser le rebord gauche
-        if (x <= this.getRadius())
-            x = this.getRadius();
+        if (x <= this.getCurrentRadius())
+            x = this.getCurrentRadius();
 
             // empêcher de dépasser le rebord droit
-        else if (x >= this.getMaxWidth() - this.getRadius())
-            x = this.getMaxWidth() - this.getRadius();
+        else if (x >= this.getMaxWidth() - this.getCurrentRadius())
+            x = this.getMaxWidth() - this.getCurrentRadius();
 
         // empêcher de dépasser le rebord haut
-        if (y <= this.getRadius())
-            y = this.getRadius();
+        if (y <= this.getCurrentRadius())
+            y = this.getCurrentRadius();
 
             // empêcher de dépasser le rebord bas
-        else if (y >= this.getMaxHeight() - this.getRadius())
-            y = this.getMaxHeight() - this.getRadius();
+        else if (y >= this.getMaxHeight() - this.getCurrentRadius())
+            y = this.getMaxHeight() - this.getCurrentRadius();
 
         super.move(x, y);
     }
