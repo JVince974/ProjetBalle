@@ -4,8 +4,11 @@ import android.graphics.Color;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.vincent.projetballe.R;
+import com.example.vincent.projetballe.bibliotheque.MyMediaPlayer;
 import com.example.vincent.projetballe.controller.GameActivity;
 import com.example.vincent.projetballe.model.GameObject.lesBalles.EnnemyBalle;
+import com.example.vincent.projetballe.model.GameObject.lesBalles.UserBalle;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,6 +22,8 @@ public class Bonus extends BonusMalus {
     public static final int NUMBER_OF_BONUS = 3;
     private static final String TAG = "Bonus";
     private static final int COLOR_BONUS = Color.GREEN;
+
+    private MyMediaPlayer mMediaPlayerBonus;
 
 
     public Bonus(GameActivity gameActivity, float left, float top, float right, float bottom, long duration, int which) {
@@ -122,28 +127,40 @@ public class Bonus extends BonusMalus {
 
     public void setBonusInvincibility() {
 
-//        Log.d(TAG, "setBonusInvincibility() called");
-//
-//        GameActivity gameActivity = getGameActivity();
-//
-//        gameActivity.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Toast.makeText(getGameActivity(), "invincibility", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        UserBalle mUserBalle = gameActivity.getUserBalle();
-//
-//        mUserBalle.setCanDie(false);
-//
-//        try {  // attendre la durée du bonus
-//            Thread.sleep(getDuration());
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        mUserBalle.setCanDie(true);
+        Log.d(TAG, "setBonusInvincibility() called");
+
+        GameActivity gameActivity = getGameActivity();
+
+        gameActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getGameActivity(), "invincibility", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        UserBalle mUserBalle = gameActivity.getUserBalle();
+
+        mUserBalle.setInvincible(false);
+        gameActivity.getMedia().pause();
+
+        mMediaPlayerBonus = new MyMediaPlayer(gameActivity, R.raw.invincible);
+        mMediaPlayerBonus.start();
+
+
+
+
+        try {  // attendre la durée du bonus
+            Thread.sleep(getDuration());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
+        mUserBalle.setInvincible(true);
+        mMediaPlayerBonus.stop();
+        gameActivity.getMedia().resume();
+
 
     }
 }

@@ -164,4 +164,5 @@ public abstract class BonusMalus implements Runnable {
     public void setWhich(int which) {
         this.which = which;
     }
+
 }

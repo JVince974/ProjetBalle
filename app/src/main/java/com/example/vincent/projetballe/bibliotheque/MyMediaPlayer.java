@@ -4,6 +4,9 @@ package com.example.vincent.projetballe.bibliotheque;
 import android.content.Context;
 import android.media.MediaPlayer;
 
+import com.example.vincent.projetballe.controller.GameActivity;
+import com.example.vincent.projetballe.model.GameObject.lesBonus.Bonus;
+
 
 public class MyMediaPlayer {
 
@@ -12,7 +15,7 @@ public class MyMediaPlayer {
     private MediaPlayer mediaPlayer;
     private int currentPosition;
 
-    public MyMediaPlayer(Context context, int rawFile) {
+    public MyMediaPlayer(GameActivity context, int rawFile) {
         this.context = context;
         this.rawFile = rawFile;
     }
