@@ -65,7 +65,7 @@ public class Malus extends BonusMalus {
     @Override
     synchronized public void run() {
         switch (this.getWhich()) {
-
+//
             case MALUS_DIVISION:
                 setMalusDivision();
                 break;
