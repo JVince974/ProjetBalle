@@ -88,7 +88,6 @@ public class Bonus extends BonusMalus {
 
         }
 
-
         getGameActivity().resetBonusTimer(); // relancer le timer des bonus
     }
 
@@ -160,7 +159,6 @@ public class Bonus extends BonusMalus {
         // changer la vitesse et la couleur de la balle
         int defaultSpeed = mUserBalle.getSpeed(); // sauvegarder la vitesse actuelle pour restauration
         mUserBalle.setSpeed(defaultSpeed * 2);
-
         int[] invincibilityColors = {
                 Color.CYAN,
                 Color.GREEN,

@@ -28,6 +28,7 @@ public class Malus extends BonusMalus {
         Log.d(TAG, "Malus() called with: left = [" + left + "], top = [" + top + "], right = [" + right + "], bottom = [" + bottom + "], duration = [" + duration + "], which = [" + which + "]");
     }
 
+
     // malus au hasard
     public static Malus randomMalus(GameActivity gameActivity) {
         Random r = new Random();
