@@ -7,9 +7,8 @@ import android.util.Log;
  * Balle de l'utilisateur, elle se place par défaut au milieu du jeu
  */
 public class UserBalle extends Balle {
+    public static final int COLOR_BALL = Color.RED; // couleur
     private static final String TAG = "UserBalle";
-    private static final int COLOR_BALL = Color.RED; // couleur
-
     private int speed = 5;
 
     private boolean flashing = false; // connaitre si la balle est en train de clignoter
@@ -33,18 +32,16 @@ public class UserBalle extends Balle {
                 @Override
                 public void run() {
                     setInvincible(true); // rendre la balle invincible
-                    int balleColor = getColor();
-
                     for (int i = 0; i < 10; i++) {
                         try {
-                            setColor(Color.WHITE);
+                            setColor(Color.TRANSPARENT);
                             Thread.sleep(100);
-                            setColor(balleColor);
+                            setColor(COLOR_BALL);
                             Thread.sleep(100);
 
                         } catch (InterruptedException e) {
                             Log.e(TAG, "flash() :: le thread a été arrêté brusquement lors de l'animation de changement de couleur de la balle");
-                            setColor(balleColor);
+                            setColor(COLOR_BALL);
                             setInvincible(false);
                             flashing = false;
                             //  e.printStackTrace();
@@ -90,5 +87,7 @@ public class UserBalle extends Balle {
         return speed;
     }
 
-
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
 }

@@ -50,8 +50,10 @@ public abstract class BonusMalus implements Runnable {
         Random r = new Random();
         int type = RANDOM_TYPE[r.nextInt(RANDOM_TYPE.length)];
         if (type == TYPE_BONUS) {
+            Log.d(TAG, "randomBonusMalus: return Bonus");
             return Bonus.randomBonus(gameActivity);
         } else if (type == TYPE_MALUS) {
+            Log.d(TAG, "randomBonusMalus: return malus");
             return Malus.randomMalus(gameActivity);
         } else {
             Log.e(TAG, "randomBonusMalus: cette méthode doit générer un bonus [" + TYPE_BONUS + "] ou un malus [" + TYPE_MALUS + "], valuer reçu : " + type);

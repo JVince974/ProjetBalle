@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.vincent.projetballe.R;
+import com.example.vincent.projetballe.bibliotheque.MyChronometer;
 import com.example.vincent.projetballe.bibliotheque.MyMediaPlayer;
 import com.example.vincent.projetballe.controller.GameActivity;
 import com.example.vincent.projetballe.model.GameObject.lesBalles.EnnemyBalle;
@@ -14,14 +15,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Bonus extends BonusMalus {
-    // bonus
-    public static final int BONUS_STOP_IA_BALLS = 0;
-    public static final int BONUS_YOU_CAN_EAT_OTHERS_BALLS = 1;
-    public static final int BONUS_INVINCIBILITY = 2;
-    // attention ne pas se tromper dans le nombre de bonus pour avoir qu'ils apparaissent tous
-    public static final int NUMBER_OF_BONUS = 3;
     private static final String TAG = "Bonus";
     private static final int COLOR_BONUS = Color.GREEN;
+
+    // bonus
+    public static final int BONUS_STOP_IA_BALLS = 0;
+    public static final int BONUS_INVINCIBILITY = 1;
+    public static final int BONUS_YOU_CAN_EAT_OTHERS_BALLS = 2;
+
+    // attention ne pas se tromper dans le nombre de bonus pour avoir qu'ils apparaissent tous
+    public static final int NUMBER_OF_BONUS = 2;
 
     private MyMediaPlayer mMediaPlayerBonus;
 
@@ -54,15 +57,31 @@ public class Bonus extends BonusMalus {
         return new Bonus(gameActivity, left, top, right, bottom, DURATION, which);
     }
 
-    /**
-     * FONCTION DEBOGGAGE
-     */
+    // Déclenche le bonus
+    @Override
+    synchronized public void run() {
+        switch (this.getWhich()) {
 
-    // fonction deboggage
-    public static Bonus debugWhichBonus(GameActivity gameActivity, int which) {
-        Bonus bonus = randomBonus(gameActivity);
-        bonus.setWhich(which);
-        return bonus;
+            case BONUS_STOP_IA_BALLS:
+                setBonusStopIaBalls();
+                break;
+
+            case BONUS_INVINCIBILITY:
+                setBonusInvincibility();
+                break;
+
+            case BONUS_YOU_CAN_EAT_OTHERS_BALLS:
+                setBonusYouCanEatOthersBalls();
+                break;
+
+            default:
+                Log.e(TAG, "run: pas d'action défini pour ce bonus : " + getWhich());
+                break;
+
+        }
+
+
+        getGameActivity().resetBonusTimer(); // relancer le timer des bonus
     }
 
     // Déclenche le bonus
@@ -74,12 +93,12 @@ public class Bonus extends BonusMalus {
                 setBonusStopIaBalls();
                 break;
 
-            case BONUS_YOU_CAN_EAT_OTHERS_BALLS:
-                setBonusYouCanEatOthersBalls();
-                break;
-
             case BONUS_INVINCIBILITY:
                 setBonusInvincibility();
+                break;
+
+            case BONUS_YOU_CAN_EAT_OTHERS_BALLS:
+                setBonusYouCanEatOthersBalls();
                 break;
 
             default:
@@ -97,14 +116,15 @@ public class Bonus extends BonusMalus {
      */
     public void setBonusStopIaBalls() {
         Log.d(TAG, "setBonusStopIaBalls() called");
+        final GameActivity gameActivity = getGameActivity();
         getGameActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getGameActivity(), "Stopping balls", Toast.LENGTH_SHORT).show();
+                Toast.makeText(gameActivity, "Stopping balls", Toast.LENGTH_SHORT).show();
             }
         });
 
-        ArrayList<EnnemyBalle> ennemyBalleArrayList = getGameActivity().getEnnemyBalleArrayList();
+        ArrayList<EnnemyBalle> ennemyBalleArrayList = gameActivity.getEnnemyBalleArrayList();
         for (EnnemyBalle ennemyBalle : ennemyBalleArrayList) { // mettre en pause les balles
             ennemyBalle.pause();
         }
@@ -121,46 +141,79 @@ public class Bonus extends BonusMalus {
     }
 
     public void setBonusYouCanEatOthersBalls() {
-        // a ne pas faire tout de suite
-        //  voir invincibility
-    }
-
-    public void setBonusInvincibility() {
-
-        Log.d(TAG, "setBonusInvincibility() called");
+        Log.d(TAG, "setBonusYouCanEatOthersBalls() called");
 
         GameActivity gameActivity = getGameActivity();
-
         gameActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getGameActivity(), "invincibility", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getGameActivity(), "You can eat others balls", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * Rends la balle utilisateur invincible
+     * Joue une musique d'invincibilité
+     * Faire clignoter la balle de toutes les couleurs
+     */
+    public void setBonusInvincibility() {
+        Log.d(TAG, "setBonusInvincibility() called");
+
+        GameActivity gameActivity = getGameActivity();
+        gameActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getGameActivity(), "Invincibility", Toast.LENGTH_SHORT).show();
             }
         });
 
         UserBalle mUserBalle = gameActivity.getUserBalle();
-
-        mUserBalle.setInvincible(false);
-        gameActivity.getMedia().pause();
-
+        // mettre en pause la musique actuelle et mettre la balle invincible
+        gameActivity.getMediaPlayer().pause();
+        mUserBalle.setInvincible(true);
+        // jouer musique invincibilité
         mMediaPlayerBonus = new MyMediaPlayer(gameActivity, R.raw.invincible);
         mMediaPlayerBonus.start();
 
+        // changer la vitesse et la couleur de la balle
+        int defaultSpeed = mUserBalle.getSpeed(); // sauvegarder la vitesse actuelle pour restauration
+        mUserBalle.setSpeed(defaultSpeed * 3);
+
+        int[] invincibilityColors = {
+                Color.CYAN,
+                Color.GREEN,
+                Color.DKGRAY,
+                Color.MAGENTA,
+                Color.YELLOW,
+        };
 
 
-
-        try {  // attendre la durée du bonus
-            Thread.sleep(getDuration());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        // changer la couleur de la balle pendant le temps d'invincibilité
+        Random r = new Random();
+        MyChronometer myChronometer = new MyChronometer(getDuration());
+        myChronometer.start();
+        while (!myChronometer.hasFinished()) {
+            mUserBalle.setColor(invincibilityColors[r.nextInt(invincibilityColors.length)]);
         }
 
-
-
-        mUserBalle.setInvincible(true);
+        // remettre la couleur et la vitesse de la balle a défaut
+        mUserBalle.setColor(UserBalle.COLOR_BALL);
+        mUserBalle.setSpeed(defaultSpeed);
+        // enlever l'invincibilité remmetre la musique du jeu normal
         mMediaPlayerBonus.stop();
-        gameActivity.getMedia().resume();
+        gameActivity.getMediaPlayer().resume();
+        mUserBalle.setInvincible(false);
+    }
 
+    /**
+     * FONCTION DEBOGGAGE
+     */
 
+    // fonction deboggage
+    public static Bonus debugWhichBonus(GameActivity gameActivity, int which) {
+        Bonus bonus = randomBonus(gameActivity);
+        bonus.setWhich(which);
+        return bonus;
     }
 }

@@ -17,7 +17,6 @@ public class Malus extends BonusMalus {
     // malus
     public static final int MALUS_DIVISION = 0;
     public static final int MALUS_SWITCH_BALLS = 1;
-
     // attention ne pas se tromper dans le nombre de malus pour qu'ils apparaissent tous
     public static final int NUMBER_OF_MALUS = 2;
     private static final String TAG = "Malus";
@@ -134,7 +133,6 @@ public class Malus extends BonusMalus {
         gameActivity.setIaBallSpeed(iaBallSpeed); // rétablir la vitesse par défaut des balles
     }
 
-
     /**
      * Alterne la balle à attraper avec toutes les autres balles
      */
@@ -168,7 +166,5 @@ public class Malus extends BonusMalus {
                 e.printStackTrace();
             }
         }
-
-
     }
 }

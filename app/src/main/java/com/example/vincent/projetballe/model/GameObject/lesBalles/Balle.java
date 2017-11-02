@@ -7,7 +7,7 @@ import com.example.vincent.projetballe.model.GameObject.lesBonus.BonusMalus;
 public abstract class Balle {
     private static final String TAG = "Balle";
     //    private int[] colors;
-//    colors[0] = Color.BLACK;
+//    colors[0] = Color.BLACK;  // TODO: 02/11/2017 que faire avec ça ?
 //    colors[1] = Color.BLUE;
 //    colors[2] = Color.CYAN;
 //    colors[3] = Color.DKGRAY;
