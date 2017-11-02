@@ -4,7 +4,9 @@ import android.graphics.Color;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.vincent.projetballe.bibliotheque.MyChronometer;
 import com.example.vincent.projetballe.controller.GameActivity;
+import com.example.vincent.projetballe.model.GameObject.lesBalles.CatchBalle;
 import com.example.vincent.projetballe.model.GameObject.lesBalles.EnnemyBalle;
 import com.example.vincent.projetballe.model.GameObject.lesBalles.UserBalle;
 
@@ -14,8 +16,10 @@ import java.util.Random;
 public class Malus extends BonusMalus {
     // malus
     public static final int MALUS_DIVISION = 0;
+    public static final int MALUS_SWITCH_BALLS = 1;
+
     // attention ne pas se tromper dans le nombre de malus pour qu'ils apparaissent tous
-    public static final int NUMBER_OF_MALUS = 1;
+    public static final int NUMBER_OF_MALUS = 2;
     private static final String TAG = "Malus";
     private static final int COLOR_MALUS = Color.GREEN;
 
@@ -67,9 +71,9 @@ public class Malus extends BonusMalus {
                 break;
 
             // TODO: 30/10/2017 continuer
-//            case BONUS_YOU_CAN_EAT_OTHERS_BALLS:
-//                setBonusYouCanEatOthersBalls();
-//                break;
+            case MALUS_SWITCH_BALLS:
+                setMalusSwitchBalls();
+                break;
 
 //            case BONUS_INVINCIBILITY:
 //                setBonusInvincibility();
@@ -95,7 +99,7 @@ public class Malus extends BonusMalus {
         gameActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getGameActivity(), "RUN, RUN, RUN !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getGameActivity(), "Run away", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -128,5 +132,43 @@ public class Malus extends BonusMalus {
 
         ennemyBalleArrayList.subList(3, 9).clear(); // détruire
         gameActivity.setIaBallSpeed(iaBallSpeed); // rétablir la vitesse par défaut des balles
+    }
+
+
+    /**
+     * Alterne la balle à attraper avec toutes les autres balles
+     */
+    public void setMalusSwitchBalls() {
+        Log.d(TAG, "setMalusSwitchBalls() called");
+        GameActivity gameActivity = getGameActivity();
+        gameActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getGameActivity(), "Catch me if you can", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // récupérer les balles ia
+        ArrayList<EnnemyBalle> ennemyBalleArrayList = gameActivity.getEnnemyBalleArrayList();
+
+        // préparer un chronometre
+        Random r = new Random(); // prendre une balle au hasard dans le tableau des balles
+        MyChronometer myChronometer = new MyChronometer(getDuration());
+        myChronometer.start();
+
+        // changer la position de la catchballe avec les autres balles tant que le chronomètre n'est pas fini
+        while (!myChronometer.hasFinished()) {
+            CatchBalle catchBalle = gameActivity.getCatchBalle();
+            EnnemyBalle ennemyBalle = ennemyBalleArrayList.get(r.nextInt(ennemyBalleArrayList.size()));
+            catchBalle.switchBalle(ennemyBalle);
+
+            try {  // attendre la durée du bonus
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+
     }
 }
