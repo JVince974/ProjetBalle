@@ -74,22 +74,17 @@ public abstract class IABalle extends Balle implements Runnable {
                 // empêcher de dépasser le rebord haut et et rediriger vers le bas
                 if (posY < radius) {
                     posY = radius;
-                    Log.d(TAG, "posY <= radius : oldDirectionY = " + directionY); // TODO: 02/11/2017 todelete
                     directionY = DIRECTION_DOWN;
-                    Log.d(TAG, "posY <= radius : newDirectionY = " + directionY); // TODO: 02/11/2017 todelete
                 }
 
                 // empêcher de dépasser le rebord bas et rediriger vers le haut
                 else if (posY > maxHeight - radius) {
                     posY = maxHeight - radius;
-                    Log.d(TAG, "posY >= maxHeight - radius : oldDirectionY = " + directionY); // TODO: 02/11/2017 todelete
                     directionY = DIRECTION_UP;
-                    Log.d(TAG, "posY >= maxHeight - radius : newDirectionY = " + directionY); // TODO: 02/11/2017 todelete
                 }
 
                 // déplacer la balle
                 move(posX, posY);
-                // TODO: 02/11/2017 essayer de changer la direction X Y ici
 
                 // réduire le taux de rafraichissment
                 try {
@@ -123,29 +118,17 @@ public abstract class IABalle extends Balle implements Runnable {
         int directionX = otherBalle.getDirectionX();
         int directionY = otherBalle.getDirectionY();
         int stepX = otherBalle.getStepX();
-        int stepY = otherBalle.getDirectionY();
+        int stepY = otherBalle.getStepY();
 
         // Changer la direction de l'autre balle
-//        otherBalle.setPosX(getPosX());
-//        otherBalle.setPosY(getPosY());
-//        otherBalle.setDirectionX(directionX);
-//        otherBalle.setDirectionY(directionY);
-//        otherBalle.setStepX(stepX);
-//        otherBalle.setStepY(stepY);
-        otherBalle.setSwitchDirection(getPosX(), getPosY(), getDirectionX(), getDirectionY(), getStepX(), getStepY());
+        otherBalle.setPosX(getPosX());
+        otherBalle.setPosY(getPosY());
+        otherBalle.setDirectionX(getDirectionX());
+        otherBalle.setDirectionY(getDirectionY());
+        otherBalle.setStepX(getStepX());
+        otherBalle.setStepY(getStepY());
 
-        // changer les coordonnées de cette balles
-//        setPosX(posX);
-//        setPosY(posY);
-//        setDirectionX(directionX);
-//        setDirectionY(directionY);
-//        setStepX(stepX);
-//        setStepY(stepY);
-        this.setSwitchDirection(posX, posY, directionX, directionY, stepX, stepY);
-    }
-
-
-    public void setSwitchDirection(int posX, int posY, int directionX, int directionY, int stepX, int stepY) {
+        // changer les coordonnées de cette balle
         setPosX(posX);
         setPosY(posY);
         setDirectionX(directionX);
@@ -153,6 +136,8 @@ public abstract class IABalle extends Balle implements Runnable {
         setStepX(stepX);
         setStepY(stepY);
     }
+
+
 
 
 
