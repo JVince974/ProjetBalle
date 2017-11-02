@@ -82,6 +82,9 @@ public class Bonus extends BonusMalus {
                 break;
 
         }
+
+
+        getGameActivity().resetBonusTimer(); // relancer le timer des bonus
     }
 
     /**
