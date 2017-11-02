@@ -15,17 +15,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Bonus extends BonusMalus {
-    private static final String TAG = "Bonus";
-    private static final int COLOR_BONUS = Color.GREEN;
-
     // bonus
     public static final int BONUS_STOP_IA_BALLS = 0;
     public static final int BONUS_INVINCIBILITY = 1;
     public static final int BONUS_YOU_CAN_EAT_OTHERS_BALLS = 2;
-
     // attention ne pas se tromper dans le nombre de bonus pour avoir qu'ils apparaissent tous
     public static final int NUMBER_OF_BONUS = 2;
-
+    private static final String TAG = "Bonus";
+    private static final int COLOR_BONUS = Color.GREEN;
     private MyMediaPlayer mMediaPlayerBonus;
 
 
@@ -57,31 +54,15 @@ public class Bonus extends BonusMalus {
         return new Bonus(gameActivity, left, top, right, bottom, DURATION, which);
     }
 
-    // Déclenche le bonus
-    @Override
-    synchronized public void run() {
-        switch (this.getWhich()) {
+    /**
+     * FONCTION DEBOGGAGE
+     */
 
-            case BONUS_STOP_IA_BALLS:
-                setBonusStopIaBalls();
-                break;
-
-            case BONUS_INVINCIBILITY:
-                setBonusInvincibility();
-                break;
-
-            case BONUS_YOU_CAN_EAT_OTHERS_BALLS:
-                setBonusYouCanEatOthersBalls();
-                break;
-
-            default:
-                Log.e(TAG, "run: pas d'action défini pour ce bonus : " + getWhich());
-                break;
-
-        }
-
-
-        getGameActivity().resetBonusTimer(); // relancer le timer des bonus
+    // fonction deboggage
+    public static Bonus debugWhichBonus(GameActivity gameActivity, int which) {
+        Bonus bonus = randomBonus(gameActivity);
+        bonus.setWhich(which);
+        return bonus;
     }
 
     // Déclenche le bonus
@@ -178,7 +159,7 @@ public class Bonus extends BonusMalus {
 
         // changer la vitesse et la couleur de la balle
         int defaultSpeed = mUserBalle.getSpeed(); // sauvegarder la vitesse actuelle pour restauration
-        mUserBalle.setSpeed(defaultSpeed * 3);
+        mUserBalle.setSpeed(defaultSpeed * 2);
 
         int[] invincibilityColors = {
                 Color.CYAN,
@@ -204,16 +185,5 @@ public class Bonus extends BonusMalus {
         mMediaPlayerBonus.stop();
         gameActivity.getMediaPlayer().resume();
         mUserBalle.setInvincible(false);
-    }
-
-    /**
-     * FONCTION DEBOGGAGE
-     */
-
-    // fonction deboggage
-    public static Bonus debugWhichBonus(GameActivity gameActivity, int which) {
-        Bonus bonus = randomBonus(gameActivity);
-        bonus.setWhich(which);
-        return bonus;
     }
 }
