@@ -15,14 +15,18 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Bonus extends BonusMalus {
+    private static final String TAG = "Bonus";
+    private static final int COLOR_BONUS = Color.GREEN;
+
     // bonus
     public static final int BONUS_STOP_IA_BALLS = 0;
     public static final int BONUS_INVINCIBILITY = 1;
-    public static final int BONUS_YOU_CAN_EAT_OTHERS_BALLS = 2;
+    public static final int BONUS_EXTRALIFE = 2;
+    public static final int BONUS_YOU_CAN_EAT_OTHERS_BALLS = 3;
+
     // attention ne pas se tromper dans le nombre de bonus pour avoir qu'ils apparaissent tous
-    public static final int NUMBER_OF_BONUS = 2;
-    private static final String TAG = "Bonus";
-    private static final int COLOR_BONUS = Color.GREEN;
+    public static final int NUMBER_OF_BONUS = 3;
+
     private MyMediaPlayer mMediaPlayerBonus;
 
 
@@ -54,16 +58,6 @@ public class Bonus extends BonusMalus {
         return new Bonus(gameActivity, left, top, right, bottom, DURATION, which);
     }
 
-    /**
-     * FONCTION DEBOGGAGE
-     */
-
-    // fonction deboggage
-    public static Bonus debugWhichBonus(GameActivity gameActivity, int which) {
-        Bonus bonus = randomBonus(gameActivity);
-        bonus.setWhich(which);
-        return bonus;
-    }
 
     // Déclenche le bonus
     @Override
@@ -78,6 +72,10 @@ public class Bonus extends BonusMalus {
                 setBonusInvincibility();
                 break;
 
+            case BONUS_EXTRALIFE:
+                setBonusExtralife();
+                break;
+
             case BONUS_YOU_CAN_EAT_OTHERS_BALLS:
                 setBonusYouCanEatOthersBalls();
                 break;
@@ -90,6 +88,7 @@ public class Bonus extends BonusMalus {
 
         getGameActivity().resetBonusTimer(); // relancer le timer des bonus
     }
+
 
     /**
      * Arrete toutes les balles ennemies pendant un certains temps
@@ -120,17 +119,6 @@ public class Bonus extends BonusMalus {
         }
     }
 
-    public void setBonusYouCanEatOthersBalls() {
-        Log.d(TAG, "setBonusYouCanEatOthersBalls() called");
-
-        GameActivity gameActivity = getGameActivity();
-        gameActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getGameActivity(), "You can eat others balls", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     /**
      * Rends la balle utilisateur invincible
@@ -183,5 +171,50 @@ public class Bonus extends BonusMalus {
         mMediaPlayerBonus.stop();
         gameActivity.getMediaPlayer().resume();
         mUserBalle.setInvincible(false);
+    }
+
+
+    /**
+     * Donne + 2 vies au joueur
+     */
+    public void setBonusExtralife() {
+        Log.d(TAG, "setBonusExtralife() called");
+
+        GameActivity gameActivity = getGameActivity();
+        gameActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getGameActivity(), "Extra Life !", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        int currentLife = gameActivity.getLife();
+        gameActivity.setLife(currentLife + 2);
+        gameActivity.displayInfoPlayer();
+
+    }
+
+    public void setBonusYouCanEatOthersBalls() {
+        Log.d(TAG, "setBonusYouCanEatOthersBalls() called");
+
+        GameActivity gameActivity = getGameActivity();
+        gameActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getGameActivity(), "You can eat others balls", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    /**
+     * FONCTION DEBOGGAGE
+     */
+
+    // fonction deboggage
+    public static Bonus debugWhichBonus(GameActivity gameActivity, int which) {
+        Bonus bonus = randomBonus(gameActivity);
+        bonus.setWhich(which);
+        return bonus;
     }
 }
