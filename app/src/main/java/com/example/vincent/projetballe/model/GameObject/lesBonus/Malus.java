@@ -14,13 +14,18 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Malus extends BonusMalus {
+    private static final String TAG = "Malus";
+    private static final int COLOR_MALUS = Color.GREEN;
+
+
     // malus
     public static final int MALUS_DIVISION = 0;
     public static final int MALUS_SWITCH_BALLS = 1;
+    public static final int MALUS_REVERSE_ACCELEROMETER = 2;
+
+
     // attention ne pas se tromper dans le nombre de malus pour qu'ils apparaissent tous
-    public static final int NUMBER_OF_MALUS = 2;
-    private static final String TAG = "Malus";
-    private static final int COLOR_MALUS = Color.GREEN;
+    public static final int NUMBER_OF_MALUS = 3;
 
 
     public Malus(GameActivity gameActivity, float left, float top, float right, float bottom, long duration, int which) {
@@ -51,16 +56,6 @@ public class Malus extends BonusMalus {
         return new Malus(gameActivity, left, top, right, bottom, DURATION, which);
     }
 
-    /**
-     * DEGUG
-     */
-
-    // fonction deboggage
-    public static Malus debugWhichMalus(GameActivity gameActivity, int which) {
-        Malus malus = randomMalus(gameActivity);
-        malus.setWhich(which);
-        return malus;
-    }
 
     @Override
     synchronized public void run() {
@@ -75,9 +70,9 @@ public class Malus extends BonusMalus {
                 setMalusSwitchBalls();
                 break;
 
-//            case BONUS_INVINCIBILITY:
-//                setBonusInvincibility();
-//                break;
+            case MALUS_REVERSE_ACCELEROMETER:
+                setMalusReverseAccelerometer();
+                break;
 
             default:
                 Log.e(TAG, "run: pas d'action défini pour ce malus : " + getWhich());
@@ -87,6 +82,7 @@ public class Malus extends BonusMalus {
 
         getGameActivity().resetBonusTimer(); // relancer le timer des bonus
     }
+
 
     /**
      * Ajouter 9 balles dans le jeu
@@ -134,6 +130,7 @@ public class Malus extends BonusMalus {
         gameActivity.setIaBallSpeed(iaBallSpeed); // rétablir la vitesse par défaut des balles
     }
 
+
     /**
      * Alterne la balle à attraper avec toutes les autres balles
      */
@@ -143,7 +140,7 @@ public class Malus extends BonusMalus {
         gameActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getGameActivity(), "Try {} catch {}", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getGameActivity(), "Try { catch(Me) } catch { BadBallException }", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -161,11 +158,48 @@ public class Malus extends BonusMalus {
             EnnemyBalle ennemyBalle = ennemyBalleArrayList.get(r.nextInt(ennemyBalleArrayList.size()));
             catchBalle.switchBalle(ennemyBalle);
 
-            try {  // attendre la durée du bonus
+            try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    /**
+     * Inver
+     */
+    public void setMalusReverseAccelerometer() {
+        Log.d(TAG, "setMalusReverseAccelerometer() called");
+        GameActivity gameActivity = getGameActivity();
+        gameActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getGameActivity(), "Right left up left right down?!?", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        gameActivity.setAccelerometerInversed(true);
+
+        try {  // attendre la durée du bonus
+            Thread.sleep(getDuration());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        gameActivity.setAccelerometerInversed(false);
+    }
+
+
+    /**
+     * DEGUG
+     */
+
+    // fonction deboggage
+    public static Malus debugWhichMalus(GameActivity gameActivity, int which) {
+        Malus malus = randomMalus(gameActivity);
+        malus.setWhich(which);
+        return malus;
     }
 }

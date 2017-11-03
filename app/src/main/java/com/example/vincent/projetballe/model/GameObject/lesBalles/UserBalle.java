@@ -9,7 +9,7 @@ import android.util.Log;
 public class UserBalle extends Balle {
     public static final int COLOR_BALL = Color.RED; // couleur
     private static final String TAG = "UserBalle";
-    private int speed = 5;
+    private int speed = 7;
 
     private boolean flashing = false; // connaitre si la balle est en train de clignoter
 

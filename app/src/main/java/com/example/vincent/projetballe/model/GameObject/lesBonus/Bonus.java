@@ -55,6 +55,11 @@ public class Bonus extends BonusMalus {
         // quel bonus activer
         which = r.nextInt(NUMBER_OF_BONUS);
 
+        // le bonus extralife ne dure que 1 seconde
+        if (which == BONUS_EXTRALIFE) {
+            return new Bonus(gameActivity, left, top, right, bottom, 1000, which);
+        }
+
         return new Bonus(gameActivity, left, top, right, bottom, DURATION, which);
     }
 
@@ -127,7 +132,6 @@ public class Bonus extends BonusMalus {
      */
     public void setBonusInvincibility() {
         Log.d(TAG, "setBonusInvincibility() called");
-
         GameActivity gameActivity = getGameActivity();
         gameActivity.runOnUiThread(new Runnable() {
             @Override
@@ -176,6 +180,7 @@ public class Bonus extends BonusMalus {
 
     /**
      * Donne + 2 vies au joueur
+     * Le bonus ne dure qu'une seconde
      */
     public void setBonusExtralife() {
         Log.d(TAG, "setBonusExtralife() called");
