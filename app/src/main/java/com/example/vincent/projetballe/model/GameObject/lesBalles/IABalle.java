@@ -10,22 +10,27 @@ import com.example.vincent.projetballe.controller.GameActivity;
  * Elle change elle même ses propres coordonées grace à un thread
  */
 public abstract class IABalle extends Balle implements Runnable {
-    public static final int DIRECTION_LEFT = -1;
-    public static final int DIRECTION_RIGHT = 1;
-    public static final int DIRECTION_UP = 1;
-    public static final int DIRECTION_DOWN = -1;
+    private static final String TAG = "IABalle";
+
+    private static final int DIRECTION_LEFT = -1;
+    private static final int DIRECTION_RIGHT = 1;
+    private static final int DIRECTION_UP = 1;
+    private static final int DIRECTION_DOWN = -1;
+
     // mouvement de la balle = x +  step * direction
     // -1 = gauche, 1 = droite
     // -1 = haut, 1 = bas
     final static int[] randomDirection = new int[]{-1, 1};
     final static int[] randomStep = new int[]{1, 2, 3};
-    private static final String TAG = "IABalle";
+
     private GameActivity mGameActivity;
     private int directionX, directionY; // la direction de la balle
     private int stepX, stepY; // le pas de la balle
     private Thread thread; // le thread associé à la balle
 
-    private boolean running = true;
+    private boolean running = true; // gestion du thread
+
+    private boolean out = false; // variable qui se met a true lorsque la balle est arrêté
 
 
     public IABalle(GameActivity gameActivity, int posX, int posY, int radius, int color, int maxWidth, int maxHeight, int directionX, int directionY, int stepX, int stepY) {
@@ -90,9 +95,11 @@ public abstract class IABalle extends Balle implements Runnable {
                 try {
                     Thread.sleep(30);  // milliseconds
                 } catch (InterruptedException e) {
-                    Log.d(TAG, "arret du thread de la balle ia");
-                    e.printStackTrace();
+                    Log.v(TAG, "arret du thread de la balle IA");
+//                    e.printStackTrace();
                     disappear();
+                    setPosX(getMaxWidth() + getRadius()); // bouger la balle hors de l'écran
+                    out = true;
                     return;
                 }
 
@@ -100,9 +107,11 @@ public abstract class IABalle extends Balle implements Runnable {
             try {
                 wait();
             } catch (InterruptedException e) {
-                Log.d(TAG, "arret du thread de la balle ia");
-                e.printStackTrace();
+                Log.v(TAG, "arret du thread de la balle IA");
+//                e.printStackTrace();
                 disappear();
+                setPosX(getMaxWidth() + getRadius()); // bouger la balle hors de l'écran
+                out = true;
                 return;
             }
         }
@@ -113,6 +122,7 @@ public abstract class IABalle extends Balle implements Runnable {
      * Permutte les coordonnées de la balle avec une autre balle
      */
     public void switchBalle(IABalle otherBalle) {
+        // récupérer les coordonées de l'autre balle
         int posX = otherBalle.getPosX();
         int posY = otherBalle.getPosY();
         int directionX = otherBalle.getDirectionX();
@@ -206,5 +216,9 @@ public abstract class IABalle extends Balle implements Runnable {
 
     public void setStepY(int stepY) {
         this.stepY = stepY;
+    }
+
+    public boolean isOut() {
+        return out;
     }
 }

@@ -126,7 +126,7 @@ public class Malus extends BonusMalus {
             if (i == ennemyBalleArrayList.size() - 1) ennemyBalle.join();
         }
 
-        ennemyBalleArrayList.subList(3, 9).clear(); // détruire
+//        ennemyBalleArrayList.subList(3, 9).clear(); // détruire // TODO: 03/11/2017 toDelete les balles sont détruites automatiquement
         gameActivity.setIaBallSpeed(iaBallSpeed); // rétablir la vitesse par défaut des balles
     }
 
@@ -140,7 +140,7 @@ public class Malus extends BonusMalus {
         gameActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getGameActivity(), "Try { catch(Me) } catch { BadBallException }", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getGameActivity(), "Try {} catch { BadBallException }", Toast.LENGTH_SHORT).show();
             }
         });
 

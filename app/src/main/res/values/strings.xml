@@ -39,6 +39,9 @@
     <string name="score">Score</string>
     <string name="life">Vies</string>
 
+
+    <string name="double_tap_for_exit">Appuyer encore une fois pour quitter</string>
+
     <string name="request_permission_location">Autoriser la localisation pour pouvoir continuer</string>
     <string name="request_permission_read_external_storage">Autoriser la lecture des fichiers pour pouvoir afficher les scores</string>
     <string name="request_permission_write_external_storage">Autoriser l\'écriture de fichier pour sauvegarder les scores</string>

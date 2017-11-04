@@ -26,8 +26,7 @@ public abstract class Balle {
     private int color;  // couleur de la balle
     private int maxWidth, maxHeight; // limite du déplacment = la taille de l'écran
 
-    private boolean invincible = false;
-
+    private boolean animating = false;
 
     public Balle(int posX, int posY, int radius, int color, int maxWidth, int maxHeight) {
         this.posX = posX;
@@ -44,7 +43,7 @@ public abstract class Balle {
      */
     public boolean touched(Balle balle) {
         double distance = Math.sqrt(Math.pow(this.posX - balle.getPosX(), 2) + Math.pow(this.posY - balle.getPosY(), 2));
-        return distance < (this.radius + balle.getCurrentRadius());
+        return distance < (this.currentRadius + balle.getCurrentRadius());
     }
 
     /**
@@ -71,41 +70,75 @@ public abstract class Balle {
      * Effet d'animation d'apparition de la balle
      */
     public void appear() {
-        invincible = true;
-        for (int i = 0; i <= radius; i++) {
-            try {
+        animating = true;
+        try {
+            for (int i = 0; i <= radius; i++) {
                 currentRadius = i;
                 Thread.sleep(2);
-            } catch (InterruptedException e) {
-                Log.e(TAG, "appear() :: le thread a été arrêté brusquement lors de l'animation d'apparition de la balle");
-                invincible = false;
-                return;
-                // e.printStackTrace();
             }
+        } catch (InterruptedException e) {
+            Log.e(TAG, "appear() :: le thread a été arrêté brusquement lors de l'animation d'apparition de la balle", e);
+            appear();
+        } finally {
+            animating = false;
         }
-        invincible = false;
     }
 
     /**
      * Effet d'animation disparition de la balle
      */
     public void disappear() {
-        invincible = true;
-        while (currentRadius > 0) {
-            try {
+        animating = true;
+        try {
+            while (currentRadius > 0) {
                 currentRadius--;
                 Thread.sleep(1);
-            } catch (InterruptedException e) {
-                Log.e(TAG, "disappear() :: le thread a été arrêté brusquement lors de l'animation de disparition de la balle");
-                invincible = false;
-                return;
-                // e.printStackTrace();
             }
+        } catch (InterruptedException e) {
+            Log.e(TAG, "disappear() :: le thread a été arrêté brusquement lors de l'animation de disparition de la balle", e);
+            disappear();
+        } finally {
+            animating = false;
         }
-        invincible = false;
     }
 
 
+    /**
+     * Change le rayon de la balle de manière animée
+     */
+    public void animateRadius(final int radius) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Balle balle = Balle.this;
+                try {
+                    if (balle.currentRadius < radius) {
+                        while (balle.currentRadius < radius) { // faire grossir la balle au rayon demandé
+                            currentRadius++;
+                            Thread.sleep(2);
+                        }
+                    } else {
+                        while (balle.currentRadius > radius) { // sinon faire rétrécir au rayon demandé
+                            currentRadius--;
+                            Thread.sleep(2);
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    Log.e(TAG, "animateRadius() :: le thread a été arrêté brusquement lors de l'animation de la balle", e);
+                } finally {
+                    balle.currentRadius = radius;
+                }
+            }
+        }).start();
+    }
+
+
+    /**
+     * Déplace la balle à une position
+     *
+     * @param x
+     * @param y
+     */
     public void move(int x, int y) {
         this.posX = x;
         this.posY = y;
@@ -170,11 +203,11 @@ public abstract class Balle {
         this.maxHeight = maxHeight;
     }
 
-    public boolean isInvincible() {
-        return invincible;
+    public boolean isAnimating() {
+        return animating;
     }
 
-    public void setInvincible(boolean invincible) {
-        this.invincible = invincible;
+    public void setAnimating(boolean animating) {
+        this.animating = animating;
     }
 }

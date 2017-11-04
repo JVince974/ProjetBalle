@@ -22,10 +22,10 @@ public class Bonus extends BonusMalus {
     public static final int BONUS_STOP_IA_BALLS = 0;
     public static final int BONUS_INVINCIBILITY = 1;
     public static final int BONUS_EXTRALIFE = 2;
-    public static final int BONUS_YOU_CAN_EAT_OTHERS_BALLS = 3;
+    public static final int BONUS_PROTEIN = 3;
 
     // attention ne pas se tromper dans le nombre de bonus pour avoir qu'ils apparaissent tous
-    public static final int NUMBER_OF_BONUS = 3;
+    public static final int NUMBER_OF_BONUS = 4;
 
     private MyMediaPlayer mMediaPlayerBonus;
 
@@ -81,8 +81,8 @@ public class Bonus extends BonusMalus {
                 setBonusExtralife();
                 break;
 
-            case BONUS_YOU_CAN_EAT_OTHERS_BALLS:
-                setBonusYouCanEatOthersBalls();
+            case BONUS_PROTEIN:
+                setBonusProtein();
                 break;
 
             default:
@@ -199,16 +199,34 @@ public class Bonus extends BonusMalus {
 
     }
 
-    public void setBonusYouCanEatOthersBalls() {
-        Log.d(TAG, "setBonusYouCanEatOthersBalls() called");
+    /**
+     * Fait grossir la balle, elle peut manger les autres balles
+     */
+    public void setBonusProtein() {
+        Log.d(TAG, "setBonusProtein() called");
 
         GameActivity gameActivity = getGameActivity();
         gameActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getGameActivity(), "You can eat others balls", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getGameActivity(), "Protein", Toast.LENGTH_SHORT).show();
             }
         });
+
+        UserBalle mUserBalle = gameActivity.getUserBalle();
+        int radius = mUserBalle.getRadius(); // pour la restauration du rayon
+        // Fais grossir la balle
+        mUserBalle.animateRadius(mUserBalle.getRadius() * 3);
+        mUserBalle.setEatProtein(true);
+
+        try { // attendre la durée du bonus
+            Thread.sleep(getDuration());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        mUserBalle.animateRadius(radius); // restaurer le rayon
+        mUserBalle.setEatProtein(false);
     }
 
 
@@ -220,6 +238,7 @@ public class Bonus extends BonusMalus {
     public static Bonus debugWhichBonus(GameActivity gameActivity, int which) {
         Bonus bonus = randomBonus(gameActivity);
         bonus.setWhich(which);
+        if (which != BONUS_EXTRALIFE) bonus.setDuration(DURATION);
         return bonus;
     }
 }
