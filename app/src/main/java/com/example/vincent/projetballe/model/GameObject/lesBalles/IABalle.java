@@ -147,6 +147,19 @@ public abstract class IABalle extends Balle implements Runnable {
         setStepY(stepY);
     }
 
+    /**
+     * La balle disparait et se met hors de l'écran, la variable out se met à true
+     */
+    public void destroy() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                stop();
+                join();
+            }
+        }).start();
+    }
+
 
 
 
