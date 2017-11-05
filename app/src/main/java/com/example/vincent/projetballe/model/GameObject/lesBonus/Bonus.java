@@ -58,7 +58,7 @@ public class Bonus extends BonusMalus {
         int right = left + LONGUEUR_COTE;
         int bottom = top + LONGUEUR_COTE;
         long duration = DURATION;
-        int which = RANDOM_BONUS[r.nextInt(RANDOM_BONUS.length)]; // quel bonus activer
+        int which = RANDOM_BONUS[(int) (Math.random() * RANDOM_BONUS.length)]; // quel bonus activer
 
 
         // le bonus extralife ne dure que 1 seconde

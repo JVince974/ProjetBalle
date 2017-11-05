@@ -50,7 +50,7 @@ public class Malus extends BonusMalus {
         int right = left + LONGUEUR_COTE;
         int bottom = top + LONGUEUR_COTE;
         long duration = DURATION;
-        int which = RANDOM_MALUS[r.nextInt(RANDOM_MALUS.length)]; // quel bonus activer
+        int which = RANDOM_MALUS[(int) (Math.random() * RANDOM_MALUS.length)]; // quel bonus activer
 
 
         return new Malus(gameActivity, left, top, right, bottom, duration, which);
