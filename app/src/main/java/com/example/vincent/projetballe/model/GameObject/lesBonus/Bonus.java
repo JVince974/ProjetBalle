@@ -206,7 +206,7 @@ public class Bonus extends BonusMalus {
         });
 
         int currentLife = gameActivity.getLife();
-        gameActivity.setLife(currentLife + 2);
+        gameActivity.setLife(currentLife + 3);
         gameActivity.displayInfoPlayer();
 
     }
@@ -252,7 +252,7 @@ public class Bonus extends BonusMalus {
         gameActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getGameActivity(), "Shield", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getGameActivity(), "Shield : tap for attack", Toast.LENGTH_SHORT).show();
             }
         });
 
