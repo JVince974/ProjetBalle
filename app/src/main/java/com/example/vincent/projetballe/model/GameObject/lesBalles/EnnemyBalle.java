@@ -9,6 +9,7 @@ import com.example.vincent.projetballe.controller.GameActivity;
 import java.util.Random;
 
 public class EnnemyBalle extends IABalle {
+
     private static final String TAG = "EnnemyBalle";
     private static final int COLOR_BALL = Color.BLACK;
 
@@ -17,6 +18,7 @@ public class EnnemyBalle extends IABalle {
         super(gameActivity, posX, posY, radius, COLOR_BALL, maxWidth, maxHeight, directionX, directionY, stepX, stepY);
         Log.d(TAG, "EnnemyBalle() called with: posX = [" + posX + "], posY = [" + posY + "], radius = [" + radius + "], maxWidth = [" + maxWidth + "], maxHeight = [" + maxHeight + "], directionX = [" + directionX + "], directionY = [" + directionY + "], stepX = [" + stepX + "], stepY = [" + stepY + "]");
     }
+
 
     /**
      * Génére une balle avec une vitesse et position aléatoire
@@ -39,12 +41,12 @@ public class EnnemyBalle extends IABalle {
 
         // si x est négatif la balle se déplace a gauche, sinon droite
         // si y est négatif la balle se déplace en haut, sinon bas
-        int directionX = randomDirection[r.nextInt(randomDirection.length)];
-        int directionY = randomDirection[r.nextInt(randomDirection.length)];
+        int directionX = RANDOM_DIRECTION[r.nextInt(RANDOM_DIRECTION.length)];
+        int directionY = RANDOM_DIRECTION[r.nextInt(RANDOM_DIRECTION.length)];
 
         // choisir un pas au hasard
-        int stepX = randomStep[r.nextInt(randomStep.length)];
-        int stepY = randomStep[r.nextInt(randomStep.length)];
+        int stepX = RANDOM_STEP[r.nextInt(RANDOM_STEP.length)];
+        int stepY = RANDOM_STEP[r.nextInt(RANDOM_STEP.length)];
 
         return new EnnemyBalle(gameActivity, posX, posY, radius, maxWidth, maxHeight, directionX, directionY, stepX, stepY);
     }

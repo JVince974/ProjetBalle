@@ -14,9 +14,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Malus extends BonusMalus {
-    private static final String TAG = "Malus";
-    private static final int COLOR_MALUS = Color.GREEN;
 
+    private static final String TAG = "Malus";
+
+    private static final int COLOR_MALUS = Color.GREEN;
 
     // malus
     public static final int MALUS_DIVISION = 0;
@@ -24,8 +25,10 @@ public class Malus extends BonusMalus {
     public static final int MALUS_REVERSE_ACCELEROMETER = 2;
 
 
-    // attention ne pas se tromper dans le nombre de malus pour qu'ils apparaissent tous
-    public static final int NUMBER_OF_MALUS = 3;
+    // attention ne pas oublier de malus pour qu'ils apparaissent tous
+    public static final int[] RANDOM_MALUS = {
+            MALUS_DIVISION, MALUS_SWITCH_BALLS, MALUS_REVERSE_ACCELEROMETER
+    };
 
 
     public Malus(GameActivity gameActivity, float left, float top, float right, float bottom, long duration, int which) {
@@ -37,35 +40,32 @@ public class Malus extends BonusMalus {
     // malus au hasard
     public static Malus randomMalus(GameActivity gameActivity) {
         Random r = new Random();
-        int left, top, right, bottom;
-        int which;
-
-        int maxWidth = gameActivity.getViewWidth();
-        int maxHeight = gameActivity.getViewHeight();
 
         // générer des coordonées aléatoire pour le bonus
         // ne doit pas dépasser la taille de l'écran
-        left = r.nextInt(maxWidth - LONGUEUR_COTE);
-        top = r.nextInt(maxHeight - LONGUEUR_COTE);
-        right = left + LONGUEUR_COTE;
-        bottom = top + LONGUEUR_COTE;
+        int maxWidth = gameActivity.getViewWidth();
+        int maxHeight = gameActivity.getViewHeight();
+        int left = r.nextInt(maxWidth - LONGUEUR_COTE);
+        int top = r.nextInt(maxHeight - LONGUEUR_COTE);
+        int right = left + LONGUEUR_COTE;
+        int bottom = top + LONGUEUR_COTE;
+        long duration = DURATION;
+        int which = RANDOM_MALUS[r.nextInt(RANDOM_MALUS.length)]; // quel bonus activer
 
-        // quel bonus activer
-        which = r.nextInt(NUMBER_OF_MALUS);
 
-        return new Malus(gameActivity, left, top, right, bottom, DURATION, which);
+        return new Malus(gameActivity, left, top, right, bottom, duration, which);
     }
 
 
     @Override
     synchronized public void run() {
+        getGameActivity().displayCronometer(getDuration());
         switch (this.getWhich()) {
 
             case MALUS_DIVISION:
                 setMalusDivision();
                 break;
 
-            // TODO: 30/10/2017 continuer
             case MALUS_SWITCH_BALLS:
                 setMalusSwitchBalls();
                 break;
@@ -80,7 +80,7 @@ public class Malus extends BonusMalus {
 
         }
 
-        getGameActivity().resetBonusTimer(); // relancer le timer des bonus
+        getGameActivity().resetBonusMalus(); // relancer le timer des bonus
     }
 
 
@@ -126,7 +126,7 @@ public class Malus extends BonusMalus {
             if (i == ennemyBalleArrayList.size() - 1) ennemyBalle.join();
         }
 
-//        ennemyBalleArrayList.subList(3, 9).clear(); // détruire // TODO: 03/11/2017 toDelete les balles sont détruites automatiquement
+//        ennemyBalleArrayList.subList(3, 9).clear(); // détruire // TODO: 03/11/2017 toDelete les balles sont détruites automatiquement par le game activity
         gameActivity.setIaBallSpeed(iaBallSpeed); // rétablir la vitesse par défaut des balles
     }
 

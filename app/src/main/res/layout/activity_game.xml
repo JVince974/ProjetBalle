@@ -7,7 +7,7 @@
     tools:context="com.example.vincent.projetballe.controller.GameActivity">
 
     <TextView
-        android:id="@+id/tv_score"
+        android:id="@+id/tv_info_player"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="start"/>

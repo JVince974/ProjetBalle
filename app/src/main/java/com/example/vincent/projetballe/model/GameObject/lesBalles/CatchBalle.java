@@ -9,9 +9,11 @@ import java.util.Random;
 
 
 public class CatchBalle extends IABalle implements Runnable {
+
     private static final String TAG = "CatchBalle";
     private static final int COLOR_BALLE = Color.CYAN; // couleur de la balle
 
+    // attribut
     protected int score = 1; // nombre de points que l'on obtient lorsque l'on touche la balle
 
 
@@ -42,15 +44,16 @@ public class CatchBalle extends IABalle implements Runnable {
 
         // si x est négatif la balle se déplace a gauche, sinon droite
         // si y est négatif la balle se déplace en haut, sinon bas
-        int directionX = randomDirection[r.nextInt(randomDirection.length)];
-        int directionY = randomDirection[r.nextInt(randomDirection.length)];
+        int directionX = RANDOM_DIRECTION[r.nextInt(RANDOM_DIRECTION.length)];
+        int directionY = RANDOM_DIRECTION[r.nextInt(RANDOM_DIRECTION.length)];
 
         // choisir un pas au hasard
-        int stepX = randomStep[r.nextInt(randomStep.length)];
-        int stepY = randomStep[r.nextInt(randomStep.length)];
+        int stepX = RANDOM_STEP[r.nextInt(RANDOM_STEP.length)];
+        int stepY = RANDOM_STEP[r.nextInt(RANDOM_STEP.length)];
 
         return new CatchBalle(gameActivity, posX, posY, radius, maxWidth, maxHeight, directionX, directionY, stepX, stepY);
     }
+
 
     public int getScore() {
         return score;

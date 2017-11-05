@@ -13,15 +13,19 @@ import java.util.Random;
  * elle est représenté par un carré vert sur le jeu
  */
 public abstract class BonusMalus implements Runnable {
-    public static final long DURATION = 5000; // durée général d'un bonus = 5sec
+
     private static final String TAG = "BonusMalus";
-    private static final int TYPE_MALUS = -1;
-    private static final int TYPE_BONUS = 1;
-    private static final int[] RANDOM_TYPE = new int[]{TYPE_MALUS, TYPE_BONUS};
+
+    public static final long DURATION = 5000; // durée général d'un bonus = 5sec
     public static int LONGUEUR_COTE = 80; // la longueur d'un cote du carré
 
 
-    private GameActivity mGameActivity;
+    private static final int TYPE_MALUS = -1;
+    private static final int TYPE_BONUS = 1;
+    private static final int[] RANDOM_TYPE = new int[]{TYPE_MALUS, TYPE_BONUS};
+
+    // attributs
+    private final GameActivity mGameActivity;
     private float left, top, right, bottom; // coordonnées du carré
     private float longueur, largeur; // longueur = right - left, largeur = bottom - top
     private int color;
@@ -31,8 +35,9 @@ public abstract class BonusMalus implements Runnable {
 
     private boolean running = true; // pour mettre le thread en pause
 
+
     public BonusMalus(GameActivity gameActivity, float left, float top, float right, float bottom, int color, long duration, int which) {
-        mGameActivity = gameActivity;
+        this.mGameActivity = gameActivity;
         this.left = left;
         this.top = top;
         this.right = right;
@@ -53,7 +58,7 @@ public abstract class BonusMalus implements Runnable {
             Log.d(TAG, "randomBonusMalus: return Bonus");
             return Bonus.randomBonus(gameActivity);
         } else if (type == TYPE_MALUS) {
-            Log.d(TAG, "randomBonusMalus: return malus");
+            Log.d(TAG, "randomBonusMalus: return Malus");
             return Malus.randomMalus(gameActivity);
         } else {
             Log.e(TAG, "randomBonusMalus: cette méthode doit générer un bonus [" + TYPE_BONUS + "] ou un malus [" + TYPE_MALUS + "], valuer reçu : " + type);
@@ -65,22 +70,27 @@ public abstract class BonusMalus implements Runnable {
      * GESTION DES THREADS
      */
 
+
     public void start() {
         thread.start();
     }
 
+
     public void pause() {
         running = false;
     }
+
 
     synchronized public void resume() {
         running = true;
         notify();
     }
 
+
     public void stop() {
         thread.interrupt();
     }
+
 
     public void join() {
         try {
@@ -103,65 +113,76 @@ public abstract class BonusMalus implements Runnable {
      * GETTERS AND SETTERS
      */
 
+
     public GameActivity getGameActivity() {
         return mGameActivity;
     }
 
-    public void setGameActivity(GameActivity gameActivity) {
-        mGameActivity = gameActivity;
-    }
 
     public float getLeft() {
         return left;
     }
 
+
     public void setLeft(float left) {
         this.left = left;
     }
+
 
     public float getTop() {
         return top;
     }
 
+
     public void setTop(float top) {
         this.top = top;
     }
+
 
     public float getRight() {
         return right;
     }
 
+
     public void setRight(float right) {
         this.right = right;
     }
+
 
     public float getBottom() {
         return bottom;
     }
 
+
     public void setBottom(float bottom) {
         this.bottom = bottom;
     }
+
 
     public int getColor() {
         return color;
     }
 
+
     public void setColor(int color) {
         this.color = color;
     }
+
 
     public long getDuration() {
         return duration;
     }
 
+
     public void setDuration(long duration) {
         this.duration = duration;
     }
 
+
     public int getWhich() {
         return which;
     }
+
 
     public void setWhich(int which) {
         this.which = which;

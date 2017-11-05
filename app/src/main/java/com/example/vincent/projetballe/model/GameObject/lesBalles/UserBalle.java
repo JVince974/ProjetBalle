@@ -7,18 +7,21 @@ import android.util.Log;
  * Balle de l'utilisateur, elle se place par défaut au milieu du jeu
  */
 public class UserBalle extends Balle {
+
     private static final String TAG = "UserBalle";
     public static final int COLOR_BALL = Color.RED; // couleur
+
     private int speed = 7;
 
-    private boolean invincible = false;
     private boolean flashing = false; // connaitre si la balle est en train de clignoter pour éviter des flash à l'infini
+    private boolean invincible = false;
     private boolean eatProtein = false;
+    private boolean shield = false;
 
 
     public UserBalle(int posX, int posY, int radius, int maxWidth, int maxHeight) {
         super(posX, posY, radius, COLOR_BALL, maxWidth, maxHeight);
-        appear();
+        appear(); // le radius reste a 0 sinon
         Log.d(TAG, "UserBalle() called with: posX = [" + posX + "], posY = [" + posY + "], radius = [" + radius + "], maxWidth = [" + maxWidth + "], maxHeight = [" + maxHeight + "]");
     }
 
@@ -43,12 +46,9 @@ public class UserBalle extends Balle {
 
                         } catch (InterruptedException e) {
                             Log.e(TAG, "flash() :: le thread a été arrêté brusquement lors de l'animation de changement de couleur de la balle", e);
-//                            setColor(COLOR_BALL); // TODO: 03/11/2017 toDelete
-//                            setInvincible(false);
-//                            flashing = false;
                         }
                     }
-
+                    setColor(COLOR_BALL);
                     setInvincible(false);
                     flashing = false;
                 }
@@ -83,27 +83,48 @@ public class UserBalle extends Balle {
     }
 
 
+    /**
+     * GETTERS AND SETTERS
+     */
+
     public int getSpeed() {
         return speed;
     }
+
 
     public void setSpeed(int speed) {
         this.speed = speed;
     }
 
+
     public boolean isInvincible() {
         return invincible;
     }
+
 
     public void setInvincible(boolean invincible) {
         this.invincible = invincible;
     }
 
+
     public boolean hasEatProtein() {
         return eatProtein;
     }
 
+
     public void setEatProtein(boolean eatProtein) {
         this.eatProtein = eatProtein;
     }
+
+
+    public boolean hasShield() {
+        return shield;
+    }
+
+
+    public void setShield(boolean shield) {
+        this.shield = shield;
+    }
+
+
 }

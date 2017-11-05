@@ -9,13 +9,16 @@ import com.example.vincent.projetballe.bibliotheque.MyChronometer;
 import com.example.vincent.projetballe.bibliotheque.MyMediaPlayer;
 import com.example.vincent.projetballe.controller.GameActivity;
 import com.example.vincent.projetballe.model.GameObject.lesBalles.EnnemyBalle;
+import com.example.vincent.projetballe.model.GameObject.lesBalles.ShieldBalle;
 import com.example.vincent.projetballe.model.GameObject.lesBalles.UserBalle;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Bonus extends BonusMalus {
+
     private static final String TAG = "Bonus";
+
     private static final int COLOR_BONUS = Color.GREEN;
 
     // bonus
@@ -23,10 +26,16 @@ public class Bonus extends BonusMalus {
     public static final int BONUS_INVINCIBILITY = 1;
     public static final int BONUS_EXTRALIFE = 2;
     public static final int BONUS_PROTEIN = 3;
+    public static final int BONUS_SHIELD_BALLS = 4;
 
-    // attention ne pas se tromper dans le nombre de bonus pour avoir qu'ils apparaissent tous
-    public static final int NUMBER_OF_BONUS = 4;
 
+    // attention ne pas oublier de bonus pour avoir qu'ils apparaissent tous
+    public static final int[] RANDOM_BONUS = {
+            BONUS_STOP_IA_BALLS, BONUS_INVINCIBILITY, BONUS_EXTRALIFE,
+            BONUS_PROTEIN, BONUS_SHIELD_BALLS
+    };
+
+    // jouer le son lors d'un
     private MyMediaPlayer mMediaPlayerBonus;
 
 
@@ -39,34 +48,33 @@ public class Bonus extends BonusMalus {
     // bonus au hasard
     public static Bonus randomBonus(GameActivity gameActivity) {
         Random r = new Random();
-        int left, top, right, bottom;
-        int which;
-
-        int maxWidth = gameActivity.getViewWidth();
-        int maxHeight = gameActivity.getViewHeight();
 
         // générer des coordonées aléatoire pour le bonus
         // ne doit pas dépasser la taille de l'écran
-        left = r.nextInt(maxWidth - LONGUEUR_COTE);
-        top = r.nextInt(maxHeight - LONGUEUR_COTE);
-        right = left + LONGUEUR_COTE;
-        bottom = top + LONGUEUR_COTE;
+        int maxWidth = gameActivity.getViewWidth();
+        int maxHeight = gameActivity.getViewHeight();
+        int left = r.nextInt(maxWidth - LONGUEUR_COTE);
+        int top = r.nextInt(maxHeight - LONGUEUR_COTE);
+        int right = left + LONGUEUR_COTE;
+        int bottom = top + LONGUEUR_COTE;
+        long duration = DURATION;
+        int which = RANDOM_BONUS[r.nextInt(RANDOM_BONUS.length)]; // quel bonus activer
 
-        // quel bonus activer
-        which = r.nextInt(NUMBER_OF_BONUS);
 
         // le bonus extralife ne dure que 1 seconde
         if (which == BONUS_EXTRALIFE) {
-            return new Bonus(gameActivity, left, top, right, bottom, 1000, which);
-        }
+            duration = 1000; // 1 sec
+        } else if (which == BONUS_SHIELD_BALLS)
+            duration = 1000;
 
-        return new Bonus(gameActivity, left, top, right, bottom, DURATION, which);
+        return new Bonus(gameActivity, left, top, right, bottom, duration, which);
     }
 
 
     // Déclenche le bonus
     @Override
     synchronized public void run() {
+        getGameActivity().displayCronometer(getDuration());
         switch (this.getWhich()) {
 
             case BONUS_STOP_IA_BALLS:
@@ -85,20 +93,24 @@ public class Bonus extends BonusMalus {
                 setBonusProtein();
                 break;
 
+            case BONUS_SHIELD_BALLS:
+                setBonusShieldBalls();
+                break;
+
             default:
                 Log.e(TAG, "run: pas d'action défini pour ce bonus : " + getWhich());
                 break;
 
         }
 
-        getGameActivity().resetBonusTimer(); // relancer le timer des bonus
+        getGameActivity().resetBonusMalus(); // relancer le timer des bonus
     }
 
 
     /**
      * Arrete toutes les balles ennemies pendant un certains temps
      */
-    public void setBonusStopIaBalls() {
+    private void setBonusStopIaBalls() {
         Log.d(TAG, "setBonusStopIaBalls() called");
         final GameActivity gameActivity = getGameActivity();
         getGameActivity().runOnUiThread(new Runnable() {
@@ -130,7 +142,7 @@ public class Bonus extends BonusMalus {
      * Joue une musique d'invincibilité
      * Faire clignoter la balle de toutes les couleurs
      */
-    public void setBonusInvincibility() {
+    private void setBonusInvincibility() {
         Log.d(TAG, "setBonusInvincibility() called");
         GameActivity gameActivity = getGameActivity();
         gameActivity.runOnUiThread(new Runnable() {
@@ -182,7 +194,7 @@ public class Bonus extends BonusMalus {
      * Donne + 2 vies au joueur
      * Le bonus ne dure qu'une seconde
      */
-    public void setBonusExtralife() {
+    private void setBonusExtralife() {
         Log.d(TAG, "setBonusExtralife() called");
 
         GameActivity gameActivity = getGameActivity();
@@ -199,12 +211,12 @@ public class Bonus extends BonusMalus {
 
     }
 
+
     /**
      * Fait grossir la balle, elle peut manger les autres balles
      */
-    public void setBonusProtein() {
+    private void setBonusProtein() {
         Log.d(TAG, "setBonusProtein() called");
-
         GameActivity gameActivity = getGameActivity();
         gameActivity.runOnUiThread(new Runnable() {
             @Override
@@ -214,9 +226,9 @@ public class Bonus extends BonusMalus {
         });
 
         UserBalle mUserBalle = gameActivity.getUserBalle();
-        int radius = mUserBalle.getRadius(); // pour la restauration du rayon
+        int radius = mUserBalle.getDefaultRadius(); // pour la restauration du rayon
         // Fais grossir la balle
-        mUserBalle.animateRadius(mUserBalle.getRadius() * 3);
+        mUserBalle.animateRadius(mUserBalle.getDefaultRadius() * 3);
         mUserBalle.setEatProtein(true);
 
         try { // attendre la durée du bonus
@@ -227,6 +239,52 @@ public class Bonus extends BonusMalus {
 
         mUserBalle.animateRadius(radius); // restaurer le rayon
         mUserBalle.setEatProtein(false);
+    }
+
+
+    /**
+     * Fais apparaitre 4 balles boucliers autour du joueur
+     * Lorsque le joueur tape sur l'écran
+     */
+    private void setBonusShieldBalls() {
+        Log.d(TAG, "setBonusShieldBalls() called");
+        GameActivity gameActivity = getGameActivity();
+        gameActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getGameActivity(), "Shield", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Récupérer les objets dont on va travailler avec
+        UserBalle userBalle = gameActivity.getUserBalle();
+        ArrayList<ShieldBalle> shieldBalleArrayList = gameActivity.getShieldBalleArrayList();
+
+        // libérer les bouclier déjà présents
+        if (userBalle.hasShield()) {
+            for (ShieldBalle shieldBalle : shieldBalleArrayList) {
+                shieldBalle.setDefending(false);
+            }
+        }
+
+        // créer 4 gardes du corps
+        ShieldBalle shieldBalleLeft = ShieldBalle.randomShieldBalle(gameActivity, userBalle.getDefaultRadius(), userBalle.getPosX() - userBalle.getDefaultRadius() * 2, userBalle.getPosY());
+        ShieldBalle shieldBalleRight = ShieldBalle.randomShieldBalle(gameActivity, userBalle.getDefaultRadius(), userBalle.getPosX() + userBalle.getDefaultRadius() * 2, userBalle.getPosY());
+        ShieldBalle shieldBalleUp = ShieldBalle.randomShieldBalle(gameActivity, userBalle.getDefaultRadius(), userBalle.getPosX(), userBalle.getPosY() - userBalle.getDefaultRadius() * 2);
+        ShieldBalle shieldBalleDown = ShieldBalle.randomShieldBalle(gameActivity, userBalle.getDefaultRadius(), userBalle.getPosX(), userBalle.getPosY() + userBalle.getDefaultRadius() * 2);
+
+        shieldBalleArrayList.add(shieldBalleLeft);
+        shieldBalleArrayList.add(shieldBalleRight);
+        shieldBalleArrayList.add(shieldBalleUp);
+        shieldBalleArrayList.add(shieldBalleDown);
+
+        shieldBalleLeft.start();
+        shieldBalleRight.start();
+        shieldBalleUp.start();
+        shieldBalleDown.start();
+
+        userBalle.setShield(true);
+
     }
 
 
